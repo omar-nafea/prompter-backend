@@ -1,0 +1,11 @@
+{
+    "name": "Exceptions",
+    "alias": "exceptions",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Exceptions\\app\\Providers\\ExceptionsServiceProvider"
+    ],
+    "files": []
+}
