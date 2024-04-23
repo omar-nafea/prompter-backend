@@ -4,21 +4,19 @@ declare(strict_types=1);
 
 namespace Modules\Exceptions\app\Exceptions;
 
-
 use Illuminate\Support\ItemNotFoundException as BaseItemNotFoundException;
 use MohamedGaber\ApiResponse\Builder\ErrorApiResponseBuilder;
-use Spatie\LaravelData\Exceptions\CannotCreateData;
 use Throwable;
 
 class ItemNotFoundException extends BaseException
 {
     public function __construct(
         public BaseItemNotFoundException $baseItemNotFoundException,
-        ?string                          $message = null,
-        int                              $code = 0,
-        ?Throwable                       $previous = null,
-                                         $id = '',
-                                         $name = ''
+        ?string $message = null,
+        int $code = 0,
+        ?Throwable $previous = null,
+        $id = '',
+        $name = ''
     ) {
         parent::__construct(
             $message ?? $this->baseItemNotFoundException->getMessage(),

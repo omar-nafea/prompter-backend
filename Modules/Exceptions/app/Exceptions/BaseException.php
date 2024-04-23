@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Modules\Exceptions\app\Exceptions;
 
 use Exception;
@@ -9,9 +11,10 @@ use Throwable;
 abstract class BaseException extends Exception
 {
     protected mixed $id;
+
     protected mixed $name;
 
-    public function __construct(?string $message = "", int $code = 0, ?Throwable $previous = null, $id = '', $name = '')
+    public function __construct(?string $message = '', int $code = 0, ?Throwable $previous = null, $id = '', $name = '')
     {
         $this->id = $id;
         $this->name = $name;
@@ -33,11 +36,13 @@ abstract class BaseException extends Exception
             ->withMeta([
                 'exception' => [
                     'id' => $this->id,
-                    'name' => $this->name
-                ]
+                    'name' => $this->name,
+                ],
             ]);
-        if (method_exists($this, 'withResponse'))
+        if (method_exists($this, 'withResponse')) {
             $response = $this->withResponse($response);
+        }
+
         return $response->send();
     }
 
@@ -56,10 +61,8 @@ abstract class BaseException extends Exception
         return $this->name;
     }
 
-    public function report() : bool
+    public function report(): bool
     {
         return true; // will not be reported in logs
     }
-
-
 }

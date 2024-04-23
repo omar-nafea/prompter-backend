@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MohamedGaber\PipelineFilter;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -10,6 +12,7 @@ abstract class BasePipeFilter
     const NUMBER_REGEX = '/^[0-9]+$/';
 
     protected PipeFilterDto $dto;
+
     protected Builder $query;
 
     public function handle(PipeFilterDto $dto, $next)
@@ -19,6 +22,7 @@ abstract class BasePipeFilter
         if ($this->shouldApplyFilter()) {
             $this->apply();
         }
+
         return $next($dto);
     }
 
@@ -27,8 +31,7 @@ abstract class BasePipeFilter
         return $this->value();
     }
 
-    abstract public function value() : mixed ;
+    abstract public function value(): mixed;
 
-
-    abstract public function apply() : void;
+    abstract public function apply(): void;
 }

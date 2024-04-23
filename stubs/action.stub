@@ -1,0 +1,10 @@
+<?php
+
+namespace {{ namespace }};
+
+final class {{ class }}
+{
+  public function execute({{ dtoClass }} $dto) : mixed
+  {
+  }
+}

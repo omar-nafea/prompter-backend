@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Exceptions\app\Exceptions;
 
-
 use Illuminate\Database\Eloquent\ModelNotFoundException as BaseModelNotFoundException;
 use MohamedGaber\ApiResponse\Builder\ErrorApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Response as ResponseStatusCode;

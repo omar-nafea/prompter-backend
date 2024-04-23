@@ -40,7 +40,6 @@ class Handler extends BaseHandler
         return $request->wantsJson() || $request->ajax();
     }
 
-
     protected function isExceptionShouldBeIgnored(Throwable $exception): bool
     {
         return in_array(get_class($exception), $this->dontMapping);

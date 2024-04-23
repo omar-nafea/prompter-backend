@@ -1,0 +1,29 @@
+<?php
+
+namespace Modules\ListingManagement\database\factories;
+
+use App\ValueObjects\SortLevel;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
+use Modules\ListingManagement\app\{{ Models }}\Enums\{{ Model }}Status;
+use Modules\ListingManagement\app\{{ Models }}\Models\{{ Model }};
+
+class {{ Model }}Factory extends Factory
+{
+    protected $model = {{ Model }}::class;
+
+    public function definition(): array
+    {
+        return [
+            'name' => $this->faker->name(),
+            'en_name' => $this->faker->name(),
+            'sort_level' => SortLevel::from(random_int(1,5)),
+            'status' => $this->faker->randomElement([{{ Model }}Status::Enabled,{{ Model }}Status::Disabled]),
+            'created_at' => Carbon::now(),
+//            'created_by' => $this->faker->randomNumber(),
+            'updated_at' => Carbon::now(),
+//            'updated_by' => $this->faker->randomNumber(),
+//            'deleted_by' => $this->faker->randomNumber(),
+        ];
+    }
+}

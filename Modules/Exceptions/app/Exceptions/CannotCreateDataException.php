@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Exceptions\app\Exceptions;
 
-
 use MohamedGaber\ApiResponse\Builder\ErrorApiResponseBuilder;
 use Spatie\LaravelData\Exceptions\CannotCreateData;
 use Throwable;

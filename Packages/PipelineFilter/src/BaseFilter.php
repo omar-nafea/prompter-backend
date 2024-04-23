@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MohamedGaber\PipelineFilter;
 
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
@@ -10,13 +12,12 @@ abstract class BaseFilter
 {
     public function apply(
         PipeFilterDto $dto
-    ): EloquentBuilder
-    {
+    ): EloquentBuilder {
         return (new Pipeline(app()))
             ->via('handle')
             ->send($dto)
             ->through($this->getPipes())
-            ->then(fn(PipeFilterDto $dto) => $dto->query);
+            ->then(fn (PipeFilterDto $dto) => $dto->query);
     }
 
     abstract protected function getPipes(): array;

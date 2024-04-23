@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Nwidart\Modules\Activators\FileActivator;
 use Nwidart\Modules\Providers\ConsoleServiceProvider;
 
@@ -29,18 +31,18 @@ return [
         'enabled' => true,
         'path' => base_path('stubs/nwidart-stubs'),
         'files' => [
-//            'routes/web' => 'routes/web.php',
+            //            'routes/web' => 'routes/web.php',
             'routes/api' => 'routes/api.php',
-//            'views/index' => 'resources/views/index.blade.php',
-//            'views/master' => 'resources/views/layouts/master.blade.php',
+            //            'views/index' => 'resources/views/index.blade.php',
+            //            'views/master' => 'resources/views/layouts/master.blade.php',
             'scaffold/config' => 'config/config.php',
             'composer' => 'composer.json',
-//            'assets/js/app' => 'resources/assets/js/app.js',
-//            'assets/sass/app' => 'resources/assets/sass/app.scss',
-//            'vite' => 'vite.config.js',
-//            'package' => 'package.json',
-                'lang/en' => 'lang/ar/sample.php',
-                'lang/ar' => 'lang/en/sample.php',
+            //            'assets/js/app' => 'resources/assets/js/app.js',
+            //            'assets/sass/app' => 'resources/assets/sass/app.scss',
+            //            'vite' => 'vite.config.js',
+            //            'package' => 'package.json',
+            'lang/en' => 'lang/ar/sample.php',
+            'lang/ar' => 'lang/en/sample.php',
         ],
         'replacements' => [
             'routes/web' => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE', 'CONTROLLER_NAMESPACE'],
@@ -109,7 +111,7 @@ return [
             'migration' => ['path' => 'database/migrations', 'generate' => true],
             'seeder' => ['path' => 'database/seeders', 'generate' => true],
             'factory' => ['path' => 'database/Factories', 'generate' => false],
-            'model' => ['path' => 'app/Models', 'generate' => false],
+            'model' => ['path' => 'app/Models', 'generate' => true],
             'observer' => ['path' => 'app/Observers', 'generate' => true],
             'routes' => ['path' => 'routes', 'generate' => true],
             'controller' => ['path' => 'app/Http/Controllers', 'generate' => true],

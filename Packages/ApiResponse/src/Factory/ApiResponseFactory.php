@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace MohamedGaber\ApiResponse\Factory;
 
-
 use MohamedGaber\ApiResponse\Builder\ErrorApiResponseBuilder;
 use MohamedGaber\ApiResponse\Builder\SuccessApiResponseBuilder;
 

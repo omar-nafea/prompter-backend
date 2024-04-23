@@ -1,0 +1,20 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Http\Requests\BaseApiRequest;
+use Illuminate\Support\Facades\Gate;
+
+final class {{ class }} extends BaseApiRequest
+{
+    public function authorize(): bool
+    {
+        Gate::authorize('',[x::class,$this->route('')]);
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return [];
+    }
+}

@@ -1,14 +1,14 @@
 <?php
+
+declare(strict_types=1);
 Route::middleware('api')->group(
-function () {
- Route::get('api/test', function () {
-     throw new \Illuminate\Database\Eloquent\ModelNotFoundException('asdasdas');
- });
- });
+    function () {
+        Route::get('api/test', function () {});
+    }
+);
 
 Route::middleware('web')->group(
     function () {
-        Route::get('test', function () {
-            throw new \Illuminate\Database\Eloquent\ModelNotFoundException('asdasdas');
-        });
-    });
+        Route::get('test', function () {});
+    }
+);

@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ErrorApiResponseBuilder extends BaseApiResponseBuilder
 {
     protected $errors;
+
     protected $meta;
 
     public function __construct()
@@ -28,21 +29,22 @@ class ErrorApiResponseBuilder extends BaseApiResponseBuilder
     public function withMeta($meta)
     {
         $this->meta = $meta;
+
         return $this;
     }
 
-    public function appendMeta($meta) : static
+    public function appendMeta($meta): static
     {
-        $this->meta = array_merge($this->meta,$meta);
+        $this->meta = array_merge($this->meta, $meta);
+
         return $this;
     }
-
 
     protected function responseData()
     {
         return array_merge(parent::responseData(), [
             'errors' => $this->errors,
-            'meta' => $this->meta
+            'meta' => $this->meta,
         ]);
     }
 }

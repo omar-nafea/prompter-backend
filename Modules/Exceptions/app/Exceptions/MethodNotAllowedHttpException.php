@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Modules\Exceptions\app\Exceptions;
 
-
 use MohamedGaber\ApiResponse\Builder\ErrorApiResponseBuilder;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException as BaseMethodNotAllowedHttpException;
 use Throwable;

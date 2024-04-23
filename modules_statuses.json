@@ -1,3 +1,5 @@
 {
-    "Exceptions": true
+    "Exceptions": true,
+    "Auth": true,
+    "CRUDGenerator": true
 }

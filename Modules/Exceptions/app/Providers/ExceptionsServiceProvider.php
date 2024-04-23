@@ -7,6 +7,7 @@ namespace Modules\Exceptions\app\Providers;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Modules\Exceptions\app\Console\Commands\GenerateExceptionId;
 use Modules\Exceptions\app\Factory\Contract\ExceptionMappingFactory as ExceptionMappingFactoryContract;
 use Modules\Exceptions\app\Factory\ExceptionMappingFactory;
 use Modules\Exceptions\app\Handler\Handler;
@@ -86,7 +87,9 @@ class ExceptionsServiceProvider extends ServiceProvider
      */
     protected function registerCommands(): void
     {
-        // $this->commands([]);
+        $this->commands([
+            GenerateExceptionId::class,
+        ]);
     }
 
     /**

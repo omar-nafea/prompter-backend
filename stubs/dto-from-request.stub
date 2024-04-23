@@ -1,0 +1,25 @@
+<?php
+
+namespace {{ namespace }};
+use Modules\Auth\app\Models\User;
+use Spatie\LaravelData\Attributes\MapInputName;
+use Spatie\LaravelData\Attributes\MapOutputName;
+use Spatie\LaravelData\Mappers\SnakeCaseMapper;
+use App\Dtos\BaseDto;
+
+#[MapInputName(SnakeCaseMapper::class)]
+#[MapOutputName(SnakeCaseMapper::class)]
+final class {{ class }} extends BaseDto
+{
+  public function __construct(
+        public User $authUser,
+    ) {}
+
+        public static function from{{requestClass}}({{requestClass}} $request): self
+        {
+            return new self(
+                authUser: $request->user(),
+            );
+        }
+
+}
