@@ -1,0 +1,22 @@
+{
+    "name": "mohamed-gaber/api-response",
+    "type": "library",
+    "license": "mit",
+    "autoload": {
+        "psr-4": {
+            "MohamedGaber\\ApiResponse\\": "src/"
+        },
+        "files": [
+            "src/helper.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Mohamed Gaber",
+            "email": "mohame.gaberiti40@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {}
+}

@@ -14,7 +14,9 @@
         "laravel/tinker": "^2.8",
         "mohamedgaber-intake40/sanctum-refresh-token": "^2.3",
         "nwidart/laravel-modules": "^10.0",
-        "spatie/laravel-data": "^4.5"
+        "spatie/laravel-data": "^4.5",
+        "mohamed-gaber/api-response": "dev-master",
+        "mohamed-gaber/pipeline-filter": "dev-master"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -70,5 +72,15 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "Packages/ApiResponse"
+        },
+        {
+            "type": "path",
+            "url": "Packages/PipelineFilter"
+        }
+    ]
 }

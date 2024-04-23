@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4278d76ed84bd771f26c5984c6a956fa",
+    "content-hash": "21dcff89ff7fc5dd9e16f365b7130bae",
     "packages": [
         {
             "name": "amphp/amp",
@@ -3121,6 +3121,63 @@
                 }
             ],
             "time": "2024-03-23T07:42:40+00:00"
+        },
+        {
+            "name": "mohamed-gaber/api-response",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "Packages/ApiResponse",
+                "reference": "7535aea87d4f485d7c50c8597a54a5a82901a79a"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MohamedGaber\\ApiResponse\\": "src/"
+                },
+                "files": [
+                    "src/helper.php"
+                ]
+            },
+            "license": [
+                "mit"
+            ],
+            "authors": [
+                {
+                    "name": "Mohamed Gaber",
+                    "email": "mohame.gaberiti40@gmail.com"
+                }
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "mohamed-gaber/pipeline-filter",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "Packages/PipelineFilter",
+                "reference": "3f190d5c5a5cdd9ab6c84ff105f280d35826a6fd"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MohamedGaber\\PipelineFilter\\": "src/"
+                }
+            },
+            "license": [
+                "mit"
+            ],
+            "authors": [
+                {
+                    "name": "Mohamed Gaber",
+                    "email": "mohame.gaberiti40@gmail.com"
+                }
+            ],
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "mohamedgaber-intake40/sanctum-refresh-token",
@@ -10018,7 +10075,10 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "mohamed-gaber/api-response": 20,
+        "mohamed-gaber/pipeline-filter": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
