@@ -25,6 +25,7 @@ final class RegisterRequest extends BaseApiRequest
             ],
             'password' => [
                 'required',
+                'confirmed',
                 'max:' . config('global.max_string_length'),
             ],
             'phone' => [
