@@ -1,0 +1,11 @@
+{
+    "name": "ProjectManagement",
+    "alias": "projectmanagement",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ProjectManagement\\app\\Providers\\ProjectManagementServiceProvider"
+    ],
+    "files": []
+}

@@ -1,5 +1,6 @@
 {
     "Exceptions": true,
     "Auth": true,
-    "CRUDGenerator": true
+    "CRUDGenerator": true,
+    "ProjectManagement": true
 }
