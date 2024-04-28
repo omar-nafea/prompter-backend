@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\ProjectManagement\app\Http\Controllers;
 
+use Illuminate\Auth\Access\Gate;
+use Illuminate\Http\Request;
 use Modules\ProjectManagement\app\Actions\StoreProjectAction;
 use Modules\ProjectManagement\app\Dtos\Project\StoreProjectDto;
 use Modules\ProjectManagement\app\Http\Requests\Project\ProjectRequest;
@@ -26,5 +28,24 @@ final class ProjectController
                     )
                 ),
             )->send();
+    }
+
+    public function validateProjectFormOnly(Request $request)
+    {
+
+        if ($request->isMethod('POST')) {
+            //            Gate::authorize('store', Listing::class);
+            app(ProjectRequest::class);
+        }
+        //            Gate::authorize('update', [Listing::class, $request->route('listing')->id]);
+        //            app(ListingUpdateRequest::class);
+
+        return apiResponse()->success()
+            ->data(
+                data: [
+                    'valid' => true,
+                ]
+            )
+            ->send();
     }
 }

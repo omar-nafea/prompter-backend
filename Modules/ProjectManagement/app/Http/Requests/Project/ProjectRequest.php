@@ -8,14 +8,64 @@ use App\Http\Requests\BaseApiRequest;
 use App\Models\AiCallType;
 use App\Models\AiResponseType;
 use App\Models\AiService;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 use Modules\ProjectManagement\app\Enums\DataType;
 use Modules\ProjectManagement\app\Models\Project;
 use Modules\ProjectManagement\app\Models\ProjectObjectiveQuestion;
 
 class ProjectRequest extends BaseApiRequest
 {
+    protected bool $forEdit = false;
+
+    protected int $currentStep = 4;
+
+    protected ?Project $project = null;
+
+    public function forEdit($forEdit = true): static
+    {
+        $this->forEdit = $forEdit;
+
+        return $this;
+    }
+
+    public function forStep($step): static
+    {
+        $this->currentStep = $step;
+
+        return $this;
+    }
+
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->forEdit = $this->isMethod('PUT');
+        if ($this->forEdit) {
+            $this->project = Project::findOrFail($this->route('project'));
+        }
+
+        if ($step = (int) $this->route('step')) {
+            $this->currentStep = $step;
+        }
+
+    }
+
     public function rules(): array
+    {
+        $rules = [];
+        foreach (range(1, $this->currentStep) as $step) {
+            $rules = [...$rules, ...$this->{"step{$step}rules"}()];
+        }
+
+        return $rules;
+    }
+
+    public function step1Rules(): array
     {
         return [
             'name' => [
@@ -55,6 +105,13 @@ class ProjectRequest extends BaseApiRequest
                 'min:' . config('global.min_text_length'),
                 'max:' . config('global.max_text_length'),
             ],
+
+        ];
+    }
+
+    public function step2Rules(): array
+    {
+        return [
             'ai_service_id' => [
                 'required',
                 'integer',
@@ -76,7 +133,12 @@ class ProjectRequest extends BaseApiRequest
                     ->where('status', 1)//todo add ai service enum
                     ->withoutTrashed(),
             ],
+        ];
+    }
 
+    public function step3Rules(): array
+    {
+        return [
             'project_inputs' => [
                 'required',
                 'array',
@@ -107,7 +169,12 @@ class ProjectRequest extends BaseApiRequest
                 'min:' . config('global.min_string_length'),
                 'max:' . config('global.max_string_length'),
             ],
+        ];
+    }
 
+    public function step4Rules(): array
+    {
+        return [
             'project_outputs' => [
                 'required',
                 'array',
@@ -138,7 +205,32 @@ class ProjectRequest extends BaseApiRequest
                 'min:' . config('global.min_string_length'),
                 'max:' . config('global.max_string_length'),
             ],
-
         ];
+    }
+
+    public function withValidator(Validator $validator): void
+    {
+        $validator->after(function (Validator $validator) {
+            if ($validator->errors()->count()) {
+                $validator->errors()->add(
+                    'failed_step',
+                    $this->determineFailedRuleStep(Arr::first($validator->errors()->keys()))
+                );
+            }
+        });
+    }
+
+    public function determineFailedRuleStep(string $failedRule): ?int
+    {
+        $result = null;
+        foreach (range(1, 4) as $step) {
+            $rules = array_keys($this->{"step{$step}rules"}());
+            if (in_array($failedRule, $rules)) {
+                $result = $step;
+                break;
+            }
+        }
+
+        return $result;
     }
 }
