@@ -25,7 +25,7 @@ return new class() extends Migration
             $table->foreignIdFor(AiService::class)->constrained()->restrictOnDelete();
             $table->foreignIdFor(AiCallType::class)->constrained()->restrictOnDelete();
             $table->foreignIdFor(AiResponseType::class)->constrained()->restrictOnDelete();
-            $table->unsignedTinyInteger('status'); //todo add default value
+            $table->unsignedTinyInteger('status')->default(1); //todo add default value
             $table->foreignIdFor(User::class, 'created_by')->nullable()->constrained('users')->restrictOnDelete();
             $table->foreignIdFor(User::class, 'updated_by')->nullable()->constrained('users')->restrictOnDelete();
             $table->foreignIdFor(User::class, 'deleted_by')->nullable()->constrained('users')->restrictOnDelete();

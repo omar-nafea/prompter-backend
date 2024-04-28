@@ -7,11 +7,13 @@ namespace Modules\Auth\app\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\BaseAuthenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Modules\Auth\app\Casts\EmailCast;
 use Modules\Auth\app\Casts\PhoneCast;
 use Modules\Auth\app\Enums\UserStatus;
 use Modules\Auth\database\factories\UserFactory;
+use Modules\ProjectManagement\app\Models\Project;
 use MohamedGaber\SanctumRefreshToken\Traits\HasApiTokens;
 
 class User extends BaseAuthenticatable
@@ -91,4 +93,9 @@ class User extends BaseAuthenticatable
     |                              Relations                                   |
     |--------------------------------------------------------------------------|
    */
+
+    public function projects(): HasMany
+    {
+        return $this->hasMany(Project::class);
+    }
 }

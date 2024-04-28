@@ -6,6 +6,7 @@ namespace Modules\ProjectManagement\app\Models;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Project extends BaseModel
 {
@@ -27,6 +28,10 @@ class Project extends BaseModel
         'created_by',
         'updated_by',
         'deleted_by',
+    ];
+
+    protected $attributes = [
+        'status' => 1,
     ];
     /*
      |--------------------------------------------------------------------------|
@@ -63,4 +68,18 @@ class Project extends BaseModel
     |                              Relations                                   |
     |--------------------------------------------------------------------------|
    */
+    public function answers(): HasMany
+    {
+        return $this->hasMany(ProjectObjectiveAnswer::class);
+    }
+
+    public function outputs(): HasMany
+    {
+        return $this->hasMany(ProjectOutput::class);
+    }
+
+    public function inputs(): HasMany
+    {
+        return $this->hasMany(ProjectInput::class);
+    }
 }
