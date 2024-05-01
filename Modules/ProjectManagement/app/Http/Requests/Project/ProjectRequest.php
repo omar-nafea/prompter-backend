@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Modules\ProjectManagement\app\Http\Requests\Project;
 
 use App\Http\Requests\BaseApiRequest;
-use App\Models\AiCallType;
-use App\Models\AiResponseType;
-use App\Models\AiService;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
+use Modules\AiServiceManagement\app\Models\AiCallType;
+use Modules\AiServiceManagement\app\Models\AiResponseType;
+use Modules\AiServiceManagement\app\Models\AiService;
 use Modules\ProjectManagement\app\Enums\DataType;
 use Modules\ProjectManagement\app\Models\Project;
 use Modules\ProjectManagement\app\Models\ProjectObjectiveQuestion;

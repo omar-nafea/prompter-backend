@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\AiService;
 use Illuminate\Database\Seeder;
+use Modules\AiServiceManagement\app\Models\AiService;
 
 class AiServiceSeeder extends Seeder
 {

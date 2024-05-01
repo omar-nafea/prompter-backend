@@ -25,6 +25,7 @@ class Project extends BaseModel
         'ai_call_type_id',
         'ai_response_type_id',
         'user_id',
+        'api_key',
         'created_by',
         'updated_by',
         'deleted_by',
@@ -32,6 +33,10 @@ class Project extends BaseModel
 
     protected $attributes = [
         'status' => 1,
+    ];
+
+    protected $casts = [
+        'api_key' => 'encrypted',
     ];
     /*
      |--------------------------------------------------------------------------|

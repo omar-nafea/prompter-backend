@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
-use App\Models\AiResponseType;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\AiServiceManagement\app\Models\AiResponseType;
 
 class AiResponseTypeFactory extends Factory
 {

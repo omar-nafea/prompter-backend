@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\AiCallType;
 use Illuminate\Database\Seeder;
+use Modules\AiServiceManagement\app\Models\AiCallType;
 
 class AiCallTypeSeeder extends Seeder
 {

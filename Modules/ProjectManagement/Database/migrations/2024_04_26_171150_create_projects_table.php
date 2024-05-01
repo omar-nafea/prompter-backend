@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-use App\Models\AiCallType;
-use App\Models\AiResponseType;
-use App\Models\AiService;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Modules\AiServiceManagement\app\Models\AiCallType;
+use Modules\AiServiceManagement\app\Models\AiResponseType;
+use Modules\AiServiceManagement\app\Models\AiService;
 use Modules\Auth\app\Models\User;
 
 return new class() extends Migration

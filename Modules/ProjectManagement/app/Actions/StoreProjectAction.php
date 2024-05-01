@@ -7,6 +7,7 @@ namespace Modules\ProjectManagement\app\Actions;
 use Closure;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Pipeline;
+use Illuminate\Support\Str;
 use Modules\ProjectManagement\app\Dtos\Project\ObjectiveQuestionDto;
 use Modules\ProjectManagement\app\Dtos\Project\StoreProjectDto;
 use Modules\ProjectManagement\app\Models\Project;
@@ -23,6 +24,7 @@ final class StoreProjectAction
                     $this->storeProjectInputs(...),
                     $this->storeObjectiveQuestions(...),
                     $this->storeProjectOutputs(...),
+                    $this->generateApiKey(...),
                 ])->then(fn ($params) => $params['project']),
         );
     }
@@ -31,7 +33,9 @@ final class StoreProjectAction
     {
         /* @var StoreProjectDto $dto */
         $dto = $params['dto'];
-        $params['project'] = $dto->creator->projects()->create($dto->projectDto->toArray());
+        $params['project'] = $dto->creator->projects()->create($dto->projectDto->toArray() + [
+            'api_key' => Str::random(32),
+        ]);
 
         return $next($params);
     }
@@ -82,6 +86,14 @@ final class StoreProjectAction
     }
 
     protected function sample(array $params, Closure $next)
+    {
+        /* @var StoreProjectDto $dto */
+        $dto = $params['dto'];
+
+        return $next($params);
+    }
+
+    protected function generateApiKey(array $params, Closure $next)
     {
         /* @var StoreProjectDto $dto */
         $dto = $params['dto'];

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
-use App\Models\AiResponseType;
 use Illuminate\Database\Seeder;
+use Modules\AiServiceManagement\app\Models\AiResponseType;
 
 class AiResponseTypeSeeder extends Seeder
 {

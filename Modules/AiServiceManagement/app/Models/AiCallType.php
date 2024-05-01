@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Models;
+namespace Modules\AiServiceManagement\app\Models;
 
+use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class AiService extends BaseModel
+class AiCallType extends BaseModel
 {
     use HasFactory;
 
@@ -18,11 +19,8 @@ class AiService extends BaseModel
     protected $fillable = [
         'name',
         'description',
-        'price',
+        'type',
         'status',
-        'created_by',
-        'updated_by',
-        'deleted_by',
     ];
     /*
      |--------------------------------------------------------------------------|

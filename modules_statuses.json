@@ -2,5 +2,6 @@
     "Exceptions": true,
     "Auth": true,
     "CRUDGenerator": true,
-    "ProjectManagement": true
+    "ProjectManagement": true,
+    "AiServiceManagement": true
 }

@@ -1,0 +1,11 @@
+{
+    "name": "AiServiceManagement",
+    "alias": "ai-service-management",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\AiServiceManagement\\app\\Providers\\AiServiceManagementServiceProvider"
+    ],
+    "files": []
+}

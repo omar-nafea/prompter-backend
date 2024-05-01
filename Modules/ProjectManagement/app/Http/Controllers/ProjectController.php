@@ -6,6 +6,7 @@ namespace Modules\ProjectManagement\app\Http\Controllers;
 
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
+use Modules\ProjectManagement\app\Actions\Project\FetchProjectListAction;
 use Modules\ProjectManagement\app\Actions\StoreProjectAction;
 use Modules\ProjectManagement\app\Dtos\Project\StoreProjectDto;
 use Modules\ProjectManagement\app\Http\Requests\Project\ProjectRequest;
@@ -13,6 +14,19 @@ use Modules\ProjectManagement\app\Http\Resources\ProjectResource;
 
 final class ProjectController
 {
+    public function index(FetchProjectListAction $action)
+    {
+        return apiResponse()
+            ->success()
+            ->data(
+                ProjectResource::collection(
+                    $action->execute(
+                        auth()->user()
+                    )
+                ),
+            )->send();
+    }
+
     public function store(
         ProjectRequest $request,
         StoreProjectAction $action,
