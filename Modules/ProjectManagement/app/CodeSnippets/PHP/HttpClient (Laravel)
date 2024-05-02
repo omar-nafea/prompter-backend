@@ -1,0 +1,11 @@
+<?php
+
+$response = Http::asJson()
+    ->withHeader('X-Api-Key', '{{API_KEY}}')//your project api key
+    ->post('{{END_POINT}}', [
+     {{INPUTS}}
+    ])
+    ->throw()
+    ->json();
+
+dd($response);

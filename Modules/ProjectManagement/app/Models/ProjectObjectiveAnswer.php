@@ -6,6 +6,7 @@ namespace Modules\ProjectManagement\app\Models;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ProjectObjectiveAnswer extends BaseModel
 {
@@ -59,4 +60,9 @@ class ProjectObjectiveAnswer extends BaseModel
     |                              Relations                                   |
     |--------------------------------------------------------------------------|
    */
+
+    public function objectiveQuestion(): BelongsTo
+    {
+        return $this->belongsTo(ProjectObjectiveQuestion::class, 'project_objective_question_id');
+    }
 }

@@ -1,0 +1,18 @@
+<?php
+
+
+$client = new \GuzzleHttp\Client();
+
+$response = $client->request('POST', '"{{END_POINT}}"', [
+    'body'    => '{
+    "text": "",
+    "to": "fr",
+    "from_lang": ""
+}',
+    'headers' => [
+        'X-Api-Key'  => '{{API_KEY}}',//your project api key
+        'content-type'    => 'application/json',
+    ],
+]);
+
+echo $response->getBody();

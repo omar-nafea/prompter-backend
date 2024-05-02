@@ -7,14 +7,16 @@ namespace Modules\ProjectManagement\app\Actions;
 use Closure;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Pipeline;
-use Illuminate\Support\Str;
-use Modules\ProjectManagement\app\Dtos\Project\ObjectiveQuestionDto;
+use Modules\ProjectManagement\app\Actions\Project\GenerateProjectApiKeyAction;
 use Modules\ProjectManagement\app\Dtos\Project\StoreProjectDto;
 use Modules\ProjectManagement\app\Models\Project;
-use Modules\ProjectManagement\app\Models\ProjectObjectiveAnswer;
 
 final class StoreProjectAction
 {
+    public function __construct(
+        protected GenerateProjectApiKeyAction $generateProjectApiKeyAction
+    ) {}
+
     public function execute(StoreProjectDto $dto)
     {
         return DB::transaction(
@@ -24,7 +26,6 @@ final class StoreProjectAction
                     $this->storeProjectInputs(...),
                     $this->storeObjectiveQuestions(...),
                     $this->storeProjectOutputs(...),
-                    $this->generateApiKey(...),
                 ])->then(fn ($params) => $params['project']),
         );
     }
@@ -34,7 +35,7 @@ final class StoreProjectAction
         /* @var StoreProjectDto $dto */
         $dto = $params['dto'];
         $params['project'] = $dto->creator->projects()->create($dto->projectDto->toArray() + [
-            'api_key' => Str::random(32),
+            'api_key' => $this->generateProjectApiKeyAction->execute(),
         ]);
 
         return $next($params);

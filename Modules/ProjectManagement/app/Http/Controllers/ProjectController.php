@@ -6,7 +6,9 @@ namespace Modules\ProjectManagement\app\Http\Controllers;
 
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
+use Modules\ProjectManagement\app\Actions\Project\FetchProjectCodeSnippetsAction;
 use Modules\ProjectManagement\app\Actions\Project\FetchProjectListAction;
+use Modules\ProjectManagement\app\Actions\Project\FetchSingleProjectAction;
 use Modules\ProjectManagement\app\Actions\StoreProjectAction;
 use Modules\ProjectManagement\app\Dtos\Project\StoreProjectDto;
 use Modules\ProjectManagement\app\Http\Requests\Project\ProjectRequest;
@@ -59,6 +61,32 @@ final class ProjectController
                 data: [
                     'valid' => true,
                 ]
+            )
+            ->send();
+    }
+
+    public function show($project, FetchSingleProjectAction $action)
+    {
+
+        return apiResponse()
+            ->success()
+            ->data(
+                data: ProjectResource::make(
+                    $action->execute((int) $project)
+                )
+            )
+            ->send();
+    }
+
+    public function codeSnippets($project, FetchProjectCodeSnippetsAction $action)
+    {
+
+        return apiResponse()
+            ->success()
+            ->data(
+                data: $action->execute(
+                    (int) $project
+                )
             )
             ->send();
     }
