@@ -4,7 +4,7 @@
 $curl = curl_init();
 
 curl_setopt_array($curl, [
-    CURLOPT_URL            => "{{END_POINT}}",
+    CURLOPT_URL            => '{{END_POINT}}',
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING       => "",
     CURLOPT_MAXREDIRS      => 10,

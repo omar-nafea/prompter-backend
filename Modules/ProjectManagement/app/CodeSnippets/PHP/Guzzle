@@ -3,7 +3,7 @@
 
 $client = new \GuzzleHttp\Client();
 
-$response = $client->request('POST', '"{{END_POINT}}"', [
+$response = $client->request('POST', '{{END_POINT}}', [
     'body'    => '{
     "text": "",
     "to": "fr",

@@ -6,7 +6,11 @@ namespace Modules\ProjectManagement\app\Models;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\AiServiceManagement\app\Models\AiCallType;
+use Modules\AiServiceManagement\app\Models\AiResponseType;
+use Modules\AiServiceManagement\app\Models\AiService;
 
 class Project extends BaseModel
 {
@@ -86,5 +90,20 @@ class Project extends BaseModel
     public function inputs(): HasMany
     {
         return $this->hasMany(ProjectInput::class);
+    }
+
+    public function aiService(): BelongsTo
+    {
+        return $this->belongsTo(AiService::class);
+    }
+
+    public function aiCallType(): BelongsTo
+    {
+        return $this->belongsTo(AiCallType::class);
+    }
+
+    public function aiResponseType(): BelongsTo
+    {
+        return $this->belongsTo(AiResponseType::class);
     }
 }

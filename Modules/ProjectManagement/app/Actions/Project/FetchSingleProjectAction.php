@@ -16,6 +16,9 @@ class FetchSingleProjectAction
                 'inputs',
                 'outputs',
                 'answers.objectiveQuestion',
+                'aiService',
+                'aiCallType',
+                'aiResponseType',
             ])
             ->findOrFail($projectId);
     }
