@@ -6,6 +6,8 @@ namespace Modules\AiServiceManagement\app\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT3_0\ChatGPT3_0;
+use Modules\AiServiceManagement\app\Gateway\Factories\ChatGPT3_0Factory;
 
 class AiServiceManagementServiceProvider extends ServiceProvider
 {
@@ -24,6 +26,7 @@ class AiServiceManagementServiceProvider extends ServiceProvider
         $this->registerConfig();
         //$this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
+        $this->bindAiServices();
     }
 
     /**
@@ -32,6 +35,14 @@ class AiServiceManagementServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->register(RouteServiceProvider::class);
+    }
+
+    protected function bindAiServices(): void
+    {
+        $this->app->bind(
+            abstract: ChatGPT3_0::class,
+            concrete: fn () => ChatGPT3_0Factory::make()
+        );
     }
 
     /**

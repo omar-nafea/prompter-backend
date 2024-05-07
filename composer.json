@@ -12,11 +12,12 @@
         "laravel/prompts": "^0.1.19",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
+        "mohamed-gaber/api-response": "dev-master",
+        "mohamed-gaber/pipeline-filter": "dev-master",
         "mohamedgaber-intake40/sanctum-refresh-token": "^2.3",
         "nwidart/laravel-modules": "^10.0",
-        "spatie/laravel-data": "^4.5",
-        "mohamed-gaber/api-response": "dev-master",
-        "mohamed-gaber/pipeline-filter": "dev-master"
+        "saloonphp/saloon": "^3.0",
+        "spatie/laravel-data": "^4.5"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -54,7 +55,9 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
-        ]
+        ],
+        "lint": "pint",
+        "test:lint": "pint --test"
     },
     "extra": {
         "laravel": {
