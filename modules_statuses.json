@@ -3,5 +3,6 @@
     "Auth": true,
     "CRUDGenerator": true,
     "ProjectManagement": true,
-    "AiServiceManagement": true
+    "AiServiceManagement": true,
+    "UserManagement": true
 }
