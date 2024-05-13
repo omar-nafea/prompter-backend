@@ -72,7 +72,7 @@ final class ProjectController
             ->success()
             ->data(
                 data: ProjectResource::make(
-                    $action->execute((int) $project)
+                    $action->execute($project)
                 )
             )
             ->send();
@@ -85,7 +85,7 @@ final class ProjectController
             ->success()
             ->data(
                 data: $action->execute(
-                    (int) $project
+                    $project
                 )
             )
             ->send();

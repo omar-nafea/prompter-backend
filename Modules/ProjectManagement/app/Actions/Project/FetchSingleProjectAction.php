@@ -8,7 +8,7 @@ use Modules\ProjectManagement\app\Models\Project;
 
 class FetchSingleProjectAction
 {
-    public function execute($projectId)
+    public function execute(string $projectKey)
     {
         return Project::query()
             //->allowedForUser($dto->user) todo implement and use this scope
@@ -20,6 +20,6 @@ class FetchSingleProjectAction
                 'aiCallType',
                 'aiResponseType',
             ])
-            ->findOrFail($projectId);
+            ->where('key', $projectKey)->firstOrFail();
     }
 }

@@ -1,0 +1,24 @@
+{
+    "name": "mohamed-gaber/unique-model-key-generator",
+    "autoload": {
+        "psr-4": {
+            "MohamedGaber\\UniqueModelKeyGenerator\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mohamedgaber-intake40",
+            "email": "mohame.gaberiti40@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/support": "^10.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MohamedGaber\\UniqueModelKeyGenerator\\UniqueModelKeyGeneratorServiceProvider"
+            ]
+        }
+    }
+}

@@ -14,12 +14,12 @@ class FetchProjectCodeSnippetsAction
         protected CodeSnippetBuilder $codeSnippetBuilder
     ) {}
 
-    public function execute(int $projectId)
+    public function execute(string $projectKey)
     {
         $allowedLanguages = ProgrammingLanguage::cases();
         $project = Project::query()
 //               ->allowedForUser()//todo use this scope
-            ->findOrFail($projectId);
+            ->where('key', $projectKey)->firstOrFail();
         $codeSnippets = [];
         foreach ($allowedLanguages as $language) {
             $codeSnippets[] = $this->codeSnippetBuilder->forProject($project)

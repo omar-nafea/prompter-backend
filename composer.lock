@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c716bca8c399e4014b764d041fe8969f",
+    "content-hash": "705c072006edc4ff66a7b0d8eedb6467",
     "packages": [
         {
             "name": "amphp/amp",
@@ -3180,6 +3180,40 @@
             }
         },
         {
+            "name": "mohamed-gaber/unique-model-key-generator",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "Packages/UniqueModelKeyGenerator",
+                "reference": "ef04655a5ca4112b9b0e5da157f18877086f3fbc"
+            },
+            "require": {
+                "illuminate/support": "^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MohamedGaber\\UniqueModelKeyGenerator\\UniqueModelKeyGeneratorServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MohamedGaber\\UniqueModelKeyGenerator\\": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "mohamedgaber-intake40",
+                    "email": "mohame.gaberiti40@gmail.com"
+                }
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "mohamedgaber-intake40/sanctum-refresh-token",
             "version": "v2.3",
             "source": {
@@ -3818,6 +3852,56 @@
                 }
             ],
             "time": "2024-01-28T10:04:15+00:00"
+        },
+        {
+            "name": "pascaldevink/shortuuid",
+            "version": "4.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pascaldevink/shortuuid.git",
+                "reference": "050de1f9c78981545b22f5b0623270dccf4f52b1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pascaldevink/shortuuid/zipball/050de1f9c78981545b22f5b0623270dccf4f52b1",
+                "reference": "050de1f9c78981545b22f5b0623270dccf4f52b1",
+                "shasum": ""
+            },
+            "require": {
+                "brick/math": "^0.9.1|^0.10|^0.11",
+                "php": "^7.4|^8.0|^8.1|^8.2",
+                "ramsey/uuid": "^4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PascalDeVink\\ShortUuid\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pascal de Vink",
+                    "email": "pascal@ticketswap.com"
+                }
+            ],
+            "description": "PHP 7.4+ library that generates concise, unambiguous, URL-safe UUIDs",
+            "keywords": [
+                "guid",
+                "identifier",
+                "uuid"
+            ],
+            "support": {
+                "issues": "https://github.com/pascaldevink/shortuuid/issues",
+                "source": "https://github.com/pascaldevink/shortuuid/tree/4.0.0"
+            },
+            "time": "2023-02-06T20:06:27+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -10158,7 +10242,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "mohamed-gaber/api-response": 20,
-        "mohamed-gaber/pipeline-filter": 20
+        "mohamed-gaber/pipeline-filter": 20,
+        "mohamed-gaber/unique-model-key-generator": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

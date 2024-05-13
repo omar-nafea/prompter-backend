@@ -13,6 +13,9 @@ class FetchProjectListAction
         return $user->projects()->with([
             'inputs',
             'outputs',
-        ])->get();
+            'aiService',
+            'aiCallType',
+            'aiResponseType',
+        ])->latest()->paginate(request('per_page'));
     }
 }

@@ -11,10 +11,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\AiServiceManagement\app\Models\AiCallType;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
 use Modules\AiServiceManagement\app\Models\AiService;
+use MohamedGaber\UniqueModelKeyGenerator\Traits\HasUniqueModelKey;
 
 class Project extends BaseModel
 {
     use HasFactory;
+    use HasUniqueModelKey;
 
     /*
     |--------------------------------------------------------------------------|
@@ -40,7 +42,7 @@ class Project extends BaseModel
     ];
 
     protected $casts = [
-        'api_key' => 'encrypted',
+        //        'api_key' => 'encrypted',
     ];
     /*
      |--------------------------------------------------------------------------|
