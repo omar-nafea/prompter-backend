@@ -22,6 +22,10 @@ class AiCallType extends BaseModel
         'type',
         'status',
     ];
+
+    protected $casts = [
+        'type' => \Modules\AiServiceManagement\app\Enums\AiCallType::class,
+    ];
     /*
      |--------------------------------------------------------------------------|
      |                           Constants                                      |

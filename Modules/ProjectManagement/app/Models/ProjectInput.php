@@ -6,6 +6,7 @@ namespace Modules\ProjectManagement\app\Models;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\ProjectManagement\app\Enums\DataType;
 
 class ProjectInput extends BaseModel
 {
@@ -27,6 +28,10 @@ class ProjectInput extends BaseModel
         'updated_by',
         'deleted_by',
 
+    ];
+
+    protected $casts = [
+        'data_type' => DataType::class,
     ];
     /*
      |--------------------------------------------------------------------------|

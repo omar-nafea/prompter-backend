@@ -42,7 +42,7 @@ class Project extends BaseModel
     ];
 
     protected $casts = [
-        //        'api_key' => 'encrypted',
+        'api_key' => 'encrypted',
     ];
     /*
      |--------------------------------------------------------------------------|
