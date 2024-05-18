@@ -16,6 +16,7 @@ curl_setopt_array($curl, [
     ]),
     CURLOPT_HTTPHEADER     => [
         "X-Api-Key: {{API_KEY}}", //your project api key
+        "X-Public-Key: {{PUBLIC_KEY}}", //your project public key
         "content-type: application/json"
     ],
 ]);

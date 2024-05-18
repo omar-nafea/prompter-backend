@@ -44,8 +44,13 @@ class CodeSnippetBuilder
         foreach ($snippetTypes as $snippetType) {
             $code = file_get_contents($codeSnippetDirPath . '/' . $snippetType);
             $code = str_replace(
-                ['{{END_POINT}}', '{{API_KEY}}', '{{INPUTS}}'],
-                [config('app.url') . config('project-management.code_snippet_endpoint'), $this->project->api_key, $this->buildInputs()],
+                ['{{END_POINT}}', '{{API_KEY}}', '{{PUBLIC_KEY}}', '{{INPUTS}}'],
+                [
+                    config('app.url') . config('project-management.code_snippet_endpoint'),
+                    $this->project->api_key,
+                    $this->project->key,
+                    $this->buildInputs(),
+                ],
                 $code
             );
             //           $inputs = $this->buildInputs();
@@ -64,7 +69,7 @@ class CodeSnippetBuilder
         //todo add inputs syntax samples
         //todo add inputs values samples with comments
         $inputs = $this->project->inputs->mapWithKeys(fn ($input) => [
-            $input->name => $input->data_type,
+            $input->name => $input->data_type->name,
         ])->toArray();
 
         return str_replace(['array (', ')'], ['[', ']'], var_export($inputs, true));
