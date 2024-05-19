@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\ProjectManagement\app\Http\Resources;
 
+use App\Http\Resources\DateTimeResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\AiServiceManagement\app\Http\Resources\AiCallTypeResource;
@@ -25,8 +26,8 @@ class ProjectResource extends JsonResource
                 'name' => $this->status,
                 'value' => $this->status,
             ],
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => DateTimeResource::make($this->created_at),
+            'updated_at' => DateTimeResource::make($this->updated_at),
             'ai_service' => AiServiceResource::make($this->whenLoaded('aiService')),
             'ai_call_type' => AiCallTypeResource::make($this->whenLoaded('aiCallType')),
             'ai_response_type' => AiResponseTypeResource::make($this->whenLoaded('aiResponseType')),

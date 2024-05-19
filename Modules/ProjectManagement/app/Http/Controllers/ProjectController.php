@@ -90,4 +90,14 @@ final class ProjectController
             )
             ->send();
     }
+
+    public function destroy($project)
+    {
+        auth()->user()->projects()->where('key', $project)->firstOrFail()->delete();
+
+        return apiResponse()
+            ->success()
+            ->message('Project deleted successfully')
+            ->send();
+    }
 }

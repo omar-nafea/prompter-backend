@@ -28,6 +28,6 @@ enum DataType: int
     #[Label('Binary')]
     case Boolean = 4;
 
-    #[Label('Categorical')]
-    case Enum = 5;
+    //    #[Label('Categorical')]
+    //    case Enum = 5;
 }

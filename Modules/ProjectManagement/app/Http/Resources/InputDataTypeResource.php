@@ -15,7 +15,7 @@ class InputDataTypeResource extends JsonResource
         /** @var DataType|self $this */
         return [
             'name' => $this->label(),
-            'value' => $this->name,
+            'value' => $this->value,
         ];
     }
 }
