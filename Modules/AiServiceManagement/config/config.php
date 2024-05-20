@@ -10,6 +10,7 @@ return [
             'ChatGPT3_0' => [
                 'name' => 'ChatGPT3_0',
                 'base_url' => env('RAPID_API_CHAT_GPT3_0_BASE_URL'),
+                'host' => env('RAPID_API_CHAT_GPT3_0_HOST'),
                 'api_key' => env('RAPID_API_CHAT_GPT3_0_API_KEY'),
                 'class' => \Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\ChatGPT3_0::class,
             ],

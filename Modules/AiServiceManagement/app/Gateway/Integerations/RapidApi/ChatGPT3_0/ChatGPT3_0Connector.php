@@ -19,7 +19,7 @@ class ChatGPT3_0Connector extends Connector
     protected function defaultHeaders(): array
     {
         return [
-            'X-RapidAPI-Host' => config('ai-service-management.integrations.rapid_api.ChatGPT3_0.base_url'),
+            'X-RapidAPI-Host' => config('ai-service-management.integrations.rapid_api.ChatGPT3_0.host'),
             'X-RapidAPI-Key' => config('ai-service-management.integrations.rapid_api.ChatGPT3_0.api_key'),
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',

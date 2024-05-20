@@ -10,16 +10,31 @@ use Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT3_0\Requests\Ask\Dt
 class AskResponseDto extends BaseDto implements AskResponseDtoContract
 {
     public function __construct(
-        public array $body
+        public ?array $data = null,
+        public ?string $rawResponse = null,
     ) {}
 
-    public static function fromResponse(array $response): self
+    public static function fromResponse($response): self
     {
-        return self::from($response);
+        return new self(
+            data: self::prepareTextResponse($response['text']),
+            rawResponse: json_encode($response),
+        );
     }
 
-    public function result(): string
+    protected static function prepareTextResponse(string $textResponse): array
     {
-        return $this->body['result'];
+        $string = str($textResponse)->remove('```')->remove('json')->trim()->toString();
+        if (! json_validate($string)) {
+            //todo add exception here
+            dd('not json');
+        }
+
+        return json_decode($string, true);
+    }
+
+    public function data(): array
+    {
+        return $this->data;
     }
 }

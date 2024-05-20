@@ -8,5 +8,5 @@ interface AskResponseDto
 {
     public function toArray(): array;
 
-    public function result(): string;
+    public function data(): array;
 }
