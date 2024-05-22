@@ -29,8 +29,8 @@ class ExceptionsServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
-        //        $this->app->bind(ExceptionMappingFactoryContract::class, ExceptionMappingFactory::class);
-        //        $this->app->bind(ExceptionHandler::class, Handler::class);
+        $this->app->bind(ExceptionMappingFactoryContract::class, ExceptionMappingFactory::class);
+        $this->app->bind(ExceptionHandler::class, Handler::class);
 
     }
 

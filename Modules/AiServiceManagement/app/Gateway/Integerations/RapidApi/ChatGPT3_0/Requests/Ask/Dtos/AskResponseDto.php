@@ -17,8 +17,8 @@ class AskResponseDto extends BaseDto implements AskResponseDtoContract
     public static function fromResponse($response): self
     {
         return new self(
-            data: self::prepareTextResponse($response['text']),
-            rawResponse: json_encode($response),
+            data: $response['data'],
+            rawResponse: json_encode($response['raw_response']),
         );
     }
 

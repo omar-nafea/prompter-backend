@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask;
 
+use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask\Actions\ConvertTextResponseToJsonAction;
 use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask\Dtos\AskResponseDto;
 use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask\Exceptions\FailedResponseException;
 use Saloon\Contracts\Body\HasBody;
@@ -19,14 +20,21 @@ class AskRequest extends Request implements HasBody
 
     protected Method $method = Method::POST;
 
+    public function __construct(
+        protected ConvertTextResponseToJsonAction $convertTextResponseToJsonAction
+    ) {}
+
     public function resolveEndpoint(): string
     {
-        return '/ask';
+        return '/';
     }
 
     public function createDtoFromResponse(Response $response): mixed
     {
-        return AskResponseDto::fromResponse($response->json());
+        $res['raw_response'] = $response->json();
+        $res['data'] = $this->convertTextResponseToJsonAction->execute($response->json()['text'] ?? null);
+
+        return AskResponseDto::fromResponse($res);
     }
 
     public function hasRequestFailed(Response $response): ?bool
@@ -39,6 +47,6 @@ class AskRequest extends Request implements HasBody
 
     public function getRequestException(Response $response, ?Throwable $senderException): ?Throwable
     {
-        return new FailedResponseException('12312312');
+        return FailedResponseException::failedAskResponse();
     }
 }
