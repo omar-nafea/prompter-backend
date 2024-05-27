@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\AiServiceManagement\app\Models\AiCallType;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
 use Modules\AiServiceManagement\app\Models\AiService;
-use Modules\ProjectManagement\App\Enums\ProjectOutputFormat;
+use Modules\ProjectManagement\app\Enums\ProjectOutputFormat;
 use MohamedGaber\UniqueModelKeyGenerator\Traits\HasUniqueModelKey;
 
 class Project extends BaseModel
@@ -115,7 +115,7 @@ class Project extends BaseModel
 
     public function outputLanguages()
     {
-        return $this->belongsToMany(OutputLanguage::class)
+        return $this->belongsToMany(OutputLanguage::class, 'project_output_languages')
             ->using(ProjectOutputLanguage::class)
             ->withTimestamps();
     }

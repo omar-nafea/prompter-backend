@@ -33,5 +33,25 @@ class AppServiceProvider extends ServiceProvider
         Str::macro('likeContains', fn ($value) => '%' . $value . '%');
         Str::macro('likeBeginWith', fn ($value) => $value . '%');
         Str::macro('likeEndWith', fn ($value) => '%' . $value);
+        Str::macro(
+            'minify',
+            function ($value, $separator = '') {
+                return preg_replace(
+                    '/^\s*[\r\n]/m',
+                    $separator,
+                    str_replace("\n", $separator, $value)
+                );
+            }
+        );
+    }
+}
+if (! function_exists('minify')) {
+    function minify($value, $separator = '')
+    {
+        return preg_replace(
+            '/^\s*[\r\n]/m',
+            '',
+            str_replace("\n", $separator, $value)
+        );
     }
 }

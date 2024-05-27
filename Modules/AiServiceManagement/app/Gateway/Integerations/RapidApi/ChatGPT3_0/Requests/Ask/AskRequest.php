@@ -29,9 +29,22 @@ class AskRequest extends Request implements HasBody
         return '/';
     }
 
+    protected function defaultBody(): array
+    {
+        return [
+            'body' => [
+                [
+                    'content' => "Hello! I\'m an AI assistant bot based on ChatGPT 3. How may I help you?",
+                    'role' => 'system',
+                ],
+            ],
+        ];
+    }
+
     public function createDtoFromResponse(Response $response): mixed
     {
         $res['raw_response'] = $response->json();
+        info(json_encode($response->json()));
         $res['data'] = $this->convertTextResponseToJsonAction->execute($response->json()['text'] ?? null);
 
         return AskResponseDto::fromResponse($res);

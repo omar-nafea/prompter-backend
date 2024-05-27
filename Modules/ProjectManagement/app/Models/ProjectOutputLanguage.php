@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\ProjectManagement\App\Models;
+namespace Modules\ProjectManagement\app\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +12,8 @@ use Modules\ProjectManagement\App\Enums\OutputLanguageStatus;
 class ProjectOutputLanguage extends Pivot
 {
     use HasFactory;
+
+    protected $table = 'project_output_languages';
 
     /*
     |--------------------------------------------------------------------------|

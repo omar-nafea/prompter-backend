@@ -25,7 +25,7 @@ final class AskAiServiceAction
         //        dd( app()->make($mapper[$aiServiceName]));
         //        $service = ChatGPT3_0Connector::class;
         $service = $mapper[$aiServiceName];
-        dd($this->buildAiAskPromptAction->execute($request->project, $request->validated()));
+        //        dd($this->buildAiAskPromptAction->execute($request->project, $request->validated()));
 
         return app()->make($service)->ask(
             dto: new AskPayloadDto(

@@ -16,6 +16,7 @@ final class ConvertTextResponseToJsonAction
         $string = str($textResponse)->remove('```')->remove('json')->trim()->toString();
         if (! json_validate($string)) {
             //todo add exception here
+            info('not json ' . json_encode($textResponse));
             dd('not json');
         }
 

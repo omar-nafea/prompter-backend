@@ -6,7 +6,7 @@ namespace Modules\ProjectManagement\app\Models;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Modules\ProjectManagement\App\Enums\OutputLanguageStatus;
+use Modules\ProjectManagement\app\Enums\OutputLanguageStatus;
 
 class OutputLanguage extends BaseModel
 {

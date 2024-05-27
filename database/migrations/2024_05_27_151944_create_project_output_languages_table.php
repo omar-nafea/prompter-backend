@@ -6,6 +6,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Modules\Auth\app\Models\User;
+use Modules\ProjectManagement\app\Models\OutputLanguage;
+use Modules\ProjectManagement\app\Models\Project;
 
 return new class() extends Migration
 {
@@ -16,8 +18,8 @@ return new class() extends Migration
     {
         Schema::create('project_output_languages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId(\Modules\ProjectManagement\app\Models\Project::class);
-            $table->foreignId(\Modules\ProjectManagement\app\Models\OutputLanguage::class);
+            $table->foreignIdFor(Project::class);
+            $table->foreignIdFor(OutputLanguage::class);
             $table->foreignIdFor(User::class, 'created_by')->nullable()->constrained('users')->restrictOnDelete();
             $table->foreignIdFor(User::class, 'updated_by')->nullable()->constrained('users')->restrictOnDelete();
             $table->foreignIdFor(User::class, 'deleted_by')->nullable()->constrained('users')->restrictOnDelete();

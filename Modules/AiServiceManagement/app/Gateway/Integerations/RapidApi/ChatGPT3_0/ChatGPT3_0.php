@@ -20,11 +20,17 @@ class ChatGPT3_0 implements ChatGPT3_0Contract
     public function ask(AskPayloadDto $dto): AskResponseDto
     {
         $request = app(AskRequest::class);
-        $request->body()->merge([
-            'body' => $dto->prompt,
-        ]);
+        $body = $request->body()->get('body');
+        $body[] = [
+            'body' => [
+                'content' => $dto->prompt,
+                'role' => 'user',
+            ],
+        ];
+        $request->body()->set($body);
+        //        dd($request->body()->all());
 
-        $this->fake();
+        //        $this->fake();
 
         return $this->connector->send($request)->dtoOrFail();
     }
