@@ -9,10 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FailedResponseException extends BaseException
 {
-    public static function failedAskResponse(): self
+    public static function failedAskResponse($rawResponse): self
     {
         return new self(
-            message: __('ai-service-management::gateway.errors.failedAskResponse'),
+            message: __('ai-service-management::gateway.errors.failedAskResponse') . ' ' . json_encode($rawResponse),//todo handle debug mode here from config
             code: Response::HTTP_BAD_REQUEST,
             id: '84c0786c-2b8c-4229-97a9-36ce9c7de1b0',
             name: static::getClassShortName() . ':failedAskResponse'

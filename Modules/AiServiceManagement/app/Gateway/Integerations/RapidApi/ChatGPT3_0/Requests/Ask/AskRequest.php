@@ -12,11 +12,17 @@ use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\Http\Response;
 use Saloon\Traits\Body\HasJsonBody;
+use Saloon\Traits\Plugins\HasTimeout;
 use Throwable;
 
 class AskRequest extends Request implements HasBody
 {
     use HasJsonBody;
+    use HasTimeout;
+
+    protected int $connectTimeout = 60;
+
+    protected int $requestTimeout = 120;
 
     protected Method $method = Method::POST;
 
@@ -52,7 +58,7 @@ class AskRequest extends Request implements HasBody
 
     public function hasRequestFailed(Response $response): ?bool
     {
-        return $response->status() !== \Symfony\Component\HttpFoundation\Response::HTTP_OK;
+        return $response->status() !== \Symfony\Component\HttpFoundation\Response::HTTP_OK || ! $response->json('text');
         //        dd($response->status(),);
         //todo customize failed response
         //        return $response->failed();
@@ -60,6 +66,6 @@ class AskRequest extends Request implements HasBody
 
     public function getRequestException(Response $response, ?Throwable $senderException): ?Throwable
     {
-        return FailedResponseException::failedAskResponse();
+        return FailedResponseException::failedAskResponse($response->json());
     }
 }

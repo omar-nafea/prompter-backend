@@ -7,6 +7,7 @@ namespace App\Providers;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Stringable;
 use Str;
 
 class AppServiceProvider extends ServiceProvider
@@ -33,6 +34,15 @@ class AppServiceProvider extends ServiceProvider
         Str::macro('likeContains', fn ($value) => '%' . $value . '%');
         Str::macro('likeBeginWith', fn ($value) => $value . '%');
         Str::macro('likeEndWith', fn ($value) => '%' . $value);
+        Stringable::macro('minify', function ($separator) {
+            //            dd($separator);
+            /** @var Stringable $this */
+            return str(preg_replace(
+                '/^\s*[\r\n]/m',
+                '',
+                str_replace("\n", $separator, $this->toString())
+            ));
+        });
         Str::macro(
             'minify',
             function ($value, $separator = '') {
