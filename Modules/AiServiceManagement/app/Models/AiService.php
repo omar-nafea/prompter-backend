@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\AiServiceManagement\app\Models;
 
 use App\Models\BaseModel;
+use Database\Factories\AiServiceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AiService extends BaseModel
@@ -48,7 +49,10 @@ class AiService extends BaseModel
     |                             Helpers                                      |
     |--------------------------------------------------------------------------|
     */
-
+    protected static function newFactory()
+    {
+        return AiServiceFactory::new();
+    }
     /*
     |--------------------------------------------------------------------------|
     |                              Scopes                                      |

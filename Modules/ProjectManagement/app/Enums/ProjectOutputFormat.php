@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\ProjectManagement\App\Enums;
+namespace Modules\ProjectManagement\app\Enums;
 
 use App\Enums\MetaProperties\Label;
 use ArchTech\Enums\Meta\Meta;

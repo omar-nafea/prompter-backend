@@ -15,7 +15,7 @@ return new class() extends Migration
     {
         Schema::table('projects', function (Blueprint $table) {
             $table->unsignedTinyInteger('output_format')->after('api_key');
-            $table->unsignedTinyInteger('max_output_length')->after('api_key');
+            $table->unsignedInteger('max_output_length')->after('api_key');
         });
     }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\AiServiceManagement\app\Models;
 
 use App\Models\BaseModel;
+use Database\Factories\AiCallTypeFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AiCallType extends BaseModel
@@ -49,7 +50,10 @@ class AiCallType extends BaseModel
     |                             Helpers                                      |
     |--------------------------------------------------------------------------|
     */
-
+    protected static function newFactory()
+    {
+        return AiCallTypeFactory::new();
+    }
     /*
     |--------------------------------------------------------------------------|
     |                              Scopes                                      |

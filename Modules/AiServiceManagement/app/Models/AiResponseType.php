@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\AiServiceManagement\app\Models;
 
 use App\Models\BaseModel;
+use Database\Factories\AiResponseTypeFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AiResponseType extends BaseModel
@@ -45,7 +46,10 @@ class AiResponseType extends BaseModel
     |                             Helpers                                      |
     |--------------------------------------------------------------------------|
     */
-
+    protected static function newFactory()
+    {
+        return AiResponseTypeFactory::new();
+    }
     /*
     |--------------------------------------------------------------------------|
     |                              Scopes                                      |

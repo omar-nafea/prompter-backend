@@ -8,4 +8,5 @@ enum AiCallType: int
 {
     case OneByOne = 1;
     case Bulk = 2;
+    case Bulkx = 3;
 }
