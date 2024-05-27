@@ -12,6 +12,9 @@ use Modules\AiServiceManagement\app\Models\AiCallType;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
 use Modules\AiServiceManagement\app\Models\AiService;
 use Modules\ProjectManagement\app\Enums\DataType;
+use Modules\ProjectManagement\App\Enums\OutputLanguageStatus;
+use Modules\ProjectManagement\App\Enums\ProjectOutputFormat;
+use Modules\ProjectManagement\App\Models\OutputLanguage;
 use Modules\ProjectManagement\app\Models\Project;
 use Modules\ProjectManagement\app\Models\ProjectObjectiveQuestion;
 
@@ -105,6 +108,29 @@ class ProjectRequest extends BaseApiRequest
                 'min:' . config('global.min_text_length'),
                 'max:' . config('global.max_text_length'),
             ],
+            'max_output_length' => [
+                'required',
+                'int',
+                'max:' . config('global.max_integer'),
+            ],
+            'output_format' => [
+                'required',
+                Rule::enum(ProjectOutputFormat::class),
+            ],
+            'output_languages' => [
+                'required',
+                'array',
+                'filled',
+                'distinct',
+            ],
+            'output_languages.*' => [
+                'required',
+                'filled',
+                'distinct',
+                Rule::exists(OutputLanguage::class, 'id')
+                    ->where('status', OutputLanguageStatus::Enabled)
+                    ->withoutTrashed(),
+            ],
 
         ];
     }
@@ -164,7 +190,7 @@ class ProjectRequest extends BaseApiRequest
                 'max:' . config('global.max_integer'),
             ],
             'project_inputs.*.description' => [
-                'required',
+                'nullable',
                 'string',
                 'min:' . config('global.min_string_length'),
                 'max:' . config('global.max_string_length'),
@@ -200,7 +226,7 @@ class ProjectRequest extends BaseApiRequest
                 'max:' . config('global.max_integer'),
             ],
             'project_outputs.*.description' => [
-                'required',
+                'nullable',
                 'string',
                 'min:' . config('global.min_string_length'),
                 'max:' . config('global.max_string_length'),

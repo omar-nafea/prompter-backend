@@ -20,6 +20,8 @@ class StoreProjectDto extends BaseDto
         public DataCollection $projectInputs,
         #[DataCollectionOf(ProjectOutputDto::class)]
         public DataCollection $projectOutputs,
+        #[DataCollectionOf('int')]
+        public DataCollection $outputLanguages, //todo specify int type
         public User $creator,
     ) {}
 

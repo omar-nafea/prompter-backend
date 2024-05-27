@@ -37,6 +37,7 @@ final class StoreProjectAction
         $params['project'] = $dto->creator->projects()->create($dto->projectDto->toArray() + [
             'api_key' => $this->generateProjectApiKeyAction->execute(),
         ]);
+        $params['project']->outputLanguages()->attach($dto->outputLanguages);
 
         return $next($params);
     }
