@@ -22,10 +22,8 @@ class ChatGPT3_0 implements ChatGPT3_0Contract
         $request = app(AskRequest::class);
         $body = $request->body()->get('body');
         $body[] = [
-            'body' => [
-                'content' => $dto->prompt,
-                'role' => 'user',
-            ],
+            'content' => $dto->prompt,
+            'role' => 'user',
         ];
         $request->body()->set($body);
         //        dd($request->body()->all());
