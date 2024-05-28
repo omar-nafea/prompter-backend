@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\ProjectManagement\App\Dtos\Project;
+namespace Modules\ProjectManagement\app\Dtos\Project;
 
 use App\Dtos\BaseDto;
 

@@ -10,6 +10,7 @@ use Modules\CRUDGenerator\app\Console\Commands\CreateActionCommand;
 use Modules\CRUDGenerator\app\Console\Commands\CreateApiRequestCommand;
 use Modules\CRUDGenerator\app\Console\Commands\CreateDtoCommand;
 use Modules\CRUDGenerator\app\Console\Commands\CreateReqDtoAct;
+use Modules\CRUDGenerator\app\Console\Commands\MakeEnum;
 
 class CRUDGeneratorServiceProvider extends ServiceProvider
 {
@@ -48,6 +49,7 @@ class CRUDGeneratorServiceProvider extends ServiceProvider
             CreateApiRequestCommand::class,
             CreateDtoCommand::class,
             CreateReqDtoAct::class,
+            MakeEnum::class,
         ]);
     }
 

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Modules\ProjectManagement\App\Http\Resources;
+namespace Modules\ProjectManagement\app\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\ProjectManagement\App\Enums\ProjectOutputFormat;
+use Modules\ProjectManagement\app\Enums\ProjectOutputFormat;
 
 class ProjectOutputFormatResource extends JsonResource
 {
@@ -16,6 +16,7 @@ class ProjectOutputFormatResource extends JsonResource
         return [
             'id' => $this->value,
             'name' => $this->label(),
+            'enabled' => $this->enabled(),
         ];
     }
 }

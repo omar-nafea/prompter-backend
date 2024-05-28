@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Modules\ProjectManagement\app\Dtos\Project;
 
 use App\Dtos\BaseDto;
-use Modules\ProjectManagement\App\Enums\ProjectOutputFormat;
+use Modules\ProjectManagement\app\Enums\ProjectOutputFormat;
 
 class ProjectDto extends BaseDto
 {

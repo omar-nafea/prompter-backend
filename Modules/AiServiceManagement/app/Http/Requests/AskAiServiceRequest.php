@@ -20,7 +20,7 @@ class AskAiServiceRequest extends BaseApiRequest
         if (! $publicKey || ! $apiKey) {
             throw ProjectException::invalidPublicOrApiKey();
         }
-        $project = Project::where('key', $publicKey)->firstOrFail();
+        $project = Project::where('key', $publicKey)->with('answers')->firstOrFail();
         if ($apiKey !== $project->api_key) {
             throw ProjectException::invalidPublicOrApiKey();
         }

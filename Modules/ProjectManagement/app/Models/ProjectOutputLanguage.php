@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\ProjectManagement\app\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
-use Modules\ProjectManagement\App\Enums\OutputLanguageStatus;
 
 class ProjectOutputLanguage extends Pivot
 {
@@ -53,10 +51,6 @@ class ProjectOutputLanguage extends Pivot
     |                              Scopes                                      |
     |--------------------------------------------------------------------------|
    */
-    public function scopeEnabled(Builder $query): void
-    {
-        $query->where('status', OutputLanguageStatus::Enabled);
-    }
 
     /*
     |--------------------------------------------------------------------------|

@@ -12,9 +12,9 @@ use Modules\AiServiceManagement\app\Models\AiCallType;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
 use Modules\AiServiceManagement\app\Models\AiService;
 use Modules\ProjectManagement\app\Enums\DataType;
-use Modules\ProjectManagement\App\Enums\OutputLanguageStatus;
-use Modules\ProjectManagement\App\Enums\ProjectOutputFormat;
-use Modules\ProjectManagement\App\Models\OutputLanguage;
+use Modules\ProjectManagement\app\Enums\OutputLanguageStatus;
+use Modules\ProjectManagement\app\Enums\ProjectOutputFormat;
+use Modules\ProjectManagement\app\Models\OutputLanguage;
 use Modules\ProjectManagement\app\Models\Project;
 use Modules\ProjectManagement\app\Models\ProjectObjectiveQuestion;
 
