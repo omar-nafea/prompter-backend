@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 return [
     'name' => 'AiServiceManagement',
+    'throttle' => [
+        'max_attempts' => 1,
+        'seconds' => 5 * 60,
+    ],
     'integrations' => [
         'ai_service_integration' => 'rapid_api',
         'rapid_api' => [
