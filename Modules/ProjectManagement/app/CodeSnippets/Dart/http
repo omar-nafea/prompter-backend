@@ -1,0 +1,17 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+void main() async {
+  var url = Uri.parse('{{END_POINT}}');
+  var headers = {
+    'X-Api-Key': '{{API_KEY}}',  // your project API key
+    'X-Public-Key': '{{PUBLIC_KEY}}',  // your project public key
+    'Content-Type': 'application/json'
+  };
+  var payload = jsonEncode({{INPUTS}});
+  var response = await http.post(url, headers: headers, body: payload);
+  if (response.statusCode == 200) {
+    print(response.body);
+  } else {
+    print('Request failed with status: ${response.statusCode}');
+  }
+}

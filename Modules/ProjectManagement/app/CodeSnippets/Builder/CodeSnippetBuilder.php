@@ -49,7 +49,7 @@ class CodeSnippetBuilder
                     config('app.url') . config('project-management.code_snippet_endpoint'),
                     $this->project->api_key,
                     $this->project->key,
-                    $this->buildInputs(),
+                    $this->buildInputs($snippetType),
                 ],
                 $code
             );
@@ -64,14 +64,38 @@ class CodeSnippetBuilder
         return $snippets;
     }
 
-    protected function buildInputs()
+    protected function buildInputs(string $snippetType): string
     {
         //todo add inputs syntax samples
         //todo add inputs values samples with comments
-        $inputs = $this->project->inputs->mapWithKeys(fn ($input) => [
-            $input->name => $input->data_type->name,
-        ])->toArray();
+        //        $inputs = $this->project->inputs->mapWithKeys(fn($input) => [
+        //            $input->name => $input->data_type->example(),
+        //        ])->toArray();
+        $inputs = match ($this->inputSyntax($snippetType)) {
+            'array' => $this->arrayInputsSample(),
+            'json' => $this->jsonInputsSample(),
+        };
 
         return str_replace(['array (', ')'], ['[', ']'], var_export($inputs, true));
+    }
+
+    protected function inputSyntax(string $snippetType): string
+    {
+        return match ($snippetType) {
+            'cURL', 'HttpClient (Laravel)' => 'array',
+            default => 'json',
+        };
+    }
+
+    protected function arrayInputsSample(): array
+    {
+        return $this->project->inputs->mapWithKeys(fn ($input) => [
+            $input->name => $input->data_type->example(),
+        ])->toArray();
+    }
+
+    protected function jsonInputsSample(): string
+    {
+        return json_encode($this->arrayInputsSample(), JSON_PRETTY_PRINT);
     }
 }

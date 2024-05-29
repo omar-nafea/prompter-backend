@@ -13,7 +13,7 @@ final class ProjectInputDto extends BaseDto
         public string $name,
         public DataType $dataType,
         public bool $isRequired,
-        public int $maxLength,
+        public ?int $maxLength = null,
         public ?string $description = null,
     ) {}
 }

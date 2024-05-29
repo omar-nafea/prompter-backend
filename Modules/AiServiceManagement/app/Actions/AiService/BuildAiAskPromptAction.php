@@ -54,7 +54,7 @@ final class BuildAiAskPromptAction
             ->replace('[OUTPUT MAXIMUM LENGTH]', $project->max_output_length) // todo add output maximum to project table
             ->toString();
 
-        dd($string);
+        //        dd($string);
 
         return $string;
         response()->json(compact('string'))->throwResponse();
@@ -133,14 +133,15 @@ final class BuildAiAskPromptAction
     {
         return (string) Str::minify(
             value: collect($inputsData)->reduce(
-                function (string $accumulator, mixed $value, int $key) use ($withWrapper, $separator) {
+                callback: function (string $accumulator, mixed $value, mixed $key) use ($withWrapper, $separator) {
                     $pattern = '-%s:%s' . $separator;
                     $accumulator .= $withWrapper ?
                         sprintf($pattern, $key, is_bool($value) ? ($value ? 'yes' : 'no') : $value) :
                         sprintf(str_replace(['[', ']'], ['', ''], $pattern), $key, $value);
 
                     return $accumulator;
-                }
+                },
+                initial: '',
             )
         );
     }

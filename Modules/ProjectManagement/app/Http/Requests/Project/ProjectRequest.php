@@ -185,7 +185,8 @@ class ProjectRequest extends BaseApiRequest
                 'boolean',
             ],
             'project_inputs.*.max_length' => [
-                'required',
+                'bail',
+                'nullable',
                 'int',
                 'max:' . config('global.max_integer'),
             ],
@@ -221,7 +222,8 @@ class ProjectRequest extends BaseApiRequest
                 'boolean',
             ],
             'project_outputs.*.max_length' => [
-                'required',
+                'bail',
+                'nullable',
                 'int',
                 'max:' . config('global.max_integer'),
             ],

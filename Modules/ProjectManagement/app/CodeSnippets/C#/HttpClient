@@ -1,0 +1,24 @@
+var client = new HttpClient();
+var url = "{{END_POINT}}";
+var headers = new System.Collections.Generic.Dictionary<string, string>
+{
+    { "X-Api-Key", "{{API_KEY}}" },// your project API key
+    { "X-Public-Key", "{{PUBLIC_KEY}}" },  // your project public key
+    { "Content-Type", "application/json" }
+};
+var payload = @"{{INPUTS}}";
+var content = new StringContent(payload, Encoding.UTF8, "application/json");
+foreach (var header in headers)
+{
+    content.Headers.TryAddWithoutValidation(header.Key, header.Value);
+}
+var response = await client.PostAsync(url, content);
+if (response.IsSuccessStatusCode)
+{
+    var responseContent = await response.Content.ReadAsStringAsync();
+    Console.WriteLine(responseContent);
+}
+else
+{
+    Console.WriteLine($"Request failed with status: {response.StatusCode}");
+}

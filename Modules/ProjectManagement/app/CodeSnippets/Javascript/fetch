@@ -1,0 +1,22 @@
+const url = '{{END_POINT}}';
+const headers = {
+  'X-Api-Key': '{{API_KEY}}',
+  'X-Public-Key': '{{PUBLIC_KEY}}',
+  'Content-Type': 'application/json'
+};
+const payload = {{INPUTS}};
+
+fetch(url, {
+  method: 'POST',
+  headers: headers,
+  body: JSON.stringify(payload)
+})
+.then(response => {
+  if (response.ok) {
+    return response.json();
+  } else {
+    throw new Error(`Request failed with status: ${response.status}`);
+  }
+})
+.then(data => console.log(data))
+.catch(error => console.error(error));

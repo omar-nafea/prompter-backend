@@ -4,11 +4,7 @@
 $client = new \GuzzleHttp\Client();
 
 $response = $client->request('POST', '{{END_POINT}}', [
-    'body'    => '{
-    "text": "",
-    "to": "fr",
-    "from_lang": ""
-}',
+    'body'    => {{INPUTS}},
     'headers' => [
         'X-Api-Key'  => '{{API_KEY}}',//your project api key
         'X-Public-Key'  => '{{PUBLIC_KEY}}',//your project public key

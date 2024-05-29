@@ -1,0 +1,18 @@
+ HttpClient client = HttpClient.newHttpClient();
+URI uri = URI.create("{{END_POINT}}");
+Map<String, String> headers = new HashMap<>();
+headers.put("X-Api-Key", "{{API_KEY}}");  // Your project API key
+headers.put("X-Public-Key", "{{PUBLIC_KEY}}");  // Your project public key
+headers.put("Content-Type", "application/json");
+String payload = "{{INPUTS}}";
+HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
+.uri(uri)
+.POST(BodyPublishers.ofString(payload));
+headers.forEach(requestBuilder::header);
+HttpRequest request = requestBuilder.build();
+HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+if (response.statusCode() == 200) {
+    System.out.println(response.body());
+} else {
+    System.err.printf("Request failed with status code: %d%n", response.statusCode());
+}

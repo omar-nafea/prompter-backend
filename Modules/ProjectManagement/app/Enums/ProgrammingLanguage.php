@@ -10,4 +10,6 @@ enum ProgrammingLanguage: string
     case Python = 'Python';
     case Javascript = 'Javascript';
     case PHP = 'PHP';
+    case CSharp = 'C#';
+    case Dart = 'Dart';
 }

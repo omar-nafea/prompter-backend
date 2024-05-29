@@ -37,7 +37,7 @@ class ProjectResource extends JsonResource
             'output_languages' => OutputLanguageResource::collection($this->whenLoaded('outputLanguages')),
             'ai_service' => AiServiceResource::make($this->whenLoaded('aiService')),
             'ai_call_type' => AiCallTypeResource::make($this->whenLoaded('aiCallType')),
-            'ai_response_type' => AiResponseTypeResource::make($this->whenLoaded('aiRespon  seType')),
+            'ai_response_type' => AiResponseTypeResource::make($this->whenLoaded('aiResponseType')),
             'inputs' => ProjectInputResource::collection($this->whenLoaded('inputs')),
             'outputs' => ProjectInputResource::collection($this->whenLoaded('outputs')),
             'answers' => ProjectObjectiveAnswerResource::collection($this->whenLoaded('answers')),
