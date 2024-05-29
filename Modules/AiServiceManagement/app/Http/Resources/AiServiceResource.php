@@ -17,6 +17,10 @@ class AiServiceResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
+            'status' => [
+                'name' => $this->status->label(),
+                'value' => $this->status->value,
+            ],
         ];
     }
 }

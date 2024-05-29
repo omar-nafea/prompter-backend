@@ -18,6 +18,10 @@ class AiResponseTypeResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'type' => $this->type,
+            'status' => [
+                'name' => $this->status->label(),
+                'value' => $this->status->value,
+            ],
         ];
     }
 }

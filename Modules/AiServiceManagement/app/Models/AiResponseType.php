@@ -7,6 +7,7 @@ namespace Modules\AiServiceManagement\app\Models;
 use App\Models\BaseModel;
 use Database\Factories\AiResponseTypeFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\AiServiceManagement\app\Enums\AiResponseTypeStatus;
 
 class AiResponseType extends BaseModel
 {
@@ -22,6 +23,10 @@ class AiResponseType extends BaseModel
         'description',
         'status',
         'type',
+    ];
+
+    protected $casts = [
+        'status' => AiResponseTypeStatus::class,
     ];
     /*
      |--------------------------------------------------------------------------|

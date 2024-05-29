@@ -10,6 +10,6 @@ class FetchAiServiceListAction
 {
     public function execute()
     {
-        return AiService::where('status', 1)->get();
+        return AiService::query()->get();
     }
 }

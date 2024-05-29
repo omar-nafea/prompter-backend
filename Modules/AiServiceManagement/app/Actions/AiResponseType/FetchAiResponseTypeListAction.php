@@ -10,6 +10,6 @@ class FetchAiResponseTypeListAction
 {
     public function execute()
     {
-        return AiResponseType::where('status', 1)->get();
+        return AiResponseType::query()->get();
     }
 }

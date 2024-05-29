@@ -7,6 +7,7 @@ namespace Modules\AiServiceManagement\app\Models;
 use App\Models\BaseModel;
 use Database\Factories\AiServiceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\AiServiceManagement\app\Enums\AiServiceStatus;
 
 class AiService extends BaseModel
 {
@@ -25,6 +26,10 @@ class AiService extends BaseModel
         'created_by',
         'updated_by',
         'deleted_by',
+    ];
+
+    protected $casts = [
+        'status' => AiServiceStatus::class,
     ];
     /*
      |--------------------------------------------------------------------------|

@@ -7,6 +7,8 @@ namespace Modules\AiServiceManagement\app\Models;
 use App\Models\BaseModel;
 use Database\Factories\AiCallTypeFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\AiServiceManagement\app\Enums\AiCallType as AiCallTypeEnum;
+use Modules\AiServiceManagement\app\Enums\AiCallTypeStatus;
 
 class AiCallType extends BaseModel
 {
@@ -25,7 +27,8 @@ class AiCallType extends BaseModel
     ];
 
     protected $casts = [
-        'type' => \Modules\AiServiceManagement\app\Enums\AiCallType::class,
+        'type' => AiCallTypeEnum::class,
+        'status' => AiCallTypeStatus::class,
     ];
     /*
      |--------------------------------------------------------------------------|

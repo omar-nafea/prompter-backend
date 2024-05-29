@@ -7,14 +7,17 @@ namespace Modules\AiServiceManagement\app\Enums;
 use App\Enums\MetaProperties\Enabled;
 use App\Enums\MetaProperties\Label;
 use ArchTech\Enums\Meta\Meta;
+use ArchTech\Enums\Metadata;
 
 /**
  * @method string label()
  * @method string enabled()
  */
-#[Meta(Label::class)]
+#[Meta(Label::class, Enabled::class)]
 enum AiCallType: int
 {
+    use Metadata;
+
     #[Label('One By One')]
     #[Enabled(true)]
     case OneByOne = 1;

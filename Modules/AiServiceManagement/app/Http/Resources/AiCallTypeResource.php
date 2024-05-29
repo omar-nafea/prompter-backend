@@ -17,7 +17,14 @@ class AiCallTypeResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
-            'type' => $this->type,
+            'type' => [
+                'id' => $this->type->value,
+                'name' => $this->type->label(),
+            ],
+            'status' => [
+                'name' => $this->status->label(),
+                'value' => $this->status->value,
+            ],
         ];
     }
 }

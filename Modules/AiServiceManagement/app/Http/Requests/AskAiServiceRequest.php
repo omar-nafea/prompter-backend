@@ -44,7 +44,7 @@ class AskAiServiceRequest extends BaseApiRequest
 
     protected function ensureIsNotRateLimited(): void
     {
-        $rateLimiterKey = 'ai-call:' . request()->header('X-Public-Key');
+        $rateLimiterKey = md5('ai-call:' . request()->header('X-Public-Key'));
         if (RateLimiter::tooManyAttempts($rateLimiterKey, config('ai-service-management.throttle.max_attempts'))) {
             apiResponse()
                 ->error()
