@@ -6,10 +6,8 @@ namespace Modules\ProjectManagement\app\Models;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Modules\ProjectManagement\app\Enums\DataType;
 
-class ProjectInput extends BaseModel
+class ProjectOutputEnumValue extends BaseModel
 {
     use HasFactory;
 
@@ -19,20 +17,11 @@ class ProjectInput extends BaseModel
     |--------------------------------------------------------------------------|
     */
     protected $fillable = [
-        'name',
-        'data_type',
-        'is_required',
-        'max_length',
-        'description',
-        'project_id',
+        'project_input_id',
+        'value',
         'created_by',
         'updated_by',
         'deleted_by',
-
-    ];
-
-    protected $casts = [
-        'data_type' => DataType::class,
     ];
     /*
      |--------------------------------------------------------------------------|
@@ -69,9 +58,4 @@ class ProjectInput extends BaseModel
     |                              Relations                                   |
     |--------------------------------------------------------------------------|
    */
-
-    public function enumValues(): HasMany
-    {
-        return $this->hasMany(ProjectInputEnumValue::class);
-    }
 }

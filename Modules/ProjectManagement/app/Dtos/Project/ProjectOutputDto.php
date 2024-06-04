@@ -15,5 +15,7 @@ final class ProjectOutputDto extends BaseDto
         public bool $isRequired,
         public ?int $maxLength = null,
         public ?string $description = null,
+        /** @var array<int, string> */
+        public ?array $values = null,
     ) {}
 }

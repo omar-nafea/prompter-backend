@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\ProjectManagement\app\Http\Requests\Project;
 
 use App\Http\Requests\BaseApiRequest;
+use App\Rules\ValidateInputOutputEnumValues;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
@@ -169,6 +170,11 @@ class ProjectRequest extends BaseApiRequest
                 'required',
                 'array',
             ],
+            'project_inputs.*' => [
+                'required',
+                'array',
+                new ValidateInputOutputEnumValues(),
+            ],
             'project_inputs.*.name' => [
                 'required',
                 'string',
@@ -196,6 +202,9 @@ class ProjectRequest extends BaseApiRequest
                 'min:' . config('global.min_string_length'),
                 'max:' . config('global.max_string_length'),
             ],
+            'project_inputs.*.values' => [
+                'sometimes',
+            ],
         ];
     }
 
@@ -205,6 +214,11 @@ class ProjectRequest extends BaseApiRequest
             'project_outputs' => [
                 'required',
                 'array',
+            ],
+            'project_outputs.*' => [
+                'required',
+                'array',
+                new ValidateInputOutputEnumValues(),
             ],
             'project_outputs.*.name' => [
                 'required',
@@ -232,6 +246,9 @@ class ProjectRequest extends BaseApiRequest
                 'string',
                 'min:' . config('global.min_string_length'),
                 'max:' . config('global.max_string_length'),
+            ],
+            'project_outputs.*.values' => [
+                'sometimes',
             ],
         ];
     }

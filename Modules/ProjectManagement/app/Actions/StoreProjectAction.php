@@ -8,6 +8,7 @@ use Closure;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Pipeline;
 use Modules\ProjectManagement\app\Actions\Project\GenerateProjectApiKeyAction;
+use Modules\ProjectManagement\app\Dtos\Project\ProjectInputDto;
 use Modules\ProjectManagement\app\Dtos\Project\StoreProjectDto;
 use Modules\ProjectManagement\app\Models\Project;
 
@@ -19,6 +20,8 @@ final class StoreProjectAction
 
     public function execute(StoreProjectDto $dto)
     {
+        ds($dto->toArray());
+
         return DB::transaction(
             fn () => Pipeline::send(['dto' => $dto])
                 ->through([
@@ -70,7 +73,16 @@ final class StoreProjectAction
 
         /** @var Project $project */
         $project = $params['project'];
-        $project->inputs()->createMany($dto->projectInputs->toArray());
+        /** @var ProjectInputDto $projectInput */
+        foreach ($dto->projectInputs as $projectInput) {
+            $input = $project->inputs()->create($projectInput->except('values')->toArray());
+            if ($projectInput->values) {
+                $input->enumValues()
+                    ->createMany(
+                        collect($projectInput->values)->map(fn ($enumValue) => ['value' => $enumValue])
+                    );
+            }
+        }
 
         return $next($params);
     }
@@ -82,7 +94,16 @@ final class StoreProjectAction
 
         /** @var Project $project */
         $project = $params['project'];
-        $project->outputs()->createMany($dto->projectOutputs->toArray());
+        /** @var ProjectInputDto $projectInput */
+        foreach ($dto->projectOutputs as $projectOutput) {
+            $output = $project->outputs()->create($projectOutput->except('values')->toArray());
+            if ($projectOutput->values) {
+                $output->enumValues()
+                    ->createMany(
+                        collect($projectOutput->values)->map(fn ($enumValue) => ['value' => $enumValue])
+                    );
+            }
+        }
 
         return $next($params);
     }

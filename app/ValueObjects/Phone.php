@@ -40,16 +40,22 @@ final class Phone implements Castable, JsonSerializable
 
     public function toFormatInternational()
     {
+        return $this->value;
+
         return $this->toLaravelPhone()->formatInternational();
     }
 
     public function toLaravelPhone()
     {
+        return $this->value;
+
         return new LaravelPhone('+' . $this->value);
     }
 
     public function toListingFormatted()
     {
+        return $this->value;
+
         return '+' . $this->countryCode()
             . ' ' .
             str_replace(' ', '', $this->toLaravelPhone()->formatNational());
@@ -58,6 +64,7 @@ final class Phone implements Castable, JsonSerializable
 
     public function toFormattedValue(): string
     {
+        return $this->value;
         try {
             return str('+')
                 ->append($this->countryCode())
