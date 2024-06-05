@@ -34,6 +34,7 @@ enum DataType: int
     #[Example('true/false')]
     case Boolean = 4;
 
+    #[Example('option1,option2,option3')]
     #[Label('Categorical')]
     case Enum = 5;
 }
