@@ -8,14 +8,13 @@ use Illuminate\Support\Facades\Schema;
 use Modules\Auth\app\Models\User;
 use Modules\ProjectManagement\app\Models\Project;
 
-return new class() extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('project_inputs', function (Blueprint $table) {
+        Schema::create('project_inputs', function (Blueprint $table): void {
             $table->id();
             $table->string('name');
             $table->foreignIdFor(Project::class);

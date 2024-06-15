@@ -28,10 +28,10 @@ class PhoneCast implements CastsAttributes
      */
     public function set(Model $model, string $key, mixed $value, array $attributes): mixed
     {
-        if (! $value) {
+        if ( ! $value) {
             return null;
         }
-        if (! $value instanceof Phone) {
+        if ( ! $value instanceof Phone) {
             throw new InvalidArgumentException('The given value is not an App\ValueObjects\Phone instance.');
         }
 

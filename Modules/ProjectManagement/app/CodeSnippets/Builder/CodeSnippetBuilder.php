@@ -30,7 +30,7 @@ class CodeSnippetBuilder
     public function build(): array
     {
         $codeSnippetDirPath = module_path('ProjectManagement', "app/CodeSnippets/{$this->language->value}");
-        if (! is_dir($codeSnippetDirPath)) {
+        if ( ! is_dir($codeSnippetDirPath)) {
             $snippets = [];
             $snippets[$this->language->value][] = [
                 'snippet' => 'No snippets found',
@@ -39,7 +39,7 @@ class CodeSnippetBuilder
 
             return $snippets;
         }
-        $snippetTypes = collect(scandir($codeSnippetDirPath))->filter(fn ($file) => ! in_array($file, ['.', '..']));
+        $snippetTypes = collect(scandir($codeSnippetDirPath))->filter(fn($file) => ! in_array($file, ['.', '..']));
         $snippets = [];
         foreach ($snippetTypes as $snippetType) {
             $code = file_get_contents($codeSnippetDirPath . '/' . $snippetType);
@@ -89,7 +89,7 @@ class CodeSnippetBuilder
 
     protected function arrayInputsSample(): array
     {
-        return $this->project->inputs->mapWithKeys(fn ($input) => [
+        return $this->project->inputs->mapWithKeys(fn($input) => [
             $input->name => $input->data_type->example(),
         ])->toArray();
     }

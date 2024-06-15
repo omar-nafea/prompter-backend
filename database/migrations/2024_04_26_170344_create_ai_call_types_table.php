@@ -7,14 +7,13 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Modules\Auth\app\Models\User;
 
-return new class() extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('ai_call_types', function (Blueprint $table) {
+        Schema::create('ai_call_types', function (Blueprint $table): void {
             $table->id();
             $table->string('name')->unique();
             $table->text('description')->nullable();

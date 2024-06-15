@@ -28,7 +28,7 @@ class EmailCast implements CastsAttributes
      */
     public function set(Model $model, string $key, mixed $value, array $attributes): mixed
     {
-        if (! $value instanceof Email) {
+        if ( ! $value instanceof Email) {
             throw new InvalidArgumentException('The given value is not an App\ValueObjects\Email instance.');
         }
 

@@ -10,14 +10,13 @@ use Modules\AiServiceManagement\app\Models\AiResponseType;
 use Modules\AiServiceManagement\app\Models\AiService;
 use Modules\Auth\app\Models\User;
 
-return new class() extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('projects', function (Blueprint $table) {
+        Schema::create('projects', function (Blueprint $table): void {
             $table->id();
             $table->string('name');
             $table->text('expected_outcome');

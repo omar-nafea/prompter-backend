@@ -103,8 +103,7 @@ final class Phone implements Castable, JsonSerializable
         //            return new self($value);
         //        }
         //    });
-        return new class() implements Cast
-        {
+        return new class () implements Cast {
             public function cast(DataProperty $property, mixed $value, array $properties, CreationContext $context): mixed
             {
                 return Phone::from($value);

@@ -41,7 +41,7 @@ class AiServiceManagementServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             abstract: ChatGPT3_0::class,
-            concrete: fn () => ChatGPT3_0Factory::make()
+            concrete: fn() => ChatGPT3_0Factory::make()
         );
     }
 

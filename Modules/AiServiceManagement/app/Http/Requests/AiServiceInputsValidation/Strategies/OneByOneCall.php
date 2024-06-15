@@ -17,7 +17,7 @@ class OneByOneCall implements AiCallTypeStrategy
 
     public function rules(): array
     {
-        return $this->project->inputs->mapWithKeys(fn (ProjectInput $input) => [
+        return $this->project->inputs->mapWithKeys(fn(ProjectInput $input) => [
             $input->name => $this->getRoles($input),
         ])->toArray();
     }

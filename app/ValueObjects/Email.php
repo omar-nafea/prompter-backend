@@ -18,7 +18,7 @@ final class Email implements Castable
     private function __construct($value)
     {
         $this->value = $value;
-        if (! $this->isValid()) {
+        if ( ! $this->isValid()) {
             throw EmailException::invalid();
         }
     }
@@ -53,8 +53,7 @@ final class Email implements Castable
 
     public static function dataCastUsing(...$arguments): Cast
     {
-        return new class() implements Cast
-        {
+        return new class () implements Cast {
             public function cast(DataProperty $property, mixed $value, array $properties, CreationContext $context): mixed
             {
                 return Email::from($value);

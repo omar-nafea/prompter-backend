@@ -31,7 +31,7 @@ class ValidationException extends BaseException
     protected function withResponse(ErrorApiResponseBuilder $response)
     {
         $errors = $this->baseValidationException->errors();
-        if (! count($errors)) {
+        if ( ! count($errors)) {
             return null;
         }
 

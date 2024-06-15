@@ -8,7 +8,7 @@ use Str;
 
 class GenerateProjectApiKeyAction
 {
-    public function execute()
+    public function execute(): string
     {
         //todo implement logic like sanctum tokens generation
         return Str::random(32);

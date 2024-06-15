@@ -18,12 +18,12 @@ class ValidateInputOutputEnumValues implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (! is_array($value)) {
+        if ( ! is_array($value)) {
             $fail('The :attribute must be an array.');
 
             return;
         }
-        if (! isset($value['data_type'])) {
+        if ( ! isset($value['data_type'])) {
             $fail('The data type is missing for :attribute.');
 
             return;
@@ -37,12 +37,12 @@ class ValidateInputOutputEnumValues implements ValidationRule
 
             return;
         }
-        if (! isset($value['values'])) {
+        if ( ! isset($value['values'])) {
             $fail('The enum values are missing for :attribute.');
 
             return;
         }
-        if (! is_array($value['values'])) {
+        if ( ! is_array($value['values'])) {
             $fail('The enum values must be an array for :attribute.');
 
             return;

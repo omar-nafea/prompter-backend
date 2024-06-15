@@ -18,7 +18,9 @@ use MohamedGaber\SanctumRefreshToken\Traits\HasApiTokens;
 
 class User extends BaseAuthenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
     /*
    |--------------------------------------------------------------------------|
@@ -58,7 +60,7 @@ class User extends BaseAuthenticatable
      |                           Constants                                      |
      |--------------------------------------------------------------------------|
      */
-    const MORPH_MAP = 1;
+    public const MORPH_MAP = 1;
     /*
     |--------------------------------------------------------------------------|
     |                             Mutators                                     |

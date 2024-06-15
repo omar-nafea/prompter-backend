@@ -20,7 +20,6 @@ final class StoreProjectAction
 
     public function execute(StoreProjectDto $dto)
     {
-        ds($dto->toArray());
 
         return DB::transaction(
             fn () => Pipeline::send(['dto' => $dto])

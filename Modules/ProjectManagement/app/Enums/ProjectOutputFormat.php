@@ -28,6 +28,9 @@ enum ProjectOutputFormat: int
 
     public static function enabledCases(): array
     {
-        return array_filter(self::cases(), fn (ProjectOutputFormat $case) => $case->enabled());
+        return array_filter(
+            array: self::cases(),
+            callback: fn(self $case) => $case->enabled()
+        );
     }
 }

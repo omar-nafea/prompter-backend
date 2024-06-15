@@ -30,7 +30,7 @@ final class LoginAction
      */
     public function execute(LoginDto $dto): array
     {
-        return DB::transaction(fn () => Pipeline::send(['dto' => $dto])
+        return DB::transaction(fn() => Pipeline::send(['dto' => $dto])
             ->through([
                 $this->ensureIsNotRateLimited(...),
                 $this->hitTheRateLimiter(...),
@@ -50,7 +50,7 @@ final class LoginAction
         /* @var LoginDto $dto */
         $dto = $params['dto'];
 
-        if (! RateLimiter::tooManyAttempts($this->throttleKey($dto), 5)) {
+        if ( ! RateLimiter::tooManyAttempts($this->throttleKey($dto), 5)) {
             return $next($params);
         }
 
@@ -99,7 +99,7 @@ final class LoginAction
 
         $params['user'] = User::where('email', $dto->email)->first();
 
-        if (! $params['user'] || ! Hash::check($dto->password, $params['user']->password)) {
+        if ( ! $params['user'] || ! Hash::check($dto->password, $params['user']->password)) {
             throw LoginException::invalidCredentials();
         }
 
@@ -114,7 +114,7 @@ final class LoginAction
         /* @var User $user */
         $user = $params['user'];
 
-        if (! $user->status->isActive()) {
+        if ( ! $user->status->isActive()) {
             throw ValidationException::withMessages(
                 [
                     'email' => __('auth::login.user_not_active'),

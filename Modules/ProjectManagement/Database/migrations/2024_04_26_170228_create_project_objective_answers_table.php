@@ -9,14 +9,13 @@ use Modules\Auth\app\Models\User;
 use Modules\ProjectManagement\app\Models\Project;
 use Modules\ProjectManagement\app\Models\ProjectObjectiveQuestion;
 
-return new class() extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('project_objective_answers', function (Blueprint $table) {
+        Schema::create('project_objective_answers', function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(ProjectObjectiveQuestion::class)->constrained()->restrictOnDelete();
             $table->foreignIdFor(Project::class);

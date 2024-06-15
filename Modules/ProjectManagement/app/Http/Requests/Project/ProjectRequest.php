@@ -255,7 +255,7 @@ class ProjectRequest extends BaseApiRequest
 
     public function withValidator(Validator $validator): void
     {
-        $validator->after(function (Validator $validator) {
+        $validator->after(function (Validator $validator): void {
             if ($validator->errors()->count()) {
                 $validator->errors()->add(
                     'failed_step',

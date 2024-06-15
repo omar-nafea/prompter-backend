@@ -25,7 +25,7 @@ class AskResponseDto extends BaseDto implements AskResponseDtoContract
     protected static function prepareTextResponse(string $textResponse): array
     {
         $string = str($textResponse)->remove('```')->remove('json')->trim()->toString();
-        if (! json_validate($string)) {
+        if ( ! json_validate($string)) {
             //todo add exception here
             dd('not json');
         }

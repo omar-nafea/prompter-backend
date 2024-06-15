@@ -9,14 +9,13 @@ use Modules\Auth\app\Models\User;
 use Modules\ProjectManagement\app\Models\OutputLanguage;
 use Modules\ProjectManagement\app\Models\Project;
 
-return new class() extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('project_output_languages', function (Blueprint $table) {
+        Schema::create('project_output_languages', function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(Project::class);
             $table->foreignIdFor(OutputLanguage::class);

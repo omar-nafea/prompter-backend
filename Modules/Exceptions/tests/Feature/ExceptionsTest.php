@@ -2,6 +2,6 @@
 
 declare(strict_types=1);
 
-test('xxxx', function () {
+test('xxxx', function (): void {
     \PHPUnit\Framework\assertTrue(true);
 });

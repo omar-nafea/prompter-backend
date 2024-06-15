@@ -13,7 +13,7 @@ class UniqueModelKeyGeneratorServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        if (! app()->configurationIsCached()) { // @phpstan-ignore-line
+        if ( ! app()->configurationIsCached()) { // @phpstan-ignore-line
             $this->mergeConfigFrom(__DIR__ . '/../config/unique-model-key-generator.php', 'unique-model-key-generator');
         }
 
@@ -22,7 +22,7 @@ class UniqueModelKeyGeneratorServiceProvider extends ServiceProvider
             UniqueModelKeyGeneratorFactory::class
         );
 
-        Builder::macro('findOrFailByUniqueKey', function (string $key) {
+        Builder::macro('findOrFailByUniqueKey', function (string $key): void {
             /** @var Builder $this */
             //todo implement
             throw new Exception('not implemented');

@@ -15,10 +15,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void
-    {
-        //
-    }
+    public function register(): void {}
 
     /**
      * Bootstrap any application services.
@@ -31,9 +28,9 @@ class AppServiceProvider extends ServiceProvider
         Model::preventLazyLoading($this->app->isLocal() && env('MODEL_SHOULD_BE_STRICT'));
         Model::preventSilentlyDiscardingAttributes($this->app->isLocal() && env('MODEL_SHOULD_BE_STRICT'));
 
-        Str::macro('likeContains', fn ($value) => '%' . $value . '%');
-        Str::macro('likeBeginWith', fn ($value) => $value . '%');
-        Str::macro('likeEndWith', fn ($value) => '%' . $value);
+        Str::macro('likeContains', fn($value) => '%' . $value . '%');
+        Str::macro('likeBeginWith', fn($value) => $value . '%');
+        Str::macro('likeEndWith', fn($value) => '%' . $value);
         Stringable::macro('minify', function ($separator) {
             //            dd($separator);
             /** @var Stringable $this */
@@ -55,7 +52,7 @@ class AppServiceProvider extends ServiceProvider
         );
     }
 }
-if (! function_exists('minify')) {
+if ( ! function_exists('minify')) {
     function minify($value, $separator = '')
     {
         return preg_replace(

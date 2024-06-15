@@ -10,9 +10,9 @@ use MohamedGaber\UniqueModelKeyGenerator\Contracts\UniqueModelKeyGeneratorFactor
 
 trait HasUniqueModelKey
 {
-    public static function bootHasUniqueModelKey()
+    public static function bootHasUniqueModelKey(): void
     {
-        static::creating(function (Model $model) {
+        static::creating(function (Model $model): void {
             $model->setAttribute($model::getUniqueKeyAttribute(), $model->generateUniqueKey());
         });
     }

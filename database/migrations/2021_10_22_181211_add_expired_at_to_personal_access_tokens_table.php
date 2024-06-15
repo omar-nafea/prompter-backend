@@ -13,9 +13,9 @@ class AddExpiredAtToPersonalAccessTokensTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::table('personal_access_tokens', function (Blueprint $table) {
+        Schema::table('personal_access_tokens', function (Blueprint $table): void {
             $table->timestamp('expired_at')->nullable()->after('last_used_at');
         });
     }
@@ -25,9 +25,9 @@ class AddExpiredAtToPersonalAccessTokensTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::table('personal_access_tokens', function (Blueprint $table) {
+        Schema::table('personal_access_tokens', function (Blueprint $table): void {
             $table->dropColumn('expired_at');
         });
     }

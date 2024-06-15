@@ -18,7 +18,7 @@ class AiServiceInputsValidationFactory
             AiCallType::OneByOne->value => OneByOneCall::class,
             AiCallType::Bulk->value => OneByOneCall::class, // todo implement bulk
         ];
-        if (! isset($mapping[$project->aiCallType->type->value])) {
+        if ( ! isset($mapping[$project->aiCallType->type->value])) {
             throw new Exception('Ai call type not supported' . $project->aiCallType->type->value);
         }
         $class = $mapping[$project->aiCallType->type->value];

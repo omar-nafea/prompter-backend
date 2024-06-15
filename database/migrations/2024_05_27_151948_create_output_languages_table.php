@@ -8,14 +8,13 @@ use Illuminate\Support\Facades\Schema;
 use Modules\Auth\app\Models\User;
 use Modules\ProjectManagement\app\Enums\OutputLanguageStatus;
 
-return new class() extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('output_languages', function (Blueprint $table) {
+        Schema::create('output_languages', function (Blueprint $table): void {
             $table->id();
             $table->string('name')->unique();
             $table->unsignedTinyInteger('status')->default(OutputLanguageStatus::Enabled);
