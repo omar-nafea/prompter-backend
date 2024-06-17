@@ -7,7 +7,7 @@ namespace Modules\AiServiceManagement\app\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\AiServiceManagement\app\Models\AiCallType;
-use Modules\AiServiceManagement\app\Models\AiResponseType;
+
 /**
  * @property-read AiCallType $resource
  */

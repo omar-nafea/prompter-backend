@@ -26,4 +26,3 @@ final class AiServiceCallingController
             )->send();
     }
 }
-

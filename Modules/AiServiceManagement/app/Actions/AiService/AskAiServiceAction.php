@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\AiServiceManagement\app\Actions\AiService;
 
+use Exception;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Container\Container;
 use Modules\AiServiceManagement\App\Dtos\AskAiServiceDto;
@@ -22,7 +23,7 @@ final class AskAiServiceAction
 
     /**
      * @throws BindingResolutionException
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(AskAiServiceDto $dto): AskResponseDto
     {

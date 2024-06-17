@@ -7,6 +7,7 @@ namespace Modules\Auth\app\Models;
 use App\Models\BaseModel;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 /**
  * @property-read int $id
  * @property-read string $platform_type

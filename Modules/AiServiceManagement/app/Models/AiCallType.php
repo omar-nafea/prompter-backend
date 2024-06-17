@@ -9,6 +9,7 @@ use Database\Factories\AiCallTypeFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\AiServiceManagement\app\Enums\AiCallType as AiCallTypeEnum;
 use Modules\AiServiceManagement\app\Enums\AiCallTypeStatus;
+
 /**
  * @property-read int $id
  * @property-read string $name

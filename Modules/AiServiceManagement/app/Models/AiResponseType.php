@@ -8,6 +8,7 @@ use App\Models\BaseModel;
 use Database\Factories\AiResponseTypeFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\AiServiceManagement\app\Enums\AiResponseTypeStatus;
+
 /**
  * @property-read int $id
  * @property-read string $name

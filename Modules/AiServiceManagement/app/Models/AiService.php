@@ -8,6 +8,7 @@ use App\Models\BaseModel;
 use Database\Factories\AiServiceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\AiServiceManagement\app\Enums\AiServiceStatus;
+
 /**
  * @property-read int $id,
  * @property-read string $name,

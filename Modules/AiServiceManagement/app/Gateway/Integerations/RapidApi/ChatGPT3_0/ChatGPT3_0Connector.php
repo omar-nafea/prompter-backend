@@ -12,7 +12,7 @@ final class ChatGPT3_0Connector extends Connector
 {
     use AlwaysThrowOnErrors;
 
-    #[\Override]
+    #[Override]
     public function resolveBaseUrl(): string
     {
         /** @var string */

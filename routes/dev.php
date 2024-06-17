@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask\AskRequest;
-use Modules\ProjectManagement\app\Models\Project;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
@@ -78,9 +77,9 @@ Route::middleware('api')->group(
 Route::middleware('web')->group(
     function (): void {
         Route::get('test', function (): void {
-         dd(
-             auth()
-         );
+            dd(
+                auth()
+            );
         });
     }
 );

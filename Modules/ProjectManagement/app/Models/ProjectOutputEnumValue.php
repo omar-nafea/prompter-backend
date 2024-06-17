@@ -6,6 +6,7 @@ namespace Modules\ProjectManagement\app\Models;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 /**
  * @property-read int $id
  * @property-read int $project_input_id

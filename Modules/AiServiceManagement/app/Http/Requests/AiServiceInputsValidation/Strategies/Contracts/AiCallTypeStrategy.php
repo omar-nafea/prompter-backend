@@ -6,7 +6,6 @@ namespace Modules\AiServiceManagement\app\Http\Requests\AiServiceInputsValidatio
 
 interface AiCallTypeStrategy
 {
-
     /**
      * @return array<string,string[]>
      */

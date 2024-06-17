@@ -11,7 +11,6 @@ use Spatie\LaravelData\Casts\Castable;
 use Spatie\LaravelData\Contracts\BaseData;
 use Spatie\LaravelData\Support\Creation\CreationContext;
 use Spatie\LaravelData\Support\DataProperty;
-use function Symfony\Component\String\b;
 
 final class Email implements Castable
 {
@@ -32,7 +31,7 @@ final class Email implements Castable
 
     public function isValid(): bool
     {
-        return (bool)filter_var($this->value, FILTER_VALIDATE_EMAIL);
+        return (bool) filter_var($this->value, FILTER_VALIDATE_EMAIL);
     }
 
     public function domain(): string

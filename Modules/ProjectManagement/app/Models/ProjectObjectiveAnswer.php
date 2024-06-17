@@ -7,6 +7,7 @@ namespace Modules\ProjectManagement\app\Models;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 /**
  * @property-read int $id
  * @property-read string $name

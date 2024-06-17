@@ -6,6 +6,7 @@ namespace Modules\ProjectManagement\app\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+
 /**
  * @property-read int $id
  * @property-read int $project_id

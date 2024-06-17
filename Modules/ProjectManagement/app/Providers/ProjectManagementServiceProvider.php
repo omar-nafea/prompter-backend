@@ -100,7 +100,7 @@ final class ProjectManagementServiceProvider extends ServiceProvider
      * Get the services provided by the provider.
      * @return string[]
      */
-    #[\Override]
+    #[Override]
     public function provides(): array
     {
         return [];

@@ -18,6 +18,7 @@ use Modules\Auth\app\Enums\UserStatus;
 use Modules\Auth\database\factories\UserFactory;
 use Modules\ProjectManagement\app\Models\Project;
 use MohamedGaber\SanctumRefreshToken\Traits\HasApiTokens;
+
 /**
  * @property-read int $id
  * @property-read string $name
