@@ -10,6 +10,7 @@ use Propaganistas\LaravelPhone\Exceptions\NumberParseException;
 use Propaganistas\LaravelPhone\PhoneNumber as LaravelPhone;
 use Spatie\LaravelData\Casts\Cast;
 use Spatie\LaravelData\Casts\Castable;
+use Spatie\LaravelData\Contracts\BaseData;
 use Spatie\LaravelData\Support\Creation\CreationContext;
 use Spatie\LaravelData\Support\DataProperty;
 
@@ -17,9 +18,12 @@ final class Phone implements Castable, JsonSerializable
 {
     protected string $value;
 
-    private function __construct($value)
+    private function __construct(string$value)
     {
-        $this->value = str($value)->replace(' ', '')->replace('+', '')->toString();
+        $this->value = Str::of($value)
+            ->replace(' ', '')
+            ->replace('+', '')
+            ->toString();
 
     }
 
@@ -28,65 +32,66 @@ final class Phone implements Castable, JsonSerializable
         return $this->value;
     }
 
-    public function countryCode()
+    public function countryCode(): string
     {
         return Str::substr($this->value, 0, 3);
     }
 
-    public function ISOCode()
+    public function ISOCode(): string
     {
-        return $this->toLaravelPhone()->getCountry();
+        return $this->toLaravelPhone();
+        //        return $this->toLaravelPhone()->getCountry();
     }
 
-    public function toFormatInternational()
+    public function toFormatInternational(): string
     {
         return $this->value;
 
-        return $this->toLaravelPhone()->formatInternational();
+        //        return $this->toLaravelPhone()->formatInternational();
     }
 
-    public function toLaravelPhone()
+    public function toLaravelPhone(): string
     {
         return $this->value;
 
-        return new LaravelPhone('+' . $this->value);
+        //        return new LaravelPhone('+' . $this->value);
     }
 
-    public function toListingFormatted()
+    public function toListingFormatted(): string
     {
         return $this->value;
 
-        return '+' . $this->countryCode()
-            . ' ' .
-            str_replace(' ', '', $this->toLaravelPhone()->formatNational());
+        //        return '+' . $this->countryCode()
+        //            . ' ' .
+        //            str_replace(' ', '', $this->toLaravelPhone()->formatNational());
 
     }
 
     public function toFormattedValue(): string
     {
         return $this->value;
-        try {
-            return str('+')
-                ->append($this->countryCode())
-                ->append(' ')
-                ->append(
-                    str($this->toLaravelPhone()->formatNational())
-                        ->prepend(' ')
-                        ->replace(' ', '')
-                        ->ltrim('0')
-                        ->toString()
-                )->toString();
-        } catch (NumberParseException $exception) {
-            return $this->toNative();
-        }
+        //        try {
+        //            return str('+')
+        //                ->append($this->countryCode())
+        //                ->append(' ')
+        //                ->append(
+        //                    str($this->toLaravelPhone()->formatNational())
+        //                        ->prepend(' ')
+        //                        ->replace(' ', '')
+        //                        ->ltrim('0')
+        //                        ->toString()
+        //                )->toString();
+        //        } catch (NumberParseException $exception) {
+        //            return $this->toNative();
+        //        }
     }
 
-    public static function from($value)
+    public static function from(string $value): self
     {
         return new self($value);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toNative();
     }
@@ -96,16 +101,25 @@ final class Phone implements Castable, JsonSerializable
         return $this->toFormattedValue();
     }
 
+    /**
+     * @param array<int, mixed> ...$arguments
+     */
     public static function dataCastUsing(...$arguments): Cast
     {
-        //        dd(  new class implements Cast {
-        //        public function cast(DataProperty $property, mixed $value, array $context): mixed {
-        //            return new self($value);
-        //        }
-        //    });
         return new class () implements Cast {
-            public function cast(DataProperty $property, mixed $value, array $properties, CreationContext $context): mixed
-            {
+            /**
+             * @param DataProperty $property
+             * @param string $value
+             * @param string[] $properties
+             * @param CreationContext<BaseData<int,mixed,string>> $context
+             * @return Phone
+             */
+            public function cast(
+                DataProperty $property,
+                mixed $value,
+                array $properties,
+                CreationContext $context
+            ): Phone {
                 return Phone::from($value);
             }
         };

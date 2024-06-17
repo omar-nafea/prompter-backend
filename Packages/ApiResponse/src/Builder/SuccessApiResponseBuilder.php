@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Symfony\Component\HttpFoundation\Response;
 
-class SuccessApiResponseBuilder extends BaseApiResponseBuilder
+final class SuccessApiResponseBuilder extends BaseApiResponseBuilder
 {
     protected array|JsonResource|LengthAwarePaginator $data;
 

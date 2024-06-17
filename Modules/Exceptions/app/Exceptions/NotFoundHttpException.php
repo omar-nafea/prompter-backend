@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response as ResponseStatusCode;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException as BaseNotFoundHttpException;
 use Throwable;
 
-class NotFoundHttpException extends BaseException
+final class NotFoundHttpException extends BaseException
 {
     public function __construct(
         public BaseNotFoundHttpException $baseNotFoundHttpException,

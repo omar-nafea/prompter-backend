@@ -9,7 +9,7 @@ use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
 
-class PhoneCast implements CastsAttributes
+final class PhoneCast implements CastsAttributes
 {
     /**
      * Cast the given value.

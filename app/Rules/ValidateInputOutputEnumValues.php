@@ -9,7 +9,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Modules\ProjectManagement\app\Enums\DataType;
 use Validator;
 
-class ValidateInputOutputEnumValues implements ValidationRule
+final class ValidateInputOutputEnumValues implements ValidationRule
 {
     /**
      * Run the validation rule.

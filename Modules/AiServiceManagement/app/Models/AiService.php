@@ -8,8 +8,14 @@ use App\Models\BaseModel;
 use Database\Factories\AiServiceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\AiServiceManagement\app\Enums\AiServiceStatus;
-
-class AiService extends BaseModel
+/**
+ * @property-read int $id,
+ * @property-read string $name,
+ * @property-read string $description,
+ * @property-read int $price,
+ * @property-read AiServiceStatus $status
+ */
+final class AiService extends BaseModel
 {
     use HasFactory;
 

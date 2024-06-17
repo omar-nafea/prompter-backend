@@ -12,7 +12,7 @@ use Modules\Exceptions\app\Factory\Contract\ExceptionMappingFactory as Exception
 use Modules\Exceptions\app\Factory\ExceptionMappingFactory;
 use Modules\Exceptions\app\Handler\Handler;
 
-class ExceptionsServiceProvider extends ServiceProvider
+final class ExceptionsServiceProvider extends ServiceProvider
 {
     protected string $moduleName = 'Exceptions';
 

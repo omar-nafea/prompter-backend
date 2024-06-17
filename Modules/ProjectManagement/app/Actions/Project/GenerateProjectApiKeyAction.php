@@ -6,7 +6,7 @@ namespace Modules\ProjectManagement\app\Actions\Project;
 
 use Str;
 
-class GenerateProjectApiKeyAction
+final class GenerateProjectApiKeyAction
 {
     public function execute(): string
     {

@@ -6,7 +6,7 @@ namespace Modules\Auth\app\Http\Requests;
 
 use App\Http\Requests\BaseApiRequest;
 
-class LoginRequest extends BaseApiRequest
+final class LoginRequest extends BaseApiRequest
 {
     public function rules(): array
     {

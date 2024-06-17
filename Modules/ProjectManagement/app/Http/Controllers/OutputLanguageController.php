@@ -7,7 +7,7 @@ namespace Modules\ProjectManagement\app\Http\Controllers;
 use Modules\ProjectManagement\app\Http\Resources\OutputLanguageResource;
 use Modules\ProjectManagement\app\Models\OutputLanguage;
 
-class OutputLanguageController
+final class OutputLanguageController
 {
     public function __invoke()
     {

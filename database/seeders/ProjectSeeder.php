@@ -14,7 +14,7 @@ use Modules\ProjectManagement\app\Enums\DataType;
 use Modules\ProjectManagement\app\Enums\ProjectOutputFormat;
 use Modules\ProjectManagement\app\Models\Project;
 
-class ProjectSeeder extends Seeder
+final class ProjectSeeder extends Seeder
 {
     /**
      * Run the database seeds.

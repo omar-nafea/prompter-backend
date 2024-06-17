@@ -7,7 +7,7 @@ namespace Modules\ProjectManagement\app\Dtos\Project;
 use App\Dtos\BaseDto;
 use Spatie\LaravelData\Attributes\MapOutputName;
 
-class ObjectiveQuestionDto extends BaseDto
+final class ObjectiveQuestionDto extends BaseDto
 {
     public function __construct(
         #[MapOutputName('project_objective_question_id')]

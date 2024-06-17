@@ -7,7 +7,7 @@ namespace Modules\CRUDGenerator\app\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Console\GeneratorCommand;
 
-class CreateActionCommand extends GeneratorCommand
+final class CreateActionCommand extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.

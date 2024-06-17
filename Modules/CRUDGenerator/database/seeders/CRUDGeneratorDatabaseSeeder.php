@@ -6,7 +6,7 @@ namespace Modules\CRUDGenerator\database\seeders;
 
 use Illuminate\Database\Seeder;
 
-class CRUDGeneratorDatabaseSeeder extends Seeder
+final class CRUDGeneratorDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.

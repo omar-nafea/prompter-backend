@@ -4,18 +4,21 @@ declare(strict_types=1);
 
 namespace Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask;
 
+use JsonException;
 use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask\Actions\ConvertTextResponseToJsonAction;
 use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask\Dtos\AskResponseDto;
 use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask\Exceptions\FailedResponseException;
+use Override;
 use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\Http\Response;
 use Saloon\Traits\Body\HasJsonBody;
 use Saloon\Traits\Plugins\HasTimeout;
+use Symfony\Component\HttpFoundation\Response as ResponseStatus;
 use Throwable;
 
-class AskRequest extends Request implements HasBody
+final class AskRequest extends Request implements HasBody
 {
     use HasJsonBody;
     use HasTimeout;
@@ -30,11 +33,15 @@ class AskRequest extends Request implements HasBody
         protected ConvertTextResponseToJsonAction $convertTextResponseToJsonAction
     ) {}
 
+    #[Override]
     public function resolveEndpoint(): string
     {
         return '/';
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     protected function defaultBody(): array
     {
         return [
@@ -47,23 +54,37 @@ class AskRequest extends Request implements HasBody
         ];
     }
 
-    public function createDtoFromResponse(Response $response): mixed
+    /**
+     * @throws JsonException
+     */
+    #[Override]
+    public function createDtoFromResponse(Response $response): AskResponseDto
     {
         $res['raw_response'] = $response->json();
-        info(json_encode($response->json()));
-        $res['data'] = $this->convertTextResponseToJsonAction->execute($response->json()['text'] ?? null);
+        //info(json_encode($response->json()));
+        /** @var string $textResponse */
+        $textResponse = $response->json()['text'] ?? '';
+        $res['data'] = $this->convertTextResponseToJsonAction->execute(
+            textResponse: $textResponse
+        );
 
         return AskResponseDto::fromResponse($res);
     }
 
+    /**
+     * @throws JsonException
+     */
+    #[Override]
     public function hasRequestFailed(Response $response): ?bool
     {
-        return $response->status() !== \Symfony\Component\HttpFoundation\Response::HTTP_OK || ! $response->json('text');
-        //        dd($response->status(),);
+        return $response->status() !== ResponseStatus::HTTP_OK || ! $response->json('text');
         //todo customize failed response
-        //        return $response->failed();
     }
 
+    /**
+     * @throws JsonException
+     */
+    #[Override]
     public function getRequestException(Response $response, ?Throwable $senderException): ?Throwable
     {
         return FailedResponseException::failedAskResponse($response->json());

@@ -9,7 +9,7 @@ use MohamedGaber\ApiResponse\Builder\ErrorApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Response as ResponseStatusCode;
 use Throwable;
 
-class ModelNotFoundException extends BaseException
+final class ModelNotFoundException extends BaseException
 {
     public function __construct(
         public BaseModelNotFoundException $baseModelNotFoundException,

@@ -9,8 +9,14 @@ use Database\Factories\AiCallTypeFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\AiServiceManagement\app\Enums\AiCallType as AiCallTypeEnum;
 use Modules\AiServiceManagement\app\Enums\AiCallTypeStatus;
-
-class AiCallType extends BaseModel
+/**
+ * @property-read int $id
+ * @property-read string $name
+ * @property-read string $description
+ * @property-read AiCallTypeEnum $type
+ * @property-read AiCallTypeStatus $status
+ */
+final class AiCallType extends BaseModel
 {
     use HasFactory;
 

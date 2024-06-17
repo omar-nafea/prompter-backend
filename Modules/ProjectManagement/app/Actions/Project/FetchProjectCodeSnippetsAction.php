@@ -8,7 +8,7 @@ use Modules\ProjectManagement\app\CodeSnippets\Builder\CodeSnippetBuilder;
 use Modules\ProjectManagement\app\Enums\ProgrammingLanguage;
 use Modules\ProjectManagement\app\Models\Project;
 
-class FetchProjectCodeSnippetsAction
+final class FetchProjectCodeSnippetsAction
 {
     public function __construct(
         protected CodeSnippetBuilder $codeSnippetBuilder

@@ -7,7 +7,7 @@ namespace Modules\ProjectManagement\app\Http\Controllers;
 use Modules\ProjectManagement\app\Enums\ProjectOutputFormat;
 use Modules\ProjectManagement\app\Http\Resources\ProjectOutputFormatResource;
 
-class ProjectOutputFormatController
+final class ProjectOutputFormatController
 {
     public function __invoke()
     {

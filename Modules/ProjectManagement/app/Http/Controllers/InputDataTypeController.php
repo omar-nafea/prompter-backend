@@ -7,7 +7,7 @@ namespace Modules\ProjectManagement\app\Http\Controllers;
 use Modules\ProjectManagement\app\Actions\InputDataType\FetchInputDataTypeListAction;
 use Modules\ProjectManagement\app\Http\Resources\InputDataTypeResource;
 
-class InputDataTypeController
+final class InputDataTypeController
 {
     public function index(FetchInputDataTypeListAction $action)
     {

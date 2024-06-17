@@ -7,7 +7,7 @@ namespace Modules\ProjectManagement\app\Dtos\Project;
 use App\Dtos\BaseDto;
 use Modules\ProjectManagement\app\Enums\ProjectOutputFormat;
 
-class ProjectDto extends BaseDto
+final class ProjectDto extends BaseDto
 {
     public function __construct(
         public string $name,

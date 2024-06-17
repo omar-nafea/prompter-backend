@@ -10,7 +10,7 @@ use Modules\Exceptions\app\Factory\Contract\ExceptionMappingFactory;
 use Symfony\Component\ErrorHandler\Error\FatalError;
 use Throwable;
 
-class Handler extends BaseHandler
+final class Handler extends BaseHandler
 {
     public static bool $shouldChangeJsonResponse = true;
 

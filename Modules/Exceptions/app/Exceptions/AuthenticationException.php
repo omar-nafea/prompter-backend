@@ -9,7 +9,7 @@ use MohamedGaber\ApiResponse\Builder\ErrorApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Response as ResponseStatusCode;
 use Throwable;
 
-class AuthenticationException extends BaseException
+final class AuthenticationException extends BaseException
 {
     public function __construct(
         public BaseAuthenticationException $baseAuthenticationException,

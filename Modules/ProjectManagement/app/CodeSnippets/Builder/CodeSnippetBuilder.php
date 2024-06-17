@@ -7,7 +7,7 @@ namespace Modules\ProjectManagement\app\CodeSnippets\Builder;
 use Modules\ProjectManagement\app\Enums\ProgrammingLanguage;
 use Modules\ProjectManagement\app\Models\Project;
 
-class CodeSnippetBuilder
+final class CodeSnippetBuilder
 {
     private ProgrammingLanguage $language;
 

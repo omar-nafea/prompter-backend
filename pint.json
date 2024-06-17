@@ -48,6 +48,8 @@
         "ordered_imports": {
             "sort_algorithm": "alpha"
         },
-        "single_line_empty_body": true
+        "single_line_empty_body": true,
+        "final_class": true,
+        "final_internal_class": false
     }
 }

@@ -9,7 +9,7 @@ use MohamedGaber\ApiResponse\Builder\ErrorApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Response as ResponseStatusCode;
 use Throwable;
 
-class ValidationException extends BaseException
+final class ValidationException extends BaseException
 {
     public function __construct(
         public BaseValidationException $baseValidationException,

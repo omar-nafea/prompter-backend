@@ -7,16 +7,24 @@ namespace Modules\ProjectManagement\app\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\ProjectManagement\app\Enums\ProjectOutputFormat;
+use Override;
 
-class ProjectOutputFormatResource extends JsonResource
+/**
+ * @property-read ProjectOutputFormat $resource
+ */
+
+final class ProjectOutputFormatResource extends JsonResource
 {
+    /**
+     * @return array<string,mixed>
+     */
+    #[Override]
     public function toArray(Request $request)
     {
-        /** @var ProjectOutputFormat|self $this */
         return [
-            'id' => $this->value,
-            'name' => $this->label(),
-            'enabled' => $this->enabled(),
+            'id' => $this->resource->value,
+            'name' => $this->resource->label(),
+            'enabled' => $this->resource->enabled(),
         ];
     }
 }

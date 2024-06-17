@@ -27,7 +27,7 @@ use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException as Base
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException as BaseNotFoundHttpException;
 use Throwable;
 
-class ExceptionMappingFactory implements ExceptionMappingFactoryContract
+final class ExceptionMappingFactory implements ExceptionMappingFactoryContract
 {
     /**
      * @throws UnauthorizedException

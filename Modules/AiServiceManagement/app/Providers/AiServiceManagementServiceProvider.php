@@ -9,7 +9,7 @@ use Illuminate\Support\ServiceProvider;
 use Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT3_0\ChatGPT3_0;
 use Modules\AiServiceManagement\app\Gateway\Factories\ChatGPT3_0Factory;
 
-class AiServiceManagementServiceProvider extends ServiceProvider
+final class AiServiceManagementServiceProvider extends ServiceProvider
 {
     protected string $moduleName = 'AiServiceManagement';
 
@@ -41,7 +41,7 @@ class AiServiceManagementServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             abstract: ChatGPT3_0::class,
-            concrete: fn() => ChatGPT3_0Factory::make()
+            concrete: fn() => app(ChatGPT3_0Factory::class)->make()
         );
     }
 

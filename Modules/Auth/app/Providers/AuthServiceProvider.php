@@ -7,7 +7,7 @@ namespace Modules\Auth\app\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
-class AuthServiceProvider extends ServiceProvider
+final class AuthServiceProvider extends ServiceProvider
 {
     protected string $moduleName = 'Auth';
 

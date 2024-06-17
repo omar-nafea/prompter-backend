@@ -8,8 +8,14 @@ use App\Models\BaseModel;
 use Database\Factories\AiResponseTypeFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\AiServiceManagement\app\Enums\AiResponseTypeStatus;
-
-class AiResponseType extends BaseModel
+/**
+ * @property-read int $id
+ * @property-read string $name
+ * @property-read string $description
+ * @property-read AiResponseTypeStatus $status
+ * @property-read string $type
+ */
+final class AiResponseType extends BaseModel
 {
     use HasFactory;
 

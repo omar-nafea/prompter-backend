@@ -6,8 +6,11 @@ namespace Modules\ProjectManagement\app\Models;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
-class ProjectObjectiveQuestion extends BaseModel
+/**
+ * @property-read int $id
+ * @property-read string $question
+ */
+final class ProjectObjectiveQuestion extends BaseModel
 {
     use HasFactory;
 

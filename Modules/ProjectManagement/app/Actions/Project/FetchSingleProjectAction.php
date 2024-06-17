@@ -6,7 +6,7 @@ namespace Modules\ProjectManagement\app\Actions\Project;
 
 use Modules\ProjectManagement\app\Models\Project;
 
-class FetchSingleProjectAction
+final class FetchSingleProjectAction
 {
     public function execute(string $projectKey)
     {

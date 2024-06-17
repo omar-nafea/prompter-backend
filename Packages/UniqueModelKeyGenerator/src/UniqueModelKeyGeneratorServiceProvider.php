@@ -9,7 +9,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Support\ServiceProvider;
 use MohamedGaber\UniqueModelKeyGenerator\Contracts\UniqueModelKeyGeneratorFactory as UniqueModelKeyGeneratorFactoryContract;
 
-class UniqueModelKeyGeneratorServiceProvider extends ServiceProvider
+final class UniqueModelKeyGeneratorServiceProvider extends ServiceProvider
 {
     public function register(): void
     {

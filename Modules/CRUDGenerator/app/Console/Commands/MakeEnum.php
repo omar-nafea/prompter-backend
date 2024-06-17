@@ -6,7 +6,7 @@ namespace Modules\CRUDGenerator\app\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
 
-class MakeEnum extends GeneratorCommand
+final class MakeEnum extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.

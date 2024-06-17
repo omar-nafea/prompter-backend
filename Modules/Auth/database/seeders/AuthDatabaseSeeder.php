@@ -7,7 +7,7 @@ namespace Modules\Auth\database\seeders;
 use Illuminate\Database\Seeder;
 use Modules\Auth\app\Models\User;
 
-class AuthDatabaseSeeder extends Seeder
+final class AuthDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.

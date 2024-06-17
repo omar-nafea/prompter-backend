@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 use Modules\Auth\app\Models\User;
 
-class PolymorphicServiceProvider extends ServiceProvider
+final class PolymorphicServiceProvider extends ServiceProvider
 {
     /**
      * Register services.

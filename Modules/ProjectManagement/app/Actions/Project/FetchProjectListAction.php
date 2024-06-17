@@ -6,7 +6,7 @@ namespace Modules\ProjectManagement\app\Actions\Project;
 
 use Modules\Auth\app\Models\User;
 
-class FetchProjectListAction
+final class FetchProjectListAction
 {
     public function execute(User $user)
     {

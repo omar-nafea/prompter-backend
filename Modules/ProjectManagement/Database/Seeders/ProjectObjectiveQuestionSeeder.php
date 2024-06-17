@@ -7,7 +7,7 @@ namespace Modules\ProjectManagement\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Modules\ProjectManagement\app\Models\ProjectObjectiveQuestion;
 
-class ProjectObjectiveQuestionSeeder extends Seeder
+final class ProjectObjectiveQuestionSeeder extends Seeder
 {
     /**
      * Run the database seeds.

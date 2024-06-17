@@ -1,0 +1,8 @@
+parameters:
+    paths:
+        - app/
+        - Modules/
+
+    level: 9
+    ignoreErrors:
+        - '#Call to an undefined static method Illuminate\\Support\\Str::minify\(\)#'

@@ -7,7 +7,7 @@ namespace Modules\ProjectManagement\app\Http\Controllers;
 use Modules\ProjectManagement\app\Actions\ProjectObjectiveQuestion\FetchProjectObjectiveQuestionListAction;
 use Modules\ProjectManagement\app\Http\Resources\ProjectObjectiveQuestionResource;
 
-class ProjectObjectiveQuestionController
+final class ProjectObjectiveQuestionController
 {
     public function index(FetchProjectObjectiveQuestionListAction $action)
     {

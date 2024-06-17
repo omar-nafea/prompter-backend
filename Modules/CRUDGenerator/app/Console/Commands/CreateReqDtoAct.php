@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Artisan;
 
 use function Laravel\Prompts\text;
 
-class CreateReqDtoAct extends Command
+final class CreateReqDtoAct extends Command
 {
     /**
      * The name and signature of the console command.

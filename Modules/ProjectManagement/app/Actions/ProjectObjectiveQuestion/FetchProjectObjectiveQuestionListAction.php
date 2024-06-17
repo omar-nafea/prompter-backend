@@ -6,7 +6,7 @@ namespace Modules\ProjectManagement\app\Actions\ProjectObjectiveQuestion;
 
 use Modules\ProjectManagement\app\Models\ProjectObjectiveQuestion;
 
-class FetchProjectObjectiveQuestionListAction
+final class FetchProjectObjectiveQuestionListAction
 {
     public function execute()
     {

@@ -8,7 +8,7 @@ use MohamedGaber\ApiResponse\Builder\ErrorApiResponseBuilder;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException as BaseMethodNotAllowedHttpException;
 use Throwable;
 
-class MethodNotAllowedHttpException extends BaseException
+final class MethodNotAllowedHttpException extends BaseException
 {
     public function __construct(
         public BaseMethodNotAllowedHttpException $baseMethodNotAllowedHttpException,

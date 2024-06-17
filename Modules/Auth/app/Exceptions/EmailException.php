@@ -7,7 +7,7 @@ namespace Modules\Auth\app\Exceptions;
 use Modules\Exceptions\app\Exceptions\BaseException;
 use Symfony\Component\HttpFoundation\Response;
 
-class EmailException extends BaseException
+final class EmailException extends BaseException
 {
     public static function invalid(): self
     {

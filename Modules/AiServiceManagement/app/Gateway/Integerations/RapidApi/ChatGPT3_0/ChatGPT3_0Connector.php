@@ -4,18 +4,22 @@ declare(strict_types=1);
 
 namespace Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0;
 
+use Override;
 use Saloon\Http\Connector;
 use Saloon\Traits\Plugins\AlwaysThrowOnErrors;
 
-class ChatGPT3_0Connector extends Connector
+final class ChatGPT3_0Connector extends Connector
 {
     use AlwaysThrowOnErrors;
 
+    #[\Override]
     public function resolveBaseUrl(): string
     {
+        /** @var string */
         return config('ai-service-management.integrations.rapid_api.ChatGPT3_0.base_url');
     }
 
+    #[Override]
     protected function defaultHeaders(): array
     {
         return [

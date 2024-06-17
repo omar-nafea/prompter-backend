@@ -6,8 +6,15 @@ namespace Modules\ProjectManagement\app\Models;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
-class ProjectInputRulePivot extends BaseModel
+/**
+ * @property-read int $id
+ * @property-read string $project_input_rule_id
+ * @property-read string $project_id
+ * @property-read array $params
+ * @property-read ProjectInputRule $projectInputRule
+ * @property-read Project $project
+ */
+final class ProjectInputRulePivot extends BaseModel
 {
     use HasFactory;
 

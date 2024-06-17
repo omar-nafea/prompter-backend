@@ -8,7 +8,7 @@ use Illuminate\Support\ItemNotFoundException as BaseItemNotFoundException;
 use MohamedGaber\ApiResponse\Builder\ErrorApiResponseBuilder;
 use Throwable;
 
-class ItemNotFoundException extends BaseException
+final class ItemNotFoundException extends BaseException
 {
     public function __construct(
         public BaseItemNotFoundException $baseItemNotFoundException,

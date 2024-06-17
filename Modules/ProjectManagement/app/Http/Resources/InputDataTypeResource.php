@@ -7,15 +7,23 @@ namespace Modules\ProjectManagement\app\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\ProjectManagement\app\Enums\DataType;
+use Override;
 
-class InputDataTypeResource extends JsonResource
+/**
+ * @property-read DataType $resource
+ */
+
+final class InputDataTypeResource extends JsonResource
 {
+    /**
+     * @return array<string,mixed>
+     */
+    #[Override]
     public function toArray(Request $request): array
     {
-        /** @var DataType|self $this */
         return [
-            'name' => $this->label(),
-            'value' => $this->value,
+            'name' => $this->resource->label(),
+            'value' => $this->resource->value,
         ];
     }
 }

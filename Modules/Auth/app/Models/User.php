@@ -6,6 +6,9 @@ namespace Modules\Auth\app\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\BaseAuthenticatable;
+use App\ValueObjects\Email;
+use App\ValueObjects\Phone;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
@@ -15,8 +18,16 @@ use Modules\Auth\app\Enums\UserStatus;
 use Modules\Auth\database\factories\UserFactory;
 use Modules\ProjectManagement\app\Models\Project;
 use MohamedGaber\SanctumRefreshToken\Traits\HasApiTokens;
-
-class User extends BaseAuthenticatable
+/**
+ * @property-read int $id
+ * @property-read string $name
+ * @property-read Email $email
+ * @property-read Phone $phone
+ * @property-read UserStatus $status
+ * @property-read Collection<int, Project> $projects
+ *
+ */
+final class User extends BaseAuthenticatable
 {
     use HasApiTokens;
     use HasFactory;

@@ -14,7 +14,7 @@ use Modules\Auth\app\Models\User;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Auth\app\Models\User>
  */
-class UserFactory extends Factory
+final class UserFactory extends Factory
 {
     /**
      * The current password being used by the factory.

@@ -7,7 +7,7 @@ namespace Modules\UserManagement\app\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
-class UserManagementServiceProvider extends ServiceProvider
+final class UserManagementServiceProvider extends ServiceProvider
 {
     protected string $moduleName = 'UserManagement';
 

@@ -7,7 +7,7 @@ namespace MohamedGaber\ApiResponse\Factory;
 use MohamedGaber\ApiResponse\Builder\ErrorApiResponseBuilder;
 use MohamedGaber\ApiResponse\Builder\SuccessApiResponseBuilder;
 
-class ApiResponseFactory
+final class ApiResponseFactory
 {
     public static function make()
     {

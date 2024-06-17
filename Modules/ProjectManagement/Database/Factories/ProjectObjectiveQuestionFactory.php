@@ -7,7 +7,7 @@ namespace Modules\ProjectManagement\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\ProjectManagement\app\Models\ProjectObjectiveQuestion;
 
-class ProjectObjectiveQuestionFactory extends Factory
+final class ProjectObjectiveQuestionFactory extends Factory
 {
     protected $model = ProjectObjectiveQuestion::class;
 

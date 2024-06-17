@@ -9,7 +9,7 @@ use MohamedGaber\ApiResponse\Builder\ErrorApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Response as ResponseStatusCode;
 use Throwable;
 
-class PostTooLargeException extends BaseException
+final class PostTooLargeException extends BaseException
 {
     public function __construct(
         public BasePostTooLargeException $basePostTooLargeException,

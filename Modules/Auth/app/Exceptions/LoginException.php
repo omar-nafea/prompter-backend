@@ -7,7 +7,7 @@ namespace Modules\Auth\app\Exceptions;
 use Modules\Exceptions\app\Exceptions\BaseException;
 use Symfony\Component\HttpFoundation\Response;
 
-class LoginException extends BaseException
+final class LoginException extends BaseException
 {
     public static function invalidCredentials(): self
     {

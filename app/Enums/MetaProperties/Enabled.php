@@ -6,10 +6,12 @@ namespace App\Enums\MetaProperties;
 
 use ArchTech\Enums\Meta\MetaProperty;
 use Attribute;
+use Override;
 
 #[Attribute]
-class Enabled extends MetaProperty
+final class Enabled extends MetaProperty
 {
+    #[Override]
     protected function transform(mixed $value): bool
     {
         return (bool) $value;

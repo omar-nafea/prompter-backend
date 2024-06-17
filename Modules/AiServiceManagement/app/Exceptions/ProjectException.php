@@ -7,7 +7,7 @@ namespace Modules\AiServiceManagement\app\Exceptions;
 use Modules\Exceptions\app\Exceptions\BaseException;
 use Symfony\Component\HttpFoundation\Response;
 
-class ProjectException extends BaseException
+final class ProjectException extends BaseException
 {
     public static function invalidPublicOrApiKey(): self
     {

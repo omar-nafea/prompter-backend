@@ -22,13 +22,13 @@ final class StoreProjectAction
     {
 
         return DB::transaction(
-            fn () => Pipeline::send(['dto' => $dto])
+            fn() => Pipeline::send(['dto' => $dto])
                 ->through([
                     $this->storeProjectData(...),
                     $this->storeProjectInputs(...),
                     $this->storeObjectiveQuestions(...),
                     $this->storeProjectOutputs(...),
-                ])->then(fn ($params) => $params['project']),
+                ])->then(fn($params) => $params['project']),
         );
     }
 
@@ -78,7 +78,7 @@ final class StoreProjectAction
             if ($projectInput->values) {
                 $input->enumValues()
                     ->createMany(
-                        collect($projectInput->values)->map(fn ($enumValue) => ['value' => $enumValue])
+                        collect($projectInput->values)->map(fn($enumValue) => ['value' => $enumValue])
                     );
             }
         }
@@ -99,7 +99,7 @@ final class StoreProjectAction
             if ($projectOutput->values) {
                 $output->enumValues()
                     ->createMany(
-                        collect($projectOutput->values)->map(fn ($enumValue) => ['value' => $enumValue])
+                        collect($projectOutput->values)->map(fn($enumValue) => ['value' => $enumValue])
                     );
             }
         }

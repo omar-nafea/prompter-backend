@@ -11,7 +11,7 @@ use Modules\ProjectManagement\app\Http\Requests\Project\ProjectRequest;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\DataCollection;
 
-class StoreProjectDto extends BaseDto
+final class StoreProjectDto extends BaseDto
 {
     public function __construct(
         public ProjectDto $projectDto,

@@ -18,8 +18,9 @@ use Modules\ProjectManagement\app\Enums\ProjectOutputFormat;
 use Modules\ProjectManagement\app\Models\OutputLanguage;
 use Modules\ProjectManagement\app\Models\Project;
 use Modules\ProjectManagement\app\Models\ProjectObjectiveQuestion;
+use Override;
 
-class ProjectRequest extends BaseApiRequest
+final class ProjectRequest extends BaseApiRequest
 {
     protected bool $forEdit = false;
 
@@ -27,14 +28,14 @@ class ProjectRequest extends BaseApiRequest
 
     protected ?Project $project = null;
 
-    public function forEdit($forEdit = true): static
+    public function forEdit(bool $forEdit = true): self
     {
         $this->forEdit = $forEdit;
 
         return $this;
     }
 
-    public function forStep($step): static
+    public function forStep(int $step): self
     {
         $this->currentStep = $step;
 
@@ -46,11 +47,12 @@ class ProjectRequest extends BaseApiRequest
         return true;
     }
 
+    #[Override]
     protected function prepareForValidation(): void
     {
         $this->forEdit = $this->isMethod('PUT');
         if ($this->forEdit) {
-            $this->project = Project::findOrFail($this->route('project'));
+            $this->project = Project::query()->findOrFail($this->route('project'));
         }
 
         if ($step = (int) $this->route('step')) {
@@ -59,6 +61,10 @@ class ProjectRequest extends BaseApiRequest
 
     }
 
+    /**
+     * @return array<string,mixed>
+     */
+    #[Override]
     public function rules(): array
     {
         $rules = [];
@@ -68,14 +74,16 @@ class ProjectRequest extends BaseApiRequest
 
         return $rules;
     }
-
+    /**
+     * @return array<string,mixed>
+     */
     public function step1Rules(): array
     {
         return [
             'name' => [
                 'required',
                 'string',
-                Rule::unique(Project::class, 'name')->where('user_id', auth()->id()),
+                Rule::unique(Project::class, 'name')->where('user_id', $this->user()->id),
                 'min:' . config('global.min_string_length'),
                 'max:' . config('global.max_string_length'),
             ],
@@ -135,7 +143,9 @@ class ProjectRequest extends BaseApiRequest
 
         ];
     }
-
+    /**
+     * @return array<string,mixed>
+     */
     public function step2Rules(): array
     {
         return [
@@ -163,6 +173,9 @@ class ProjectRequest extends BaseApiRequest
         ];
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     public function step3Rules(): array
     {
         return [
@@ -207,7 +220,9 @@ class ProjectRequest extends BaseApiRequest
             ],
         ];
     }
-
+    /**
+     * @return array<string,mixed>
+     */
     public function step4Rules(): array
     {
         return [

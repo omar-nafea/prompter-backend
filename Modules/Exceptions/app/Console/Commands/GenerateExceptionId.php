@@ -7,7 +7,7 @@ namespace Modules\Exceptions\app\Console\Commands;
 use Illuminate\Console\Command;
 use Str;
 
-class GenerateExceptionId extends Command
+final class GenerateExceptionId extends Command
 {
     /**
      * The name and signature of the console command.

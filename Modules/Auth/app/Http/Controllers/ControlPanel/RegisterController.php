@@ -10,7 +10,7 @@ use Modules\Auth\app\Http\Requests\RegisterRequest;
 use Modules\Auth\app\Http\Resources\TokenResource;
 use Modules\Auth\app\Http\Resources\UserResource;
 
-class RegisterController
+final class RegisterController
 {
     public function __invoke(RegisterRequest $request, RegisterAction $action)
     {

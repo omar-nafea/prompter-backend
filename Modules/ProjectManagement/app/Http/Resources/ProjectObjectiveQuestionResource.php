@@ -7,15 +7,21 @@ namespace Modules\ProjectManagement\app\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\ProjectManagement\app\Models\ProjectObjectiveQuestion;
-
-class ProjectObjectiveQuestionResource extends JsonResource
+use Override;
+/**
+ * @property-read ProjectObjectiveQuestion $resource
+ */
+final class ProjectObjectiveQuestionResource extends JsonResource
 {
+    /**
+     * @return array<string,mixed>
+     */
+    #[Override]
     public function toArray(Request $request): array
     {
-        /** @var ProjectObjectiveQuestion|self $this */
         return [
-            'id' => $this->id,
-            'question' => $this->question,
+            'id' => $this->resource->id,
+            'question' => $this->resource->question,
         ];
     }
 }

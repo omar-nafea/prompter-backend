@@ -8,8 +8,12 @@ use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\ProjectManagement\app\Enums\OutputLanguageStatus;
-
-class OutputLanguage extends BaseModel
+/**
+ * @property-read int $id
+ * @property-read string $name
+ * @property-read OutputLanguageStatus $status
+ */
+final class OutputLanguage extends BaseModel
 {
     use HasFactory;
 

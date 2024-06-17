@@ -8,7 +8,7 @@ use MohamedGaber\ApiResponse\Builder\ErrorApiResponseBuilder;
 use Spatie\LaravelData\Exceptions\CannotCreateData;
 use Throwable;
 
-class CannotCreateDataException extends BaseException
+final class CannotCreateDataException extends BaseException
 {
     public function __construct(
         public CannotCreateData $baseCannotCreateDataException,
