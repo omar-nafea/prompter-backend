@@ -74,6 +74,7 @@ final class ProjectRequest extends BaseApiRequest
 
         return $rules;
     }
+
     /**
      * @return array<string,mixed>
      */
@@ -143,6 +144,7 @@ final class ProjectRequest extends BaseApiRequest
 
         ];
     }
+
     /**
      * @return array<string,mixed>
      */
@@ -220,6 +222,7 @@ final class ProjectRequest extends BaseApiRequest
             ],
         ];
     }
+
     /**
      * @return array<string,mixed>
      */

@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 final class FailedResponseException extends BaseException
 {
     /**
-     * @param array<string, mixed> $rawResponse
+     * @param  array<string, mixed>  $rawResponse
      */
     public static function failedAskResponse(array $rawResponse): self
     {

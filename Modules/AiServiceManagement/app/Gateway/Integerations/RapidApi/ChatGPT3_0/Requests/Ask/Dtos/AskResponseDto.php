@@ -11,8 +11,7 @@ use Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT3_0\Requests\Ask\Dt
 final class AskResponseDto extends BaseDto implements AskResponseDtoContract
 {
     /**
-     * @param array<string, mixed> $data
-     * @param string|null $rawResponse
+     * @param  array<string, mixed>  $data
      */
     public function __construct(
         public ?array $data = null,
@@ -26,6 +25,7 @@ final class AskResponseDto extends BaseDto implements AskResponseDtoContract
      *      data: array<string, mixed>,
      *     raw_response: array<string, mixed>,
      * } $response
+     *
      * @throws JsonException
      */
     public static function fromResponse(array $response): self

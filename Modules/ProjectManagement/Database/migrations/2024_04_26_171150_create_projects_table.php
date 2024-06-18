@@ -10,7 +10,8 @@ use Modules\AiServiceManagement\app\Models\AiResponseType;
 use Modules\AiServiceManagement\app\Models\AiService;
 use Modules\Auth\app\Models\User;
 
-return new class () extends Migration {
+return new class() extends Migration
+{
     /**
      * Run the migrations.
      */

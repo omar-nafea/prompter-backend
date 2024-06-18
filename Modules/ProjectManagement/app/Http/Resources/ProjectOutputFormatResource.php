@@ -12,7 +12,6 @@ use Override;
 /**
  * @property-read ProjectOutputFormat $resource
  */
-
 final class ProjectOutputFormatResource extends JsonResource
 {
     /**

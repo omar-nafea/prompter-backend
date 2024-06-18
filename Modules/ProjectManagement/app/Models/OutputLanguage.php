@@ -71,8 +71,7 @@ final class OutputLanguage extends BaseModel
     |--------------------------------------------------------------------------|
    */
     /**
-     * @param Builder<OutputLanguage> $query
-     * @return void
+     * @param  Builder<OutputLanguage>  $query
      */
     public function scopeEnabled(Builder $query): void
     {

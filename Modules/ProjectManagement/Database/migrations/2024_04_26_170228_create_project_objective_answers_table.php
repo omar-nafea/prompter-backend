@@ -9,7 +9,8 @@ use Modules\Auth\app\Models\User;
 use Modules\ProjectManagement\app\Models\Project;
 use Modules\ProjectManagement\app\Models\ProjectObjectiveQuestion;
 
-return new class () extends Migration {
+return new class() extends Migration
+{
     /**
      * Run the migrations.
      */

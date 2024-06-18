@@ -18,8 +18,9 @@ final class EmailCast implements CastsAttributes
     /**
      * Cast the given value.
      *
-     * @param array<string, mixed> $attributes
-     * @param  ?string $value
+     * @param  array<string, mixed>  $attributes
+     * @param  ?string  $value
+     *
      * @throws EmailException
      */
     public function get(Model $model, string $key, mixed $value, array $attributes): ?Email
@@ -27,6 +28,7 @@ final class EmailCast implements CastsAttributes
         if ( ! $value) {
             return null;
         }
+
         return Email::from($value);
     }
 

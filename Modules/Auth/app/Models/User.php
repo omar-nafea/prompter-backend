@@ -27,7 +27,6 @@ use MohamedGaber\SanctumRefreshToken\Traits\HasApiTokens;
  * @property-read ?Phone $phone
  * @property-read UserStatus $status
  * @property-read Collection<int, Project> $projects
- *
  */
 final class User extends BaseAuthenticatable
 {

@@ -20,8 +20,9 @@ final class ProjectController
 {
     public function index(FetchProjectListAction $action): JsonResponse
     {
-        /** @var  User $user */
+        /** @var User $user */
         $user = auth()->user();
+
         return apiResponse()
             ->success()
             ->data(

@@ -15,7 +15,7 @@ final class ProjectException extends BaseException
             message: 'invalid public key or api key',
             code: Response::HTTP_FORBIDDEN,
             id: 'fbbafcf4-5434-4ec0-bdf9-81803ca3a6a0',
-            name: static::getClassShortName() . ':invalidPublicOrApiKey'
+            name: self::getClassShortName() . ':invalidPublicOrApiKey'
         );
     }
 }

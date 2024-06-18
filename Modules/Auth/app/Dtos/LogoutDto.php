@@ -21,8 +21,9 @@ final class LogoutDto extends BaseDto
 
     public static function fromLogoutRequest(LogoutRequest $request): self
     {
-        /** @var  User $authUser */
+        /** @var User $authUser */
         $authUser = $request->user();
+
         return new self(
             authUser: $authUser,
         );

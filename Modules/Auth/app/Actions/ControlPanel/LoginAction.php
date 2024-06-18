@@ -25,12 +25,13 @@ final class LoginAction
 
     /**
      * @return array{dto: LoginDto, user: User, authToken: NewAccessToken, refreshToken: NewAccessToken}
+     *
      * @throws LoginException
      */
     public function execute(LoginDto $dto): array
     {
-        /** @var  array{dto: LoginDto, user: User, authToken: NewAccessToken, refreshToken: NewAccessToken} */
-        return DB::transaction(fn() => Pipeline::send(['dto' => $dto])
+        /** @var array{dto: LoginDto, user: User, authToken: NewAccessToken, refreshToken: NewAccessToken} */
+        return DB::transaction(fn () => Pipeline::send(['dto' => $dto])
             ->through([
                 $this->ensureIsNotRateLimited(...),
                 $this->hitTheRateLimiter(...),
@@ -45,7 +46,7 @@ final class LoginAction
     }
 
     /**
-     * @param array{dto: LoginDto} $params
+     * @param  array{dto: LoginDto}  $params
      * @return array{dto: LoginDto, user: User, authToken: NewAccessToken, refreshToken: NewAccessToken}
      */
     protected function ensureIsNotRateLimited(array $params, Closure $next): array
@@ -72,7 +73,7 @@ final class LoginAction
     }
 
     /**
-     * @param array{dto: LoginDto} $params
+     * @param  array{dto: LoginDto}  $params
      * @return array{dto: LoginDto, user: User, authToken: NewAccessToken, refreshToken: NewAccessToken}
      */
     protected function hitTheRateLimiter(array $params, Closure $next): array
@@ -83,7 +84,6 @@ final class LoginAction
 
         return $next($params);
     }
-
 
     protected function throttleKey(LoginDto $dto): string
     {
@@ -99,8 +99,9 @@ final class LoginAction
     }
 
     /**
-     * @param array{dto: LoginDto, user: User} $params
+     * @param  array{dto: LoginDto, user: User}  $params
      * @return array{dto: LoginDto, user: User, authToken: NewAccessToken, refreshToken: NewAccessToken}
+     *
      * @throws LoginException
      */
     protected function getUser(array $params, Closure $next): array
@@ -118,7 +119,7 @@ final class LoginAction
     }
 
     /**
-     * @param array{dto: LoginDto, user: User} $params
+     * @param  array{dto: LoginDto, user: User}  $params
      * @return array{dto: LoginDto, user: User, authToken: NewAccessToken, refreshToken: NewAccessToken}
      */
     protected function ensureUserIsActive(array $params, Closure $next): array
@@ -139,8 +140,9 @@ final class LoginAction
 
         return $next($params);
     }
+
     /**
-     * @param array{dto: LoginDto, user: User} $params
+     * @param  array{dto: LoginDto, user: User}  $params
      * @return array{dto: LoginDto, user: User, authToken: NewAccessToken, refreshToken: NewAccessToken}
      */
     protected function createAuthAndRefreshTokens(array $params, Closure $next): array
@@ -156,7 +158,7 @@ final class LoginAction
     }
 
     /**
-     * @param array{dto: LoginDto, user: User} $params
+     * @param  array{dto: LoginDto, user: User}  $params
      * @return array{dto: LoginDto, user: User, authToken: NewAccessToken, refreshToken: NewAccessToken}
      */
     protected function clearRateLimiter(array $params, Closure $next): array

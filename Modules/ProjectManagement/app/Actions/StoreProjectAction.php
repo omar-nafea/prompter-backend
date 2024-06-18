@@ -21,22 +21,22 @@ final class StoreProjectAction
 
     public function execute(StoreProjectDto $dto): Project
     {
-        /** @var  Project */
+        /** @var Project */
         return DB::transaction(
-            fn() => Pipeline::send(['dto' => $dto])
+            fn () => Pipeline::send(['dto' => $dto])
                 ->through([
                     $this->storeProjectData(...),
                     $this->storeProjectInputs(...),
                     $this->storeObjectiveQuestions(...),
                     $this->storeProjectOutputs(...),
                 ])->then(/** @param array{dto: StoreProjectDto, project: Project} $params */
-                    destination: static fn(array $params): Project => $params[ 'project' ]
+                    destination: static fn (array $params): Project => $params['project']
                 ),
         );
     }
 
     /**
-     * @param array{dto: StoreProjectDto, project: Project} $params
+     * @param  array{dto: StoreProjectDto, project: Project}  $params
      */
     protected function storeProjectData(array $params, Closure $next): Project
     {
@@ -51,8 +51,9 @@ final class StoreProjectAction
 
         return $next($params);
     }
+
     /**
-     * @param array{dto: StoreProjectDto, project: Project} $params
+     * @param  array{dto: StoreProjectDto, project: Project}  $params
      */
     protected function storeObjectiveQuestions(array $params, Closure $next): Project
     {
@@ -62,10 +63,12 @@ final class StoreProjectAction
         /** @var Project $project */
         $project = $params['project'];
         $project->answers()->createMany($dto->objectiveQuestions->toArray());
+
         return $next($params);
     }
+
     /**
-     * @param array{dto: StoreProjectDto, project: Project} $params
+     * @param  array{dto: StoreProjectDto, project: Project}  $params
      */
     protected function storeProjectInputs(array $params, Closure $next): Project
     {
@@ -80,15 +83,16 @@ final class StoreProjectAction
             if ($projectInput->values) {
                 $input->enumValues()
                     ->createMany(
-                        collect($projectInput->values)->map(fn($enumValue) => ['value' => $enumValue])
+                        collect($projectInput->values)->map(fn ($enumValue) => ['value' => $enumValue])
                     );
             }
         }
 
         return $next($params);
     }
+
     /**
-     * @param array{dto: StoreProjectDto, project: Project} $params
+     * @param  array{dto: StoreProjectDto, project: Project}  $params
      */
     protected function storeProjectOutputs(array $params, Closure $next): Project
     {
@@ -103,15 +107,16 @@ final class StoreProjectAction
             if ($projectOutput->values) {
                 $output->enumValues()
                     ->createMany(
-                        collect($projectOutput->values)->map(fn($enumValue) => ['value' => $enumValue])
+                        collect($projectOutput->values)->map(fn ($enumValue) => ['value' => $enumValue])
                     );
             }
         }
 
         return $next($params);
     }
+
     /**
-     * @param array{dto: StoreProjectDto, project: Project} $params
+     * @param  array{dto: StoreProjectDto, project: Project}  $params
      */
     protected function sample(array $params, Closure $next): Project
     {
@@ -120,5 +125,4 @@ final class StoreProjectAction
 
         return $next($params);
     }
-
 }

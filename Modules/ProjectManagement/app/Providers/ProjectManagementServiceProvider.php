@@ -98,6 +98,7 @@ final class ProjectManagementServiceProvider extends ServiceProvider
 
     /**
      * Get the services provided by the provider.
+     *
      * @return string[]
      */
     #[Override]
@@ -112,7 +113,7 @@ final class ProjectManagementServiceProvider extends ServiceProvider
     private function getPublishableViewPaths(): array
     {
         $paths = [];
-        /** @var  string[] $viewPaths */
+        /** @var string[] $viewPaths */
         $viewPaths = config('view.paths');
         foreach ($viewPaths as $path) {
             if (is_dir($path . '/modules/' . $this->moduleNameLower)) {

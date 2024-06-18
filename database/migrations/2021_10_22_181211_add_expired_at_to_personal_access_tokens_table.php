@@ -10,8 +10,6 @@ final class AddExpiredAtToPersonalAccessTokensTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up(): void
     {
@@ -22,8 +20,6 @@ final class AddExpiredAtToPersonalAccessTokensTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down(): void
     {

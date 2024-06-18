@@ -16,8 +16,8 @@ final class UnauthorizedException extends BaseException
         ?string $message = null,
         int $code = 0,
         ?Throwable $previous = null,
-        mixed$id = '',
-        mixed$name = ''
+        mixed $id = '',
+        mixed $name = ''
     ) {
         parent::__construct(
             $message ?? $this->baseUnauthorizedException->getMessage(),

@@ -11,7 +11,7 @@ final class ApiResponseFactory
 {
     public static function make()
     {
-        return app(static::class);
+        return app(self::class);
     }
 
     public function success()

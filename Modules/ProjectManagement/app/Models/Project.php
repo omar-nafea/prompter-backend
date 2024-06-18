@@ -62,7 +62,8 @@ final class Project extends BaseModel
     protected $attributes = [
         'status' => 1,
     ];
-    protected $fillable   = [
+
+    protected $fillable = [
         'name',
         'expected_outcome',
         'status',
@@ -77,7 +78,6 @@ final class Project extends BaseModel
         'updated_by',
         'deleted_by',
     ];
-
 
     protected $casts = [
         'api_key' => 'encrypted',

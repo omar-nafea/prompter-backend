@@ -21,8 +21,9 @@ final class RefreshTokenDto extends BaseDto
 
     public static function fromRefreshTokenRequest(RefreshTokenRequest $request): self
     {
-        /** @var  User $authUser */
+        /** @var User $authUser */
         $authUser = $request->user();
+
         return new self(
             authUser: $authUser,
         );

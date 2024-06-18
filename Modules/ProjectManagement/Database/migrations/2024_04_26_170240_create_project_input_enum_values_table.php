@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Schema;
 use Modules\Auth\app\Models\User;
 use Modules\ProjectManagement\app\Models\ProjectInput;
 
-return new class () extends Migration {
+return new class() extends Migration
+{
     /**
      * Run the migrations.
      */

@@ -25,6 +25,7 @@ final class PhoneCast implements CastsAttributes
         if ( ! $value) {
             return null;
         }
+
         return Phone::from($value);
     }
 

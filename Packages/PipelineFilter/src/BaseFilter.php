@@ -17,7 +17,7 @@ abstract class BaseFilter
             ->via('handle')
             ->send($dto)
             ->through($this->getPipes())
-            ->then(fn(PipeFilterDto $dto) => $dto->query);
+            ->then(fn (PipeFilterDto $dto) => $dto->query);
     }
 
     abstract protected function getPipes(): array;

@@ -53,17 +53,16 @@ final class Email implements Castable
     }
 
     /**
-     * @param array<int, mixed> ...$arguments
+     * @param  array<int, mixed>  ...$arguments
      */
     public static function dataCastUsing(...$arguments): Cast
     {
-        return new class () implements Cast {
+        return new class() implements Cast
+        {
             /**
-             * @param DataProperty $property
-             * @param string $value
-             * @param string[] $properties
-             * @param CreationContext<BaseData<int,mixed,string>> $context
-             * @return Email
+             * @param  string  $value
+             * @param  string[]  $properties
+             * @param  CreationContext<BaseData<int,mixed,string>>  $context
              */
             public function cast(
                 DataProperty $property,

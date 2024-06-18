@@ -19,7 +19,7 @@ abstract class BaseException extends Exception
         ?string $message = '',
         int $code = 0,
         ?Throwable $previous = null,
-        mixed$id = '',
+        mixed $id = '',
         mixed $name = '',
     ) {
         $this->id = $id;
@@ -36,6 +36,7 @@ abstract class BaseException extends Exception
         if (request()->acceptsJson()) {
             return $this->sendJsonResponse();
         }
+
         return false;
     }
 

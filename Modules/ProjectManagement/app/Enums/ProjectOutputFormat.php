@@ -33,7 +33,7 @@ enum ProjectOutputFormat: int
     {
         return array_filter(
             array: self::cases(),
-            callback: fn(self $case): bool => $case->enabled()
+            callback: fn (self $case): bool => $case->enabled()
         );
     }
 }

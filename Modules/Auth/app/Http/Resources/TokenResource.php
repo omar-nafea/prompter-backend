@@ -22,7 +22,7 @@ final class TokenResource extends JsonResource
     {
         return [
             'token' => $this->resource->plainTextToken,
-            'expires_at' => $this->resource->accessToken->expires_at->timestamp,//@phpstan-ignore-line
+            'expires_at' => $this->resource->accessToken->expires_at->timestamp, //@phpstan-ignore-line
         ];
     }
 }

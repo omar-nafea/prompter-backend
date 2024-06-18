@@ -44,13 +44,13 @@ final class CodeSnippetBuilder
 
             return $snippets;
         }
-        $codeSnippetFiles        = scandir($codeSnippetDirPath);
+        $codeSnippetFiles = scandir($codeSnippetDirPath);
         $snippetTypes = collect(
-            value:is_array($codeSnippetFiles) ? $codeSnippetFiles : [],
+            value: is_array($codeSnippetFiles) ? $codeSnippetFiles : [],
         )->filter(
-            callback: static fn($file): bool => ! in_array($file, ['.', '..'])
+            callback: static fn ($file): bool => ! in_array($file, ['.', '..'])
         );
-        $snippets     = [];
+        $snippets = [];
         foreach ($snippetTypes as $snippetType) {
             $code = file_get_contents($codeSnippetDirPath . '/' . $snippetType);
             if ($code === false) {
@@ -109,8 +109,8 @@ final class CodeSnippetBuilder
      */
     protected function arrayInputsSample(): array
     {
-        /** @var  array<string,string> */
-        return $this->project->inputs->mapWithKeys(fn($input) => [
+        /** @var array<string,string> */
+        return $this->project->inputs->mapWithKeys(fn ($input) => [
             $input->name => $input->data_type->example(),
         ])->toArray();
     }

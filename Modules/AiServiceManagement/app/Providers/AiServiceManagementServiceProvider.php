@@ -41,7 +41,7 @@ final class AiServiceManagementServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             abstract: ChatGPT3_0::class,
-            concrete: fn() => app(ChatGPT3_0Factory::class)->make()
+            concrete: fn () => app(ChatGPT3_0Factory::class)->make()
         );
     }
 
@@ -107,6 +107,7 @@ final class AiServiceManagementServiceProvider extends ServiceProvider
 
     /**
      * Get the services provided by the provider.
+     *
      * @return string[]
      */
     public function provides(): array
@@ -120,7 +121,7 @@ final class AiServiceManagementServiceProvider extends ServiceProvider
     private function getPublishableViewPaths(): array
     {
         $paths = [];
-        /** @var  string[] $viewPaths */
+        /** @var string[] $viewPaths */
         $viewPaths = config('view.paths');
         foreach ($viewPaths as $path) {
             if (is_dir($path . '/modules/' . $this->moduleNameLower)) {

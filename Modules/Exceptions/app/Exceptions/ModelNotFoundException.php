@@ -16,15 +16,15 @@ use Throwable;
 final class ModelNotFoundException extends BaseException
 {
     /**
-     * @param BaseModelNotFoundException<TModel> $baseModelNotFoundException
+     * @param  BaseModelNotFoundException<TModel>  $baseModelNotFoundException
      */
     public function __construct(
         public BaseModelNotFoundException $baseModelNotFoundException,
         ?string $message = null,
         int $code = 0,
         ?Throwable $previous = null,
-        mixed$id = '',
-        mixed$name = ''
+        mixed $id = '',
+        mixed $name = ''
     ) {
         parent::__construct(
             $message ?? $this->baseModelNotFoundException->getMessage(),

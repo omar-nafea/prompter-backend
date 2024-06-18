@@ -26,8 +26,9 @@ final class AiServiceInputsValidationFactory
     {
         /** @var Container $app */
         $app = app();
+
         /** @var AiServiceInputsValidationFactory */
-        return  $app->make(self::class, compact('project'));
+        return $app->make(self::class, compact('project'));
     }
 
     /**
@@ -44,7 +45,7 @@ final class AiServiceInputsValidationFactory
             )
         };
 
-        /** @var AiCallTypeStrategy*/
+        /** @var AiCallTypeStrategy */
         return $this->app->make($class, ['project' => $this->project]);
     }
 }

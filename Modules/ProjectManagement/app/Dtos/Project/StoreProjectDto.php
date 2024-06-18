@@ -13,12 +13,10 @@ use Spatie\LaravelData\DataCollection;
 final class StoreProjectDto extends BaseDto
 {
     /**
-     * @param ProjectDto $projectDto
-     * @param DataCollection<int, ObjectiveQuestionDto> $objectiveQuestions
-     * @param DataCollection<int, ProjectInputDto> $projectInputs
-     * @param DataCollection<int, ProjectOutputDto> $projectOutputs
-     * @param int[] $outputLanguages
-     * @param User $creator
+     * @param  DataCollection<int, ObjectiveQuestionDto>  $objectiveQuestions
+     * @param  DataCollection<int, ProjectInputDto>  $projectInputs
+     * @param  DataCollection<int, ProjectOutputDto>  $projectOutputs
+     * @param  int[]  $outputLanguages
      */
     public function __construct(
         public ProjectDto $projectDto,

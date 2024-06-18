@@ -31,6 +31,7 @@ final class AiResponseType extends BaseModel
         'status',
         'type',
     ];
+
     /**
      * @var array<string, string>
      */

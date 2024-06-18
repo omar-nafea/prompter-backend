@@ -16,8 +16,9 @@ final class FetchProjectCodeSnippetsAction
     ) {}
 
     /**
-     * @throws Exception
      * @return array<int,array<string,mixed>>
+     *
+     * @throws Exception
      */
     public function execute(string $projectKey): array
     {

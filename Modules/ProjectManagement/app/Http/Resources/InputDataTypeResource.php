@@ -12,7 +12,6 @@ use Override;
 /**
  * @property-read DataType $resource
  */
-
 final class InputDataTypeResource extends JsonResource
 {
     /**

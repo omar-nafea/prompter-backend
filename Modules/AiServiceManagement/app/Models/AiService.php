@@ -34,6 +34,7 @@ final class AiService extends BaseModel
         'updated_by',
         'deleted_by',
     ];
+
     /**
      * @var array<string, string>
      */

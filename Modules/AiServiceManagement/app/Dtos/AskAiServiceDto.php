@@ -20,6 +20,7 @@ final class AskAiServiceDto extends BaseDto
     {
         /** @var array<string,mixed> $data */
         $data = $request->validated();
+
         return new self(
             project: $request->project,
             data: $data

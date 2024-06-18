@@ -23,10 +23,11 @@ final class OneByOneCall implements AiCallTypeStrategy
     {
         /** @var Collection<string, string[]> $rulesCollection */
         $rulesCollection = $this->project->inputs->mapWithKeys(
-            callback: fn(ProjectInput $input): array => [
+            callback: fn (ProjectInput $input): array => [
                 $input->name => $this->getRoles($input),
             ]
         );
+
         /** @var array<string, string[]> */
         return $rulesCollection->toArray();
     }

@@ -12,7 +12,6 @@ use RuntimeException;
 final class RefreshTokenAction
 {
     /**
-     * @param RefreshTokenDto $dto
      * @return array{ authToken: NewAccessToken, refreshToken: NewAccessToken }
      */
     public function execute(RefreshTokenDto $dto): array
@@ -22,6 +21,7 @@ final class RefreshTokenAction
             throw new RuntimeException('Current access token is not valid or cannot be deleted.');
         }
         $accessToken->delete();
+
         return [
             'authToken' => $dto->authUser->createAuthToken('ss-auth'),
             'refreshToken' => $dto->authUser->createRefreshToken('ss-refresh'),

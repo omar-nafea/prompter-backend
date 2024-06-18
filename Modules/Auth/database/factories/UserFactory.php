@@ -29,16 +29,17 @@ final class UserFactory extends Factory
      * Define the model's default state.
      *
      * @return array<string, mixed>
+     *
      * @throws EmailException
      */
-    #[Override]//@phpstan-ignore-line
+    #[Override] //@phpstan-ignore-line
     public function definition(): array
     {
         return [
             'name' => fake()->name(),
             'email' => Email::from(fake()->unique()->safeEmail()),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('123456'),
+            'password' => self::$password ??= Hash::make('123456'),
             'phone' => Phone::from(fake()->phoneNumber()),
             'status' => UserStatus::Active,
         ];
@@ -49,7 +50,7 @@ final class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
     }

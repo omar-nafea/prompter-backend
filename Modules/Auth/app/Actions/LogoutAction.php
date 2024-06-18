@@ -16,6 +16,7 @@ final class LogoutAction
         if ( ! $accessToken instanceof PersonalAccessToken) {
             throw new RuntimeException('Current access token is not valid or cannot be deleted.');
         }
+
         return $accessToken->delete();
         //todo delete related refresh token
 

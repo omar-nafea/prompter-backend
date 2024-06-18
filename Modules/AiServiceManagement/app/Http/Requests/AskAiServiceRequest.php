@@ -36,7 +36,7 @@ final class AskAiServiceRequest extends BaseApiRequest
         if ( ! $publicKey || ! $apiKey) {
             throw ProjectException::invalidPublicOrApiKey();
         }
-        /** @var Project $project*/
+        /** @var Project $project */
         $project = Project::query()
             ->where('key', $publicKey)
             ->with('answers')
@@ -58,13 +58,13 @@ final class AskAiServiceRequest extends BaseApiRequest
 
     protected function ensureIsNotRateLimited(): void
     {
-        /** @var string|null $projectPublicKey*/
+        /** @var string|null $projectPublicKey */
         $projectPublicKey = $this->header('X-Public-Key');
         $rateLimiterKey = md5('ai-call:' . $projectPublicKey);
-        /** @var int $maxAttempts*/
+        /** @var int $maxAttempts */
         $maxAttempts = config('ai-service-management.throttle.max_attempts');
         if (RateLimiter::tooManyAttempts(
-            key:$rateLimiterKey,
+            key: $rateLimiterKey,
             maxAttempts: $maxAttempts
         )) {
             apiResponse()
@@ -77,7 +77,7 @@ final class AskAiServiceRequest extends BaseApiRequest
                 ))
                 ->send();
         }
-        /** @var int $throttleSeconds*/
+        /** @var int $throttleSeconds */
         $throttleSeconds = config('ai-service-management.throttle.seconds');
         RateLimiter::increment(
             $rateLimiterKey,

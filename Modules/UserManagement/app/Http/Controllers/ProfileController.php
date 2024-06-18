@@ -20,6 +20,7 @@ final class ProfileController
     {
         /** @var User $user */
         $user = $this->auth->user();
+
         return apiResponse()
             ->success()
             ->data(
