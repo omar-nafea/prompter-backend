@@ -62,7 +62,14 @@
             "@php artisan key:generate --ansi"
         ],
         "lint": "pint",
-        "test:lint": "pint --test"
+        "test:lint": "pint --test",
+        "test:unit": "./vendor/bin/pest --order-by random",
+        "test:static": "phpstan analyse",
+        "test": [
+            "@test:lint",
+            "@test:unit",
+            "@test:static"
+        ]
     },
     "extra": {
         "laravel": {
