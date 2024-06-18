@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Modules\ProjectManagement\app\Http\Controllers;
 
 use Illuminate\Auth\Access\Gate;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Modules\Auth\app\Models\User;
 use Modules\ProjectManagement\app\Actions\Project\FetchProjectCodeSnippetsAction;
 use Modules\ProjectManagement\app\Actions\Project\FetchProjectListAction;
 use Modules\ProjectManagement\app\Actions\Project\FetchSingleProjectAction;
@@ -16,14 +18,16 @@ use Modules\ProjectManagement\app\Http\Resources\ProjectResource;
 
 final class ProjectController
 {
-    public function index(FetchProjectListAction $action)
+    public function index(FetchProjectListAction $action): JsonResponse
     {
+        /** @var  User $user */
+        $user = auth()->user();
         return apiResponse()
             ->success()
             ->data(
                 ProjectResource::collection(
                     $action->execute(
-                        auth()->user()
+                        $user
                     )
                 ),
             )->send();
@@ -32,7 +36,7 @@ final class ProjectController
     public function store(
         ProjectRequest $request,
         StoreProjectAction $action,
-    ) {
+    ): JsonResponse {
 
         return apiResponse()
             ->success()
@@ -46,7 +50,7 @@ final class ProjectController
             )->send();
     }
 
-    public function validateProjectFormOnly(Request $request)
+    public function validateProjectFormOnly(Request $request): JsonResponse
     {
 
         if ($request->isMethod('POST')) {
@@ -65,7 +69,7 @@ final class ProjectController
             ->send();
     }
 
-    public function show($project, FetchSingleProjectAction $action)
+    public function show(string $project, FetchSingleProjectAction $action): JsonResponse
     {
 
         return apiResponse()
@@ -78,7 +82,7 @@ final class ProjectController
             ->send();
     }
 
-    public function codeSnippets($project, FetchProjectCodeSnippetsAction $action)
+    public function codeSnippets(string $project, FetchProjectCodeSnippetsAction $action): JsonResponse
     {
 
         return apiResponse()
@@ -91,9 +95,9 @@ final class ProjectController
             ->send();
     }
 
-    public function destroy($project)
+    public function destroy(string $project): JsonResponse
     {
-        auth()->user()->projects()->where('key', $project)->firstOrFail()->delete();
+        auth()->user()?->projects()->where('key', $project)->firstOrFail()->delete();
 
         return apiResponse()
             ->success()

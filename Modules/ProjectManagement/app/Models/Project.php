@@ -56,7 +56,13 @@ final class Project extends BaseModel
     |                              Arrays                                      |
     |--------------------------------------------------------------------------|
     */
-    protected $fillable = [
+    /**
+     * @var array<string,mixed>
+     */
+    protected $attributes = [
+        'status' => 1,
+    ];
+    protected $fillable   = [
         'name',
         'expected_outcome',
         'status',
@@ -72,9 +78,6 @@ final class Project extends BaseModel
         'deleted_by',
     ];
 
-    protected $attributes = [
-        'status' => 1,
-    ];
 
     protected $casts = [
         'api_key' => 'encrypted',
@@ -115,36 +118,57 @@ final class Project extends BaseModel
     |                              Relations                                   |
     |--------------------------------------------------------------------------|
    */
+    /**
+     * @return HasMany<ProjectObjectiveAnswer>
+     */
     public function answers(): HasMany
     {
         return $this->hasMany(ProjectObjectiveAnswer::class);
     }
 
+    /**
+     * @return HasMany<ProjectOutput>
+     */
     public function outputs(): HasMany
     {
         return $this->hasMany(ProjectOutput::class);
     }
 
+    /**
+     * @return HasMany<ProjectInput>
+     */
     public function inputs(): HasMany
     {
         return $this->hasMany(ProjectInput::class);
     }
 
+    /**
+     * @return BelongsTo<AiService,self>
+     */
     public function aiService(): BelongsTo
     {
         return $this->belongsTo(AiService::class);
     }
 
+    /**
+     * @return BelongsTo<AiCallType,self>
+     */
     public function aiCallType(): BelongsTo
     {
         return $this->belongsTo(AiCallType::class);
     }
 
+    /**
+     * @return BelongsTo<AiResponseType,self>
+     */
     public function aiResponseType(): BelongsTo
     {
         return $this->belongsTo(AiResponseType::class);
     }
 
+    /**
+     * @return BelongsToMany<OutputLanguage>
+     */
     public function outputLanguages(): BelongsToMany
     {
         return $this->belongsToMany(OutputLanguage::class, 'project_output_languages')

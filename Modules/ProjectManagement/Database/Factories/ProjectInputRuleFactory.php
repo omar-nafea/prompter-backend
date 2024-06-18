@@ -7,6 +7,9 @@ namespace Modules\ProjectManagement\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\ProjectManagement\app\Models\ProjectInputRule;
 
+/**
+ * @extends Factory<ProjectInputRule>
+ */
 final class ProjectInputRuleFactory extends Factory
 {
     protected $model = ProjectInputRule::class;

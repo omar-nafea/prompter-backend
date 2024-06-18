@@ -68,8 +68,14 @@ final class ProjectObjectiveAnswer extends BaseModel
     |--------------------------------------------------------------------------|
    */
 
+    /**
+     * @return BelongsTo<ProjectObjectiveQuestion,self>
+     */
     public function objectiveQuestion(): BelongsTo
     {
-        return $this->belongsTo(ProjectObjectiveQuestion::class, 'project_objective_question_id');
+        return $this->belongsTo(
+            ProjectObjectiveQuestion::class,
+            'project_objective_question_id'
+        );
     }
 }

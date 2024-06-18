@@ -73,6 +73,9 @@ final class ProjectOutput extends BaseModel
     |                              Relations                                   |
     |--------------------------------------------------------------------------|
    */
+    /**
+     * @return HasMany<ProjectOutputEnumValue>
+     */
     public function enumValues(): HasMany
     {
         return $this->hasMany(ProjectOutputEnumValue::class);

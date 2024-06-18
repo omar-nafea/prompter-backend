@@ -14,6 +14,9 @@ final class Handler extends BaseHandler
 {
     public static bool $shouldChangeJsonResponse = true;
 
+    /**
+     * @var string[]
+     */
     protected array $dontMapping = [
         FatalError::class,
     ];

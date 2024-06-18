@@ -16,8 +16,8 @@ final class AuthorizationException extends BaseException
         ?string $message = null,
         int $code = 0,
         ?Throwable $previous = null,
-        $id = '',
-        $name = ''
+        mixed$id = '',
+        mixed$name = ''
     ) {
         parent::__construct(
             $message ?: $this->baseAuthorizationException->getMessage(),

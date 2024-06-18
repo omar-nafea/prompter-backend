@@ -6,6 +6,7 @@ namespace Modules\ProjectManagement\app\Models;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\ProjectManagement\Database\Factories\ProjectObjectiveQuestionFactory;
 
 /**
  * @property-read int $id
@@ -50,9 +51,9 @@ final class ProjectObjectiveQuestion extends BaseModel
     |                             Helpers                                      |
     |--------------------------------------------------------------------------|
     */
-    protected static function newFactory()
+    protected static function newFactory(): ProjectObjectiveQuestionFactory
     {
-        return \Modules\ProjectManagement\Database\Factories\ProjectObjectiveQuestionFactory::new();
+        return ProjectObjectiveQuestionFactory::new();
     }
 
     /*

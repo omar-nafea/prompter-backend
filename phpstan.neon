@@ -1,8 +1,12 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
 parameters:
     paths:
         - app/
         - Modules/
-
+    excludePaths:
+        - **/tests/**
+        - Modules/CRUDGenerator/**/**
     level: 9
     ignoreErrors:
-        - '#Call to an undefined static method Illuminate\\Support\\Str::minify\(\)#'
+        #- '#Call to an undefined static method Illuminate\\Support\\Str::minify\(\)#'

@@ -28,9 +28,9 @@ final class AppServiceProvider extends ServiceProvider
         Model::preventLazyLoading($this->app->isLocal() && env('MODEL_SHOULD_BE_STRICT'));
         Model::preventSilentlyDiscardingAttributes($this->app->isLocal() && env('MODEL_SHOULD_BE_STRICT'));
 
-        Str::macro('likeContains', static fn($value) => '%' . $value . '%');
-        Str::macro('likeBeginWith', static fn($value) => $value . '%');
-        Str::macro('likeEndWith', static fn($value) => '%' . $value);
+        Str::macro('likeContains', fn($value) => '%' . $value . '%');
+        Str::macro('likeBeginWith', fn($value) => $value . '%');
+        Str::macro('likeEndWith', fn($value) => '%' . $value);
         Stringable::macro('minify', function ($separator) {
             //            dd($separator);
             /** @var Stringable $this */
@@ -42,7 +42,7 @@ final class AppServiceProvider extends ServiceProvider
         });
         Str::macro(
             'minify',
-            static function ($value, $separator = '') {
+            function ($value, $separator = '') {
                 return preg_replace(
                     '/^\s*[\r\n]/m',
                     $separator,

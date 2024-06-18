@@ -4,18 +4,25 @@ declare(strict_types=1);
 
 namespace Modules\ProjectManagement\app\Actions\Project;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Modules\Auth\app\Models\User;
+use Modules\ProjectManagement\app\Models\Project;
 
 final class FetchProjectListAction
 {
-    public function execute(User $user)
+    /**
+     * @return LengthAwarePaginator<Project>
+     */
+    public function execute(User $user): LengthAwarePaginator
     {
-        return $user->projects()->with([
-            'inputs',
-            'outputs',
-            'aiService',
-            'aiCallType',
-            'aiResponseType',
-        ])->latest()->paginate(request('per_page'));
+        return $user->projects()
+            ->with([
+                'inputs',
+                'outputs',
+                'aiService',
+                'aiCallType',
+                'aiResponseType',
+            ])->latest()
+            ->paginate(request()->integer('per_page'));
     }
 }

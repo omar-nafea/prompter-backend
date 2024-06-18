@@ -15,7 +15,6 @@ final class FailedResponseException extends BaseException
     public static function failedAskResponse(array $rawResponse): self
     {
         return new self(
-            //@phpstan-ignore-next-line
             message: __('ai-service-management::gateway.errors.failedAskResponse')
             . ' ' . json_encode($rawResponse),//todo handle debug mode here from config
             code: Response::HTTP_BAD_REQUEST,

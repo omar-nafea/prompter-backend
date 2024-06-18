@@ -34,7 +34,9 @@ final class AiService extends BaseModel
         'updated_by',
         'deleted_by',
     ];
-
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'status' => AiServiceStatus::class,
     ];
@@ -61,7 +63,7 @@ final class AiService extends BaseModel
     |                             Helpers                                      |
     |--------------------------------------------------------------------------|
     */
-    protected static function newFactory()
+    protected static function newFactory(): AiServiceFactory
     {
         return AiServiceFactory::new();
     }

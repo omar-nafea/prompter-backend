@@ -23,6 +23,9 @@ final class OutputLanguage extends BaseModel
     |                              Arrays                                      |
     |--------------------------------------------------------------------------|
     */
+    /**
+     * @var array<string,mixed>
+     */
     protected $attributes = [
         'status' => OutputLanguageStatus::Enabled,
     ];
@@ -32,6 +35,9 @@ final class OutputLanguage extends BaseModel
         'status',
     ];
 
+    /**
+     * @var array<string,string>
+     */
     protected $casts = [
         'status' => OutputLanguageStatus::class,
     ];
@@ -64,6 +70,10 @@ final class OutputLanguage extends BaseModel
     |                              Scopes                                      |
     |--------------------------------------------------------------------------|
    */
+    /**
+     * @param Builder<OutputLanguage> $query
+     * @return void
+     */
     public function scopeEnabled(Builder $query): void
     {
         $query->where('status', OutputLanguageStatus::Enabled);

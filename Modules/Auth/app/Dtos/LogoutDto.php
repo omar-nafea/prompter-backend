@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Modules\Auth\app\Dtos;
 
 use App\Dtos\BaseDto;
-use Illuminate\Foundation\Auth\User;
 use Modules\Auth\app\Http\Requests\LogoutRequest;
+use Modules\Auth\app\Models\User;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Attributes\MapOutputName;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
@@ -21,8 +21,10 @@ final class LogoutDto extends BaseDto
 
     public static function fromLogoutRequest(LogoutRequest $request): self
     {
+        /** @var  User $authUser */
+        $authUser = $request->user();
         return new self(
-            authUser: $request->user(),
+            authUser: $authUser,
         );
     }
 }

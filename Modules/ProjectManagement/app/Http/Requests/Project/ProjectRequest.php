@@ -55,8 +55,8 @@ final class ProjectRequest extends BaseApiRequest
             $this->project = Project::query()->findOrFail($this->route('project'));
         }
 
-        if ($step = (int) $this->route('step')) {
-            $this->currentStep = $step;
+        if (is_string($this->route('step'))) {
+            $this->currentStep = (int) $this->route('step');
         }
 
     }
@@ -69,7 +69,7 @@ final class ProjectRequest extends BaseApiRequest
     {
         $rules = [];
         foreach (range(1, $this->currentStep) as $step) {
-            $rules = [...$rules, ...$this->{"step{$step}rules"}()];
+            $rules = array_merge($rules, $this->{"step{$step}rules"}());
         }
 
         return $rules;
@@ -83,7 +83,7 @@ final class ProjectRequest extends BaseApiRequest
             'name' => [
                 'required',
                 'string',
-                Rule::unique(Project::class, 'name')->where('user_id', $this->user()->id),
+                Rule::unique(Project::class, 'name')->where('user_id', auth()->user()?->id),
                 'min:' . config('global.min_string_length'),
                 'max:' . config('global.max_string_length'),
             ],
@@ -268,19 +268,21 @@ final class ProjectRequest extends BaseApiRequest
         ];
     }
 
-    public function withValidator(Validator $validator): void
+    protected function withValidator(Validator $validator): void
     {
         $validator->after(function (Validator $validator): void {
             if ($validator->errors()->count()) {
                 $validator->errors()->add(
-                    'failed_step',
-                    $this->determineFailedRuleStep(Arr::first($validator->errors()->keys()))
+                    key: 'failed_step',
+                    message: (string) $this->determineFailedRuleStep(
+                        failedRule: Arr::first($validator->errors()->keys())//@phpstan-ignore-line
+                    )
                 );
             }
         });
     }
 
-    public function determineFailedRuleStep(string $failedRule): ?int
+    protected function determineFailedRuleStep(string $failedRule): ?int
     {
         $result = null;
         foreach (range(1, 4) as $step) {

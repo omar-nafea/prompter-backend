@@ -22,6 +22,7 @@ use MohamedGaber\SanctumRefreshToken\Traits\HasApiTokens;
 /**
  * @property-read int $id
  * @property-read string $name
+ * @property-read string $password
  * @property-read Email $email
  * @property-read Phone $phone
  * @property-read UserStatus $status
@@ -57,7 +58,7 @@ final class User extends BaseAuthenticatable
         'status' => UserStatus::class,
     ];
 
-    /** @var array<string, string> */
+    /** @var array<string, mixed> */
     protected $attributes = [
         'status' => UserStatus::Active,
     ];
@@ -91,7 +92,7 @@ final class User extends BaseAuthenticatable
     |--------------------------------------------------------------------------|
     */
 
-    public static function factory($count = null, $state = [])
+    protected static function newFactory(): UserFactory
     {
         return UserFactory::new();
     }
@@ -108,6 +109,9 @@ final class User extends BaseAuthenticatable
     |--------------------------------------------------------------------------|
    */
 
+    /**
+     * @return HasMany<Project>
+     */
     public function projects(): HasMany
     {
         return $this->hasMany(Project::class);

@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Modules\ProjectManagement\app\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Modules\ProjectManagement\app\Actions\ProjectObjectiveQuestion\FetchProjectObjectiveQuestionListAction;
 use Modules\ProjectManagement\app\Http\Resources\ProjectObjectiveQuestionResource;
 
 final class ProjectObjectiveQuestionController
 {
-    public function index(FetchProjectObjectiveQuestionListAction $action)
+    public function index(FetchProjectObjectiveQuestionListAction $action): JsonResponse
     {
         return apiResponse()
             ->success()

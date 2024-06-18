@@ -33,6 +33,9 @@ final class AiCallType extends BaseModel
         'status',
     ];
 
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'type' => AiCallTypeEnum::class,
         'status' => AiCallTypeStatus::class,
@@ -60,7 +63,7 @@ final class AiCallType extends BaseModel
     |                             Helpers                                      |
     |--------------------------------------------------------------------------|
     */
-    protected static function newFactory()
+    protected static function newFactory(): AiCallTypeFactory
     {
         return AiCallTypeFactory::new();
     }

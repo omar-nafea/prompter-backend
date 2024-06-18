@@ -33,9 +33,9 @@ final class ApiSession extends BaseModel
     ];
 
     protected $casts = [
-        'identity_type' => UserTypes::class,
+        //        'identity_type' => UserTypes::class,
         'verified_at' => 'datetime',
-        'platform_type' => PlatformType::class,
+        //        'platform_type' => PlatformType::class,
     ];
     /*
      |--------------------------------------------------------------------------|

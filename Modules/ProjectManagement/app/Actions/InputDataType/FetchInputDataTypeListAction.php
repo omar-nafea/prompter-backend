@@ -8,7 +8,10 @@ use Modules\ProjectManagement\app\Enums\DataType;
 
 final class FetchInputDataTypeListAction
 {
-    public function execute()
+    /**
+     * @return DataType[]
+     */
+    public function execute(): array
     {
         return DataType::cases();
     }

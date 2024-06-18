@@ -107,16 +107,22 @@ final class AiServiceManagementServiceProvider extends ServiceProvider
 
     /**
      * Get the services provided by the provider.
+     * @return string[]
      */
     public function provides(): array
     {
         return [];
     }
 
+    /**
+     * @return string[]
+     */
     private function getPublishableViewPaths(): array
     {
         $paths = [];
-        foreach (config('view.paths') as $path) {
+        /** @var  string[] $viewPaths */
+        $viewPaths = config('view.paths');
+        foreach ($viewPaths as $path) {
             if (is_dir($path . '/modules/' . $this->moduleNameLower)) {
                 $paths[] = $path . '/modules/' . $this->moduleNameLower;
             }

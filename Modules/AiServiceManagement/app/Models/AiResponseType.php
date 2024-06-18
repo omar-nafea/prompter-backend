@@ -31,7 +31,9 @@ final class AiResponseType extends BaseModel
         'status',
         'type',
     ];
-
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'status' => AiResponseTypeStatus::class,
     ];
@@ -58,7 +60,7 @@ final class AiResponseType extends BaseModel
     |                             Helpers                                      |
     |--------------------------------------------------------------------------|
     */
-    protected static function newFactory()
+    protected static function newFactory(): AiResponseTypeFactory
     {
         return AiResponseTypeFactory::new();
     }

@@ -8,7 +8,7 @@ use Modules\ProjectManagement\app\Models\Project;
 
 final class FetchSingleProjectAction
 {
-    public function execute(string $projectKey)
+    public function execute(string $projectKey): Project
     {
         return Project::query()
             //->allowedForUser($dto->user) todo implement and use this scope
@@ -21,6 +21,7 @@ final class FetchSingleProjectAction
                 'aiResponseType',
                 'outputLanguages',
             ])
-            ->where('key', $projectKey)->firstOrFail();
+            ->where('key', $projectKey)
+            ->firstOrFail();
     }
 }

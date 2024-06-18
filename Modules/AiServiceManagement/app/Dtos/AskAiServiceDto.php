@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\AiServiceManagement\App\Dtos;
+namespace Modules\AiServiceManagement\app\Dtos;
 
 use App\Dtos\BaseDto;
 use Modules\AiServiceManagement\app\Http\Requests\AskAiServiceRequest;

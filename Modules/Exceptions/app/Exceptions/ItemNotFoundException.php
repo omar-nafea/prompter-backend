@@ -15,8 +15,8 @@ final class ItemNotFoundException extends BaseException
         ?string $message = null,
         int $code = 0,
         ?Throwable $previous = null,
-        $id = '',
-        $name = ''
+        mixed$id = '',
+        mixed$name = ''
     ) {
         parent::__construct(
             $message ?? $this->baseItemNotFoundException->getMessage(),
@@ -27,7 +27,7 @@ final class ItemNotFoundException extends BaseException
         );
     }
 
-    protected function withResponse(ErrorApiResponseBuilder $response)
+    protected function withResponse(ErrorApiResponseBuilder $response): ErrorApiResponseBuilder
     {
         return $response->withMeta(
             config('app.debug') ? [

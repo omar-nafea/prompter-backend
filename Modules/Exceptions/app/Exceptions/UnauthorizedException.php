@@ -16,8 +16,8 @@ final class UnauthorizedException extends BaseException
         ?string $message = null,
         int $code = 0,
         ?Throwable $previous = null,
-        $id = '',
-        $name = ''
+        mixed$id = '',
+        mixed$name = ''
     ) {
         parent::__construct(
             $message ?? $this->baseUnauthorizedException->getMessage(),
@@ -28,7 +28,7 @@ final class UnauthorizedException extends BaseException
         );
     }
 
-    protected function withResponse(ErrorApiResponseBuilder $response)
+    protected function withResponse(ErrorApiResponseBuilder $response): ?ErrorApiResponseBuilder
     {
         return $response->withMeta(
             config('app.debug') ? [

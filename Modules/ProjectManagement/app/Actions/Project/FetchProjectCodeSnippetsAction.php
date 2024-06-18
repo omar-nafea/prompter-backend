@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\ProjectManagement\app\Actions\Project;
 
+use Exception;
 use Modules\ProjectManagement\app\CodeSnippets\Builder\CodeSnippetBuilder;
 use Modules\ProjectManagement\app\Enums\ProgrammingLanguage;
 use Modules\ProjectManagement\app\Models\Project;
@@ -14,7 +15,11 @@ final class FetchProjectCodeSnippetsAction
         protected CodeSnippetBuilder $codeSnippetBuilder
     ) {}
 
-    public function execute(string $projectKey)
+    /**
+     * @throws Exception
+     * @return array<int,array<string,mixed>>
+     */
+    public function execute(string $projectKey): array
     {
         $allowedLanguages = ProgrammingLanguage::cases();
         $project = Project::query()

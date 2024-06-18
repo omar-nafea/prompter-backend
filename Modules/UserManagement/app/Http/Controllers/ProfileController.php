@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Modules\UserManagement\app\Http\Controllers;
 
 use Illuminate\Auth\AuthManager;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Modules\Auth\app\Http\Resources\UserResource;
 use Modules\Auth\app\Models\User;
 use Modules\UserManagement\app\Actions\Profile\FetchUserProfileAction;
@@ -16,7 +16,7 @@ final class ProfileController
         protected AuthManager $auth
     ) {}
 
-    public function show(FetchUserProfileAction $action): Response
+    public function show(FetchUserProfileAction $action): JsonResponse
     {
         /** @var User $user */
         $user = $this->auth->user();
@@ -24,7 +24,7 @@ final class ProfileController
             ->success()
             ->data(
                 data: UserResource::make(
-                    parameters: $action->execute(
+                    $action->execute(
                         user: $user
                     )
                 )

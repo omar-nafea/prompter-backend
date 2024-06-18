@@ -16,11 +16,11 @@ final class ValidationException extends BaseException
         ?string $message = null,
         int $code = 0,
         ?Throwable $previous = null,
-        $id = '',
-        $name = ''
+        mixed $id = '',
+        mixed $name = ''
     ) {
         parent::__construct(
-            $this->baseValidationException->getMessage(),
+            $message ?? $this->baseValidationException->getMessage(),
             $code ?: ResponseStatusCode::HTTP_UNPROCESSABLE_ENTITY,
             $previous,
             $id,
@@ -28,7 +28,7 @@ final class ValidationException extends BaseException
         );
     }
 
-    protected function withResponse(ErrorApiResponseBuilder $response)
+    protected function withResponse(ErrorApiResponseBuilder $response): ?ErrorApiResponseBuilder
     {
         $errors = $this->baseValidationException->errors();
         if ( ! count($errors)) {

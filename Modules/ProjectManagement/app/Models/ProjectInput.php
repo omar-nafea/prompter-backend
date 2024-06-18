@@ -80,6 +80,9 @@ final class ProjectInput extends BaseModel
     |--------------------------------------------------------------------------|
    */
 
+    /**
+     * @return HasMany<ProjectInputEnumValue>
+     */
     public function enumValues(): HasMany
     {
         return $this->hasMany(ProjectInputEnumValue::class);

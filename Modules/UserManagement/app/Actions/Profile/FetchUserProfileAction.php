@@ -8,7 +8,7 @@ use Modules\Auth\app\Models\User;
 
 final class FetchUserProfileAction
 {
-    public function execute(User $user)
+    public function execute(User $user): User
     {
         return $user;
     }
