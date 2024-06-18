@@ -9,10 +9,12 @@ use App\ValueObjects\Phone;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Modules\Auth\app\Enums\UserStatus;
+use Modules\Auth\app\Exceptions\EmailException;
 use Modules\Auth\app\Models\User;
+use Override;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Auth\app\Models\User>
+ * @extends Factory<User>
  */
 final class UserFactory extends Factory
 {
@@ -27,7 +29,9 @@ final class UserFactory extends Factory
      * Define the model's default state.
      *
      * @return array<string, mixed>
+     * @throws EmailException
      */
+    #[Override]//@phpstan-ignore-line
     public function definition(): array
     {
         return [

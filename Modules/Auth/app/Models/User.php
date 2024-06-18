@@ -24,7 +24,7 @@ use MohamedGaber\SanctumRefreshToken\Traits\HasApiTokens;
  * @property-read string $name
  * @property-read string $password
  * @property-read Email $email
- * @property-read Phone $phone
+ * @property-read ?Phone $phone
  * @property-read UserStatus $status
  * @property-read Collection<int, Project> $projects
  *

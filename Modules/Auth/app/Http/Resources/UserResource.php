@@ -23,7 +23,7 @@ final class UserResource extends JsonResource
             'id' => $this->resource->id,
             'name' => $this->resource->name,
             'email' => $this->resource->email->toNative(),
-            'phone' => $this->resource->phone->toNative(),
+            'phone' => $this->resource->phone?->toNative(),
             'status' => [
                 'name' => $this->resource->status->label(),
                 'value' => $this->resource->status->value,

@@ -8,5 +8,6 @@ parameters:
         - **/tests/**
         - Modules/CRUDGenerator/**/**
     level: 9
+    checkModelProperties: true
     ignoreErrors:
         #- '#Call to an undefined static method Illuminate\\Support\\Str::minify\(\)#'

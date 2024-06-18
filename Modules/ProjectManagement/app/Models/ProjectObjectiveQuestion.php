@@ -11,6 +11,7 @@ use Modules\ProjectManagement\Database\Factories\ProjectObjectiveQuestionFactory
 /**
  * @property-read int $id
  * @property-read string $question
+ * @property-read bool $status
  */
 final class ProjectObjectiveQuestion extends BaseModel
 {
