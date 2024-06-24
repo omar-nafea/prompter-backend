@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\Builder;
 use Modules\AiServiceManagement\app\Models\AiCallType;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
 use Modules\AiServiceManagement\app\Models\AiService;
@@ -112,6 +113,10 @@ final class Project extends BaseModel
     |                              Scopes                                      |
     |--------------------------------------------------------------------------|
    */
+    public function scopeAllowedForUser(Builder $query, User $user): void
+    {
+        $query->where('user_id', $user->id);
+    }
 
     /*
     |--------------------------------------------------------------------------|

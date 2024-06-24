@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\ProjectManagement\app\Actions;
+namespace Modules\ProjectManagement\App\Actions\Project;
 
 use Closure;
 use Illuminate\Support\Facades\DB;
