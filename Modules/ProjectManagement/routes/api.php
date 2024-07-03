@@ -16,7 +16,7 @@ Route::prefix('projects')->name('projects.')->as('projects.')->group(static func
     Route::delete('{project}', [ProjectController::class, 'destroy'])->name('destroy');
     Route::get('{project}/code-snippets', [ProjectController::class, 'codeSnippets'])->name('code-snippets');
     Route::post('validate/steps/{step}', [ProjectController::class, 'validateProjectFormOnly'])->name('store.validate');
-    Route::put('validate/steps/{step}', [ProjectController::class, 'validateProjectFormOnly'])->name('update.validate');
+    Route::put('{project}/validate/steps/{step}', [ProjectController::class, 'validateProjectFormOnly'])->name('update.validate');
 });
 
 Route::get('project-objective-questions', [ProjectObjectiveQuestionController::class, 'index'])->name('project-objective-questions.index');

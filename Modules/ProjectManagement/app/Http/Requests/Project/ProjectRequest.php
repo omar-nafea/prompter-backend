@@ -57,7 +57,8 @@ final class ProjectRequest extends BaseApiRequest
             $user = $this->user();
             $this->project = Project::query()
                 ->allowedForUser($user)
-                ->findOrFail($this->route('project'));
+                ->where('key', $this->route('project'))
+                ->firstOrFail();
         }
 
         if (is_string($this->route('step'))) {
@@ -158,6 +159,7 @@ final class ProjectRequest extends BaseApiRequest
             ],
             'output_languages.*' => [
                 'required',
+                'integer',
                 'filled',
                 'distinct',
                 Rule::exists(OutputLanguage::class, 'id')

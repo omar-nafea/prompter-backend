@@ -65,6 +65,7 @@ final class Project extends BaseModel
     ];
 
     protected $fillable = [
+        'key',
         'name',
         'expected_outcome',
         'status',
@@ -113,7 +114,7 @@ final class Project extends BaseModel
     |                              Scopes                                      |
     |--------------------------------------------------------------------------|
    */
-    public function scopeAllowedForUser(Builder $query, User $user): void
+    public function scopeAllowedForUser(Builder|\Illuminate\Database\Eloquent\Builder $query, User $user): void
     {
         $query->where('user_id', $user->id);
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\ProjectManagement\App\Actions\Project;
+namespace Modules\ProjectManagement\app\Actions\Project;
 
 use Closure;
 use Illuminate\Support\Facades\DB;
@@ -47,35 +47,18 @@ final class UpdateProjectAction
     /**
      * @param  array{dto: UpdateProjectDto}  $params
      */
-    protected function updateObjectiveQuestions(array $params, Closure $next): Project
-    {
-        $dto = $params['dto'];
-
-        /** @var ObjectiveQuestionDto $objectiveQuestion */
-        foreach ($dto->objectiveQuestions as $objectiveQuestion) {
-            $dto->project->answers()
-                ->findOrFail($objectiveQuestion->answerId)
-                ->update($objectiveQuestion->toArray());
-        }
-
-        return $next($params);
-    }
-
-    /**
-     * @param  array{dto: UpdateProjectDto}  $params
-     */
     protected function updateProjectInputs(array $params, Closure $next): Project
     {
         $dto = $params['dto'];
         /** @var ProjectInputDto $projectInput */
         foreach ($dto->projectInputs as $projectInput) {
-            $inputData = $projectInput->except('values')->toArray();
+            $inputData = $projectInput->except('values', 'id')->toArray();
             if ($projectInput->id) {
                 $input = $dto->project->inputs()
                     ->findOrFail($projectInput->id);
                 $input->update($inputData);
             } else {
-                $input = $dto->project->inputs()->create($projectInput->except('values')->toArray());
+                $input = $dto->project->inputs()->create($inputData);
             }
             if ($projectInput->values) {
                 $input->enumValues()->delete();
@@ -92,12 +75,28 @@ final class UpdateProjectAction
     /**
      * @param  array{dto: UpdateProjectDto}  $params
      */
+    protected function updateObjectiveQuestions(array $params, Closure $next): Project
+    {
+        $dto = $params['dto'];
+        /** @var ObjectiveQuestionDto $objectiveQuestion */
+        foreach ($dto->objectiveQuestions as $objectiveQuestion) {
+            $dto->project->answers()
+                ->findOrFail($objectiveQuestion->answerId)
+                ->update($objectiveQuestion->except('answerId')->toArray());
+        }
+
+        return $next($params);
+    }
+
+    /**
+     * @param  array{dto: UpdateProjectDto}  $params
+     */
     protected function updateProjectOutputs(array $params, Closure $next): Project
     {
         $dto = $params['dto'];
         /** @var ProjectOutputDto $projectOutput */
         foreach ($dto->projectOutputs as $projectOutput) {
-            $outputData = $projectOutput->except('values')->toArray();
+            $outputData = $projectOutput->except('values', 'id')->toArray();
             if ($projectOutput->id) {
                 $output = $dto->project->outputs()
                     ->findOrFail($projectOutput->id);
