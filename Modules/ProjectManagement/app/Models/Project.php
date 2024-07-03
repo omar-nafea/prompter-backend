@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\Builder;
 use Modules\AiServiceManagement\app\Models\AiCallType;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
 use Modules\AiServiceManagement\app\Models\AiService;
@@ -64,6 +65,7 @@ final class Project extends BaseModel
     ];
 
     protected $fillable = [
+        'key',
         'name',
         'expected_outcome',
         'status',
@@ -112,6 +114,14 @@ final class Project extends BaseModel
     |                              Scopes                                      |
     |--------------------------------------------------------------------------|
    */
+
+    /**
+     * @param  Builder|\Illuminate\Database\Eloquent\Builder<self>  $query
+     */
+    public function scopeAllowedForUser(Builder|\Illuminate\Database\Eloquent\Builder $query, User $user): void
+    {
+        $query->where('user_id', $user->id);
+    }
 
     /*
     |--------------------------------------------------------------------------|

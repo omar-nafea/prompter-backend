@@ -27,6 +27,7 @@ final class ProjectOutputResource extends JsonResource
             'is_required' => $this->resource->is_required,
             'max_length' => $this->resource->max_length,
             'description' => $this->resource->description,
+            'values' => ProjectOutputEnumValueResource::collection($this->whenLoaded('enumValues')),
         ];
     }
 }

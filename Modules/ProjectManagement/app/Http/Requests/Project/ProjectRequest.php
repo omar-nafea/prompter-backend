@@ -12,6 +12,7 @@ use Illuminate\Validation\Validator;
 use Modules\AiServiceManagement\app\Models\AiCallType;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
 use Modules\AiServiceManagement\app\Models\AiService;
+use Modules\Auth\app\Models\User;
 use Modules\ProjectManagement\app\Enums\DataType;
 use Modules\ProjectManagement\app\Enums\OutputLanguageStatus;
 use Modules\ProjectManagement\app\Enums\ProjectOutputFormat;
@@ -52,7 +53,12 @@ final class ProjectRequest extends BaseApiRequest
     {
         $this->forEdit = $this->isMethod('PUT');
         if ($this->forEdit) {
-            $this->project = Project::query()->findOrFail($this->route('project'));
+            /** @var User $user */
+            $user = $this->user();
+            $this->project = Project::query()
+                ->allowedForUser($user)
+                ->where('key', $this->route('project'))
+                ->firstOrFail();
         }
 
         if (is_string($this->route('step'))) {
@@ -84,7 +90,9 @@ final class ProjectRequest extends BaseApiRequest
             'name' => [
                 'required',
                 'string',
-                Rule::unique(Project::class, 'name')->where('user_id', auth()->user()?->id),
+                Rule::unique(Project::class, 'name')
+                    ->where('user_id', auth()->user()?->id)
+                    ->ignore($this->project?->id),
                 'min:' . config('global.min_string_length'),
                 'max:' . config('global.max_string_length'),
             ],
@@ -96,7 +104,17 @@ final class ProjectRequest extends BaseApiRequest
             'objective_questions.*' => [
                 'required',
                 'array',
-                'size:2',
+                Rule::when(
+                    $this->forEdit,
+                    [
+                        'min:2',
+                        'max:3',
+                    ],
+                    [
+                        'size:2',
+                    ]
+                ),
+
             ],
             'objective_questions.*.question_id' => [
                 'required',
@@ -105,6 +123,12 @@ final class ProjectRequest extends BaseApiRequest
                 Rule::exists(ProjectObjectiveQuestion::class, 'id')
                     ->where('status', 1)
                     ->withoutTrashed(),
+            ],
+            'objective_questions.*.answer_id' => [
+                Rule::requiredIf($this->forEdit),
+                'integer',
+                'min:' . config('global.min_integer'),
+                'max:' . config('global.max_integer'),
             ],
             'objective_questions.*.answer' => [
                 'required',
@@ -135,6 +159,7 @@ final class ProjectRequest extends BaseApiRequest
             ],
             'output_languages.*' => [
                 'required',
+                'integer',
                 'filled',
                 'distinct',
                 Rule::exists(OutputLanguage::class, 'id')
@@ -190,6 +215,13 @@ final class ProjectRequest extends BaseApiRequest
                 'array',
                 new ValidateInputOutputEnumValues(),
             ],
+            'project_inputs.*.id' => [
+                'missing_if:' . $this->forEdit . ',false',
+                'integer',
+                'min:' . config('global.min_integer'),
+                'max:' . config('global.max_integer'),
+                'distinct',
+            ],
             'project_inputs.*.name' => [
                 'required',
                 'string',
@@ -237,6 +269,13 @@ final class ProjectRequest extends BaseApiRequest
                 'required',
                 'array',
                 new ValidateInputOutputEnumValues(),
+            ],
+            'project_outputs.*.id' => [
+                'missing_if:' . $this->forEdit . ',false',
+                'integer',
+                'min:' . config('global.min_integer'),
+                'max:' . config('global.max_integer'),
+                'distinct',
             ],
             'project_outputs.*.name' => [
                 'required',
@@ -297,5 +336,10 @@ final class ProjectRequest extends BaseApiRequest
         }
 
         return $result;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
     }
 }

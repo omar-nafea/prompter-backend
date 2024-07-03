@@ -31,8 +31,6 @@ final class ValidateInputOutputEnumValues implements ValidationRule
         if (DataType::from($value['data_type']) !== DataType::Enum) {
             if (isset($value['values'])) {
                 $fail('The enum values must be missing for :attribute.');
-
-                return;
             }
 
             return;

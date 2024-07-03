@@ -12,6 +12,7 @@ final class ObjectiveQuestionDto extends BaseDto
     public function __construct(
         #[MapOutputName('project_objective_question_id')]
         public int $questionId,
-        public string $answer
+        public string $answer,
+        public ?int $answerId = null,
     ) {}
 }

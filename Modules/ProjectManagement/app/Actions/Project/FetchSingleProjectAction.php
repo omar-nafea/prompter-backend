@@ -13,8 +13,8 @@ final class FetchSingleProjectAction
         return Project::query()
             //->allowedForUser($dto->user) todo implement and use this scope
             ->with([
-                'inputs',
-                'outputs',
+                'inputs.enumValues',
+                'outputs.enumValues',
                 'answers.objectiveQuestion',
                 'aiService',
                 'aiCallType',

@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Modules\ProjectManagement\app\Actions;
+namespace Modules\ProjectManagement\app\Actions\Project;
 
 use Closure;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Pipeline;
-use Modules\ProjectManagement\app\Actions\Project\GenerateProjectApiKeyAction;
 use Modules\ProjectManagement\app\Dtos\Project\ProjectInputDto;
 use Modules\ProjectManagement\app\Dtos\Project\ProjectOutputDto;
 use Modules\ProjectManagement\app\Dtos\Project\StoreProjectDto;
