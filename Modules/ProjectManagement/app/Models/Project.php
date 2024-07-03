@@ -114,6 +114,10 @@ final class Project extends BaseModel
     |                              Scopes                                      |
     |--------------------------------------------------------------------------|
    */
+
+    /**
+     * @param  Builder|\Illuminate\Database\Eloquent\Builder<self>  $query
+     */
     public function scopeAllowedForUser(Builder|\Illuminate\Database\Eloquent\Builder $query, User $user): void
     {
         $query->where('user_id', $user->id);
