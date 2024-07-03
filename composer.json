@@ -88,12 +88,13 @@
             "wikimedia/composer-merge-plugin": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "repositories": [
         {
             "type": "path",
-            "url": "Packages/ApiResponse"
+            "url": "Packages/ApiResponse",
+            "branch": "dev-master"
         },
         {
             "type": "path",
