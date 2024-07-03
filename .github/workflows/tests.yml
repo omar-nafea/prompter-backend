@@ -23,7 +23,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer install --${{ matrix.dependency-version }}  --no-interaction
+          composer install  --no-interaction
 
       - name: Code Style 🏭
         run: composer test:lint
