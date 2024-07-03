@@ -6,9 +6,12 @@ namespace Modules\ProjectManagement\app\Actions\InputDataType;
 
 use Modules\ProjectManagement\app\Enums\DataType;
 
-class FetchInputDataTypeListAction
+final class FetchInputDataTypeListAction
 {
-    public function execute()
+    /**
+     * @return DataType[]
+     */
+    public function execute(): array
     {
         return DataType::cases();
     }

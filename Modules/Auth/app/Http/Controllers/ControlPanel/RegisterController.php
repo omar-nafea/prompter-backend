@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace Modules\Auth\app\Http\Controllers\ControlPanel;
 
+use Illuminate\Http\JsonResponse;
 use Modules\Auth\app\Actions\RegisterAction;
 use Modules\Auth\app\Dtos\RegisterDto;
 use Modules\Auth\app\Http\Requests\RegisterRequest;
 use Modules\Auth\app\Http\Resources\TokenResource;
 use Modules\Auth\app\Http\Resources\UserResource;
 
-class RegisterController
+final class RegisterController
 {
-    public function __invoke(RegisterRequest $request, RegisterAction $action)
+    public function __invoke(RegisterRequest $request, RegisterAction $action): JsonResponse
     {
         [
             'authToken' => $authToken,

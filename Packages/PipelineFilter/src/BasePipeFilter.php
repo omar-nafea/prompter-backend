@@ -9,7 +9,7 @@ use MohamedGaber\PipelineFilter\Contracts\PipeFilterDto;
 
 abstract class BasePipeFilter
 {
-    const NUMBER_REGEX = '/^[0-9]+$/';
+    public const NUMBER_REGEX = '/^[0-9]+$/';
 
     protected PipeFilterDto $dto;
 

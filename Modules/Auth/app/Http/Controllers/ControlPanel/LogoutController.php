@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Modules\Auth\app\Http\Controllers\ControlPanel;
 
+use Illuminate\Http\JsonResponse;
 use Modules\Auth\app\Actions\LogoutAction;
 use Modules\Auth\app\Dtos\LogoutDto;
 use Modules\Auth\app\Http\Requests\LogoutRequest;
 
 final class LogoutController
 {
-    public function __invoke(LogoutRequest $request, LogoutAction $logoutAction)
+    public function __invoke(LogoutRequest $request, LogoutAction $logoutAction): JsonResponse
     {
         $logoutAction->execute(
             dto : LogoutDto::fromLogoutRequest($request)

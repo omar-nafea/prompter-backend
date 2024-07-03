@@ -16,7 +16,7 @@ return new class() extends Migration
      */
     public function up(): void
     {
-        Schema::create('project_objective_answers', function (Blueprint $table) {
+        Schema::create('project_objective_answers', function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(ProjectObjectiveQuestion::class)->constrained()->restrictOnDelete();
             $table->foreignIdFor(Project::class);

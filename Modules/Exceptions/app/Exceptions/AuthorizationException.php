@@ -9,15 +9,15 @@ use MohamedGaber\ApiResponse\Builder\ErrorApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Response as ResponseStatusCode;
 use Throwable;
 
-class AuthorizationException extends BaseException
+final class AuthorizationException extends BaseException
 {
     public function __construct(
         public BaseAuthorizationException $baseAuthorizationException,
         ?string $message = null,
         int $code = 0,
         ?Throwable $previous = null,
-        $id = '',
-        $name = ''
+        mixed $id = '',
+        mixed $name = ''
     ) {
         parent::__construct(
             $message ?: $this->baseAuthorizationException->getMessage(),

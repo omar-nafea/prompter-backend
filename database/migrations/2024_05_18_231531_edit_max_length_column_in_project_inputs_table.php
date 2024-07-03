@@ -13,7 +13,7 @@ return new class() extends Migration
      */
     public function up(): void
     {
-        Schema::table('project_inputs', function (Blueprint $table) {
+        Schema::table('project_inputs', function (Blueprint $table): void {
             $table->unsignedInteger('max_length')->change();
         });
     }
@@ -23,8 +23,6 @@ return new class() extends Migration
      */
     public function down(): void
     {
-        Schema::table('project_inputs', function (Blueprint $table) {
-            //
-        });
+        Schema::table('project_inputs', function (Blueprint $table): void {});
     }
 };

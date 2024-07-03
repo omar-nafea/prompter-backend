@@ -7,7 +7,7 @@ namespace Modules\ProjectManagement\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Modules\ProjectManagement\app\Models\ProjectInputRule;
 
-class ProjectInputRuleSeeder extends Seeder
+final class ProjectInputRuleSeeder extends Seeder
 {
     /**
      * Run the database seeds.

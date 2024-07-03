@@ -7,7 +7,7 @@ namespace Modules\Exceptions\app\Console\Commands;
 use Illuminate\Console\Command;
 use Str;
 
-class GenerateExceptionId extends Command
+final class GenerateExceptionId extends Command
 {
     /**
      * The name and signature of the console command.
@@ -25,13 +25,11 @@ class GenerateExceptionId extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $this->info(
-            Str::uuid()
+            Str::uuid()->toString()
         );
 
         return Command::SUCCESS;

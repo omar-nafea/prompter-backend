@@ -6,12 +6,19 @@ namespace App\Enums\MetaProperties;
 
 use ArchTech\Enums\Meta\MetaProperty;
 use Attribute;
+use InvalidArgumentException;
+use Override;
 
 #[Attribute]
-class Example extends MetaProperty
+final class Example extends MetaProperty
 {
+    #[Override]
     protected function transform(mixed $value): string
     {
-        return (string) $value;
+        if ( ! is_string($value)) {
+            throw new InvalidArgumentException('value must be string but ' . gettype($value) . ' given');
+        }
+
+        return $value;
     }
 }

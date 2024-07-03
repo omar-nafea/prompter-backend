@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace MohamedGaber\ApiResponse\Builder;
 
-abstract class BaseApiResponseBuilder
+use Illuminate\Contracts\Support\Responsable;
+
+abstract class BaseApiResponseBuilder implements Responsable
 {
     protected $message;
 
@@ -34,5 +36,10 @@ abstract class BaseApiResponseBuilder
         return [
             'message' => $this->message,
         ];
+    }
+
+    public function toResponse($request)
+    {
+        return $this->send();
     }
 }

@@ -15,7 +15,7 @@ return new class() extends Migration
      */
     public function up(): void
     {
-        Schema::create('project_output_enum_values', function (Blueprint $table) {
+        Schema::create('project_output_enum_values', function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(ProjectOutput::class)->constrained()->restrictOnDelete();
             $table->string('value');

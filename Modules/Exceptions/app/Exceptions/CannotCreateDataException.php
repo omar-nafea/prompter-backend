@@ -8,15 +8,15 @@ use MohamedGaber\ApiResponse\Builder\ErrorApiResponseBuilder;
 use Spatie\LaravelData\Exceptions\CannotCreateData;
 use Throwable;
 
-class CannotCreateDataException extends BaseException
+final class CannotCreateDataException extends BaseException
 {
     public function __construct(
         public CannotCreateData $baseCannotCreateDataException,
         ?string $message = null,
         int $code = 0,
         ?Throwable $previous = null,
-        $id = '',
-        $name = ''
+        mixed $id = '',
+        mixed $name = ''
     ) {
         parent::__construct(
             $message ?? $this->baseCannotCreateDataException->getMessage(),
@@ -27,7 +27,7 @@ class CannotCreateDataException extends BaseException
         );
     }
 
-    protected function withResponse(ErrorApiResponseBuilder $response)
+    protected function withResponse(ErrorApiResponseBuilder $response): ErrorApiResponseBuilder
     {
         return $response->withMeta(
             config('app.debug') ? [

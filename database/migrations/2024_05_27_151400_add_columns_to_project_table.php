@@ -13,7 +13,7 @@ return new class() extends Migration
      */
     public function up(): void
     {
-        Schema::table('projects', function (Blueprint $table) {
+        Schema::table('projects', function (Blueprint $table): void {
             $table->unsignedTinyInteger('output_format')->after('api_key');
             $table->unsignedInteger('max_output_length')->after('api_key');
         });
@@ -24,7 +24,7 @@ return new class() extends Migration
      */
     public function down(): void
     {
-        Schema::table('projects', function (Blueprint $table) {
+        Schema::table('projects', function (Blueprint $table): void {
             $table->dropColumn([
                 'output_format',
                 'max_output_length',

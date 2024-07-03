@@ -7,7 +7,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
 
-class AiResponseTypeFactory extends Factory
+final class AiResponseTypeFactory extends Factory
 {
     protected $model = AiResponseType::class;
 

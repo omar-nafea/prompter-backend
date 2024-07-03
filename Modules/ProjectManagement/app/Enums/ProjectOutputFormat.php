@@ -11,7 +11,7 @@ use ArchTech\Enums\Metadata;
 
 /**
  * @method string label()
- * @method string enabled()
+ * @method bool enabled()
  */
 #[Meta(Label::class, Enabled::class)]
 enum ProjectOutputFormat: int
@@ -26,8 +26,14 @@ enum ProjectOutputFormat: int
     #[Enabled(false)]
     case Xml = 2;
 
+    /**
+     * @return self[]
+     */
     public static function enabledCases(): array
     {
-        return array_filter(self::cases(), fn (ProjectOutputFormat $case) => $case->enabled());
+        return array_filter(
+            array: self::cases(),
+            callback: fn (self $case): bool => $case->enabled()
+        );
     }
 }

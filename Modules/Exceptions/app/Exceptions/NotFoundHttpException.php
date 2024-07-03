@@ -9,15 +9,15 @@ use Symfony\Component\HttpFoundation\Response as ResponseStatusCode;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException as BaseNotFoundHttpException;
 use Throwable;
 
-class NotFoundHttpException extends BaseException
+final class NotFoundHttpException extends BaseException
 {
     public function __construct(
         public BaseNotFoundHttpException $baseNotFoundHttpException,
         ?string $message = null,
         int $code = 0,
         ?Throwable $previous = null,
-        $id = '',
-        $name = ''
+        mixed $id = '',
+        mixed $name = ''
     ) {
         parent::__construct(
             $message ?? $this->baseNotFoundHttpException->getMessage(),
@@ -28,7 +28,7 @@ class NotFoundHttpException extends BaseException
         );
     }
 
-    protected function withResponse(ErrorApiResponseBuilder $response)
+    protected function withResponse(ErrorApiResponseBuilder $response): ErrorApiResponseBuilder
     {
         return $response->withMeta(
             config('app.debug') ? [

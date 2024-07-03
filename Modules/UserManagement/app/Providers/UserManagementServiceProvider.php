@@ -7,7 +7,7 @@ namespace Modules\UserManagement\app\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
-class UserManagementServiceProvider extends ServiceProvider
+final class UserManagementServiceProvider extends ServiceProvider
 {
     protected string $moduleName = 'UserManagement';
 
@@ -96,16 +96,23 @@ class UserManagementServiceProvider extends ServiceProvider
 
     /**
      * Get the services provided by the provider.
+     *
+     * @return string[]
      */
     public function provides(): array
     {
         return [];
     }
 
+    /**
+     * @return string[]
+     */
     private function getPublishableViewPaths(): array
     {
         $paths = [];
-        foreach (config('view.paths') as $path) {
+        /** @var string[] $viewPaths */
+        $viewPaths = config('view.paths');
+        foreach ($viewPaths as $path) {
             if (is_dir($path . '/modules/' . $this->moduleNameLower)) {
                 $paths[] = $path . '/modules/' . $this->moduleNameLower;
             }

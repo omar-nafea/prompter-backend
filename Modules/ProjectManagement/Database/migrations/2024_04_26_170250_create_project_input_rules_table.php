@@ -14,7 +14,7 @@ return new class() extends Migration
      */
     public function up(): void
     {
-        Schema::create('project_input_rules', function (Blueprint $table) {
+        Schema::create('project_input_rules', function (Blueprint $table): void {
             $table->id();
             $table->string('label');
             $table->string('name')->unique();

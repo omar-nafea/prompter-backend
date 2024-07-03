@@ -7,18 +7,25 @@ namespace Modules\ProjectManagement\app\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\ProjectManagement\app\Models\OutputLanguage;
+use Override;
 
-class OutputLanguageResource extends JsonResource
+/**
+ * @property-read OutputLanguage $resource
+ */
+final class OutputLanguageResource extends JsonResource
 {
+    /**
+     * @return array<string,mixed>
+     */
+    #[Override]
     public function toArray(Request $request)
     {
-        /** @var OutputLanguage|self $this */
         return [
-            'id' => $this->id,
-            'name' => $this->name,
+            'id' => $this->resource->id,
+            'name' => $this->resource->name,
             'status' => [
-                'name' => $this->status?->label(),
-                'value' => $this->status?->value,
+                'name' => $this->resource->status->label(),
+                'value' => $this->resource->status->value,
             ],
         ];
     }

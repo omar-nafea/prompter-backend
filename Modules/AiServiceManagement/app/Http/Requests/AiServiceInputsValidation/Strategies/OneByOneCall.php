@@ -4,24 +4,37 @@ declare(strict_types=1);
 
 namespace Modules\AiServiceManagement\app\Http\Requests\AiServiceInputsValidation\Strategies;
 
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Modules\AiServiceManagement\app\Http\Requests\AiServiceInputsValidation\Strategies\Contracts\AiCallTypeStrategy;
 use Modules\ProjectManagement\app\Models\Project;
 use Modules\ProjectManagement\app\Models\ProjectInput;
-use Str;
 
-class OneByOneCall implements AiCallTypeStrategy
+final class OneByOneCall implements AiCallTypeStrategy
 {
     public function __construct(
         protected Project $project
     ) {}
 
+    /**
+     * @return array<string,string[]>
+     */
     public function rules(): array
     {
-        return $this->project->inputs->mapWithKeys(fn (ProjectInput $input) => [
-            $input->name => $this->getRoles($input),
-        ])->toArray();
+        /** @var Collection<string, string[]> $rulesCollection */
+        $rulesCollection = $this->project->inputs->mapWithKeys(
+            callback: fn (ProjectInput $input): array => [
+                $input->name => $this->getRoles($input),
+            ]
+        );
+
+        /** @var array<string, string[]> */
+        return $rulesCollection->toArray();
     }
 
+    /**
+     * @return string[]
+     */
     protected function getRoles(ProjectInput $input): array
     {
         $rules = [];

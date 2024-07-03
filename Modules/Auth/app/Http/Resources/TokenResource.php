@@ -7,15 +7,22 @@ namespace Modules\Auth\app\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Laravel\Sanctum\NewAccessToken;
+use Override;
 
-class TokenResource extends JsonResource
+/**
+ * @property-read  NewAccessToken $resource
+ */
+final class TokenResource extends JsonResource
 {
+    /**
+     * @return array<string,mixed>
+     */
+    #[Override]
     public function toArray(Request $request): array
     {
-        /* @var NewAccessToken|self $this */
         return [
-            'token' => $this->plainTextToken,
-            'expires_at' => $this->accessToken->expires_at->timestamp,
+            'token' => $this->resource->plainTextToken,
+            'expires_at' => $this->resource->accessToken->expires_at->timestamp, //@phpstan-ignore-line
         ];
     }
 }

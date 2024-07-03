@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Modules\ProjectManagement\app\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Modules\ProjectManagement\app\Actions\InputDataType\FetchInputDataTypeListAction;
 use Modules\ProjectManagement\app\Http\Resources\InputDataTypeResource;
 
-class InputDataTypeController
+final class InputDataTypeController
 {
-    public function index(FetchInputDataTypeListAction $action)
+    public function index(FetchInputDataTypeListAction $action): JsonResponse
     {
         return apiResponse()
             ->success()

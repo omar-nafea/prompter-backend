@@ -6,8 +6,14 @@ namespace Modules\ProjectManagement\app\Models;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\ProjectManagement\Database\Factories\ProjectObjectiveQuestionFactory;
 
-class ProjectObjectiveQuestion extends BaseModel
+/**
+ * @property-read int $id
+ * @property-read string $question
+ * @property-read bool $status
+ */
+final class ProjectObjectiveQuestion extends BaseModel
 {
     use HasFactory;
 
@@ -46,9 +52,9 @@ class ProjectObjectiveQuestion extends BaseModel
     |                             Helpers                                      |
     |--------------------------------------------------------------------------|
     */
-    protected static function newFactory()
+    protected static function newFactory(): ProjectObjectiveQuestionFactory
     {
-        return \Modules\ProjectManagement\Database\Factories\ProjectObjectiveQuestionFactory::new();
+        return ProjectObjectiveQuestionFactory::new();
     }
 
     /*

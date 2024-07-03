@@ -6,9 +6,9 @@ namespace Modules\UserManagement\app\Actions\Profile;
 
 use Modules\Auth\app\Models\User;
 
-class FetchUserProfileAction
+final class FetchUserProfileAction
 {
-    public function execute(User $user)
+    public function execute(User $user): User
     {
         return $user;
     }

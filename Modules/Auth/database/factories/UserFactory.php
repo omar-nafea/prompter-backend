@@ -9,12 +9,14 @@ use App\ValueObjects\Phone;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Modules\Auth\app\Enums\UserStatus;
+use Modules\Auth\app\Exceptions\EmailException;
 use Modules\Auth\app\Models\User;
+use Override;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Modules\Auth\app\Models\User>
+ * @extends Factory<User>
  */
-class UserFactory extends Factory
+final class UserFactory extends Factory
 {
     /**
      * The current password being used by the factory.
@@ -27,14 +29,17 @@ class UserFactory extends Factory
      * Define the model's default state.
      *
      * @return array<string, mixed>
+     *
+     * @throws EmailException
      */
+    #[Override] //@phpstan-ignore-line
     public function definition(): array
     {
         return [
             'name' => fake()->name(),
             'email' => Email::from(fake()->unique()->safeEmail()),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('123456'),
+            'password' => self::$password ??= Hash::make('123456'),
             'phone' => Phone::from(fake()->phoneNumber()),
             'status' => UserStatus::Active,
         ];

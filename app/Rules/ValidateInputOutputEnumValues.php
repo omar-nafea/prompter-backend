@@ -9,7 +9,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Modules\ProjectManagement\app\Enums\DataType;
 use Validator;
 
-class ValidateInputOutputEnumValues implements ValidationRule
+final class ValidateInputOutputEnumValues implements ValidationRule
 {
     /**
      * Run the validation rule.
@@ -18,12 +18,12 @@ class ValidateInputOutputEnumValues implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (! is_array($value)) {
+        if ( ! is_array($value)) {
             $fail('The :attribute must be an array.');
 
             return;
         }
-        if (! isset($value['data_type'])) {
+        if ( ! isset($value['data_type'])) {
             $fail('The data type is missing for :attribute.');
 
             return;
@@ -31,18 +31,16 @@ class ValidateInputOutputEnumValues implements ValidationRule
         if (DataType::from($value['data_type']) !== DataType::Enum) {
             if (isset($value['values'])) {
                 $fail('The enum values must be missing for :attribute.');
-
-                return;
             }
 
             return;
         }
-        if (! isset($value['values'])) {
+        if ( ! isset($value['values'])) {
             $fail('The enum values are missing for :attribute.');
 
             return;
         }
-        if (! is_array($value['values'])) {
+        if ( ! is_array($value['values'])) {
             $fail('The enum values must be an array for :attribute.');
 
             return;

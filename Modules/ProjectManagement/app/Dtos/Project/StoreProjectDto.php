@@ -5,14 +5,19 @@ declare(strict_types=1);
 namespace Modules\ProjectManagement\app\Dtos\Project;
 
 use App\Dtos\BaseDto;
-use Illuminate\Support\Collection;
 use Modules\Auth\app\Models\User;
 use Modules\ProjectManagement\app\Http\Requests\Project\ProjectRequest;
 use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\DataCollection;
 
-class StoreProjectDto extends BaseDto
+final class StoreProjectDto extends BaseDto
 {
+    /**
+     * @param  DataCollection<int, ObjectiveQuestionDto>  $objectiveQuestions
+     * @param  DataCollection<int, ProjectInputDto>  $projectInputs
+     * @param  DataCollection<int, ProjectOutputDto>  $projectOutputs
+     * @param  int[]  $outputLanguages
+     */
     public function __construct(
         public ProjectDto $projectDto,
         #[DataCollectionOf(ObjectiveQuestionDto::class)]
@@ -21,8 +26,7 @@ class StoreProjectDto extends BaseDto
         public DataCollection $projectInputs,
         #[DataCollectionOf(ProjectOutputDto::class)]
         public DataCollection $projectOutputs,
-        /** @var Collection<int, int> */
-        public array $outputLanguages, //todo specify int type
+        public array $outputLanguages,
         public User $creator,
     ) {}
 

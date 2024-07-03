@@ -6,7 +6,7 @@ namespace MohamedGaber\ApiResponse\Builder;
 
 use Symfony\Component\HttpFoundation\Response;
 
-class ErrorApiResponseBuilder extends BaseApiResponseBuilder
+final class ErrorApiResponseBuilder extends BaseApiResponseBuilder
 {
     protected $errors;
 

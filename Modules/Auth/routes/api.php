@@ -10,7 +10,7 @@ use Modules\Auth\app\Http\Controllers\ControlPanel\RegisterController;
 
 Route::post('login', LoginController::class)->name('auth.login');
 Route::post('register', RegisterController::class)->name('auth.register');
-Route::group(['middleware' => 'auth:sanctum'], function () {
+Route::group(['middleware' => 'auth:sanctum'], function (): void {
     Route::delete('logout', LogoutController::class)->name('auth.logout');
     Route::post('refresh', RefreshTokenController::class)->name('auth.refresh');
 });

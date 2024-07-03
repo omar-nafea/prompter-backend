@@ -15,7 +15,7 @@ return new class() extends Migration
      */
     public function up(): void
     {
-        Schema::create('output_languages', function (Blueprint $table) {
+        Schema::create('output_languages', function (Blueprint $table): void {
             $table->id();
             $table->string('name')->unique();
             $table->unsignedTinyInteger('status')->default(OutputLanguageStatus::Enabled);

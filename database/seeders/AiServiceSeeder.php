@@ -7,7 +7,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Modules\AiServiceManagement\app\Models\AiService;
 
-class AiServiceSeeder extends Seeder
+final class AiServiceSeeder extends Seeder
 {
     /**
      * Run the database seeds.

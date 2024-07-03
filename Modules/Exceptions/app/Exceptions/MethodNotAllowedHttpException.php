@@ -8,15 +8,15 @@ use MohamedGaber\ApiResponse\Builder\ErrorApiResponseBuilder;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException as BaseMethodNotAllowedHttpException;
 use Throwable;
 
-class MethodNotAllowedHttpException extends BaseException
+final class MethodNotAllowedHttpException extends BaseException
 {
     public function __construct(
         public BaseMethodNotAllowedHttpException $baseMethodNotAllowedHttpException,
         ?string $message = null,
         int $code = 0,
         ?Throwable $previous = null,
-        $id = '',
-        $name = ''
+        mixed $id = '',
+        mixed $name = ''
     ) {
         parent::__construct(
             $message ?? $this->baseMethodNotAllowedHttpException->getMessage(),
@@ -27,7 +27,7 @@ class MethodNotAllowedHttpException extends BaseException
         );
     }
 
-    protected function withResponse(ErrorApiResponseBuilder $response)
+    protected function withResponse(ErrorApiResponseBuilder $response): ErrorApiResponseBuilder
     {
         return $response->withMeta(
             config('app.debug') ? [

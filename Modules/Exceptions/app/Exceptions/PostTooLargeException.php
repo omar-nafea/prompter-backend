@@ -9,15 +9,15 @@ use MohamedGaber\ApiResponse\Builder\ErrorApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Response as ResponseStatusCode;
 use Throwable;
 
-class PostTooLargeException extends BaseException
+final class PostTooLargeException extends BaseException
 {
     public function __construct(
         public BasePostTooLargeException $basePostTooLargeException,
         ?string $message = null,
         int $code = 0,
         ?Throwable $previous = null,
-        $id = '',
-        $name = ''
+        mixed $id = '',
+        mixed $name = ''
     ) {
         parent::__construct(
             $message ?: $this->basePostTooLargeException->getMessage() ?: __('Post Request Body Data Too Large'),

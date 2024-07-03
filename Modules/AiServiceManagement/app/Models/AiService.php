@@ -9,7 +9,14 @@ use Database\Factories\AiServiceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\AiServiceManagement\app\Enums\AiServiceStatus;
 
-class AiService extends BaseModel
+/**
+ * @property-read int $id,
+ * @property-read string $name,
+ * @property-read string $description,
+ * @property-read int $price,
+ * @property-read AiServiceStatus $status
+ */
+final class AiService extends BaseModel
 {
     use HasFactory;
 
@@ -28,6 +35,9 @@ class AiService extends BaseModel
         'deleted_by',
     ];
 
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'status' => AiServiceStatus::class,
     ];
@@ -54,7 +64,7 @@ class AiService extends BaseModel
     |                             Helpers                                      |
     |--------------------------------------------------------------------------|
     */
-    protected static function newFactory()
+    protected static function newFactory(): AiServiceFactory
     {
         return AiServiceFactory::new();
     }

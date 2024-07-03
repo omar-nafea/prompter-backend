@@ -4,26 +4,32 @@ declare(strict_types=1);
 
 namespace Modules\ProjectManagement\app\Http\Controllers;
 
-use Illuminate\Auth\Access\Gate;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Modules\Auth\app\Models\User;
 use Modules\ProjectManagement\app\Actions\Project\FetchProjectCodeSnippetsAction;
 use Modules\ProjectManagement\app\Actions\Project\FetchProjectListAction;
 use Modules\ProjectManagement\app\Actions\Project\FetchSingleProjectAction;
-use Modules\ProjectManagement\app\Actions\StoreProjectAction;
+use Modules\ProjectManagement\app\Actions\Project\StoreProjectAction;
+use Modules\ProjectManagement\app\Actions\Project\UpdateProjectAction;
 use Modules\ProjectManagement\app\Dtos\Project\StoreProjectDto;
+use Modules\ProjectManagement\app\Dtos\Project\UpdateProjectDto;
 use Modules\ProjectManagement\app\Http\Requests\Project\ProjectRequest;
 use Modules\ProjectManagement\app\Http\Resources\ProjectResource;
 
 final class ProjectController
 {
-    public function index(FetchProjectListAction $action)
+    public function index(FetchProjectListAction $action): JsonResponse
     {
+        /** @var User $user */
+        $user = auth()->user();
+
         return apiResponse()
             ->success()
             ->data(
                 ProjectResource::collection(
                     $action->execute(
-                        auth()->user()
+                        $user
                     )
                 ),
             )->send();
@@ -32,7 +38,7 @@ final class ProjectController
     public function store(
         ProjectRequest $request,
         StoreProjectAction $action,
-    ) {
+    ): JsonResponse {
 
         return apiResponse()
             ->success()
@@ -46,12 +52,23 @@ final class ProjectController
             )->send();
     }
 
-    public function validateProjectFormOnly(Request $request)
+    public function update(
+        ProjectRequest $request,
+        UpdateProjectAction $action,
+    ): JsonResponse {
+        $action->execute(
+            dto: UpdateProjectDto::fromProjectRequest($request)
+        );
+
+        return apiResponse()->success()->message('Project updated successfully')->send();
+    }
+
+    public function validateProjectFormOnly(Request $request): JsonResponse
     {
+        app(ProjectRequest::class);
 
         if ($request->isMethod('POST')) {
             //            Gate::authorize('store', Listing::class);
-            app(ProjectRequest::class);
         }
         //            Gate::authorize('update', [Listing::class, $request->route('listing')->id]);
         //            app(ListingUpdateRequest::class);
@@ -65,7 +82,7 @@ final class ProjectController
             ->send();
     }
 
-    public function show($project, FetchSingleProjectAction $action)
+    public function show(string $project, FetchSingleProjectAction $action): JsonResponse
     {
 
         return apiResponse()
@@ -78,7 +95,7 @@ final class ProjectController
             ->send();
     }
 
-    public function codeSnippets($project, FetchProjectCodeSnippetsAction $action)
+    public function codeSnippets(string $project, FetchProjectCodeSnippetsAction $action): JsonResponse
     {
 
         return apiResponse()
@@ -91,9 +108,9 @@ final class ProjectController
             ->send();
     }
 
-    public function destroy($project)
+    public function destroy(string $project): JsonResponse
     {
-        auth()->user()->projects()->where('key', $project)->firstOrFail()->delete();
+        auth()->user()?->projects()->where('key', $project)->firstOrFail()->delete();
 
         return apiResponse()
             ->success()

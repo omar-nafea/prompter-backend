@@ -9,7 +9,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\ProjectManagement\app\Enums\OutputLanguageStatus;
 
-class OutputLanguage extends BaseModel
+/**
+ * @property-read int $id
+ * @property-read string $name
+ * @property-read OutputLanguageStatus $status
+ */
+final class OutputLanguage extends BaseModel
 {
     use HasFactory;
 
@@ -18,6 +23,9 @@ class OutputLanguage extends BaseModel
     |                              Arrays                                      |
     |--------------------------------------------------------------------------|
     */
+    /**
+     * @var array<string,mixed>
+     */
     protected $attributes = [
         'status' => OutputLanguageStatus::Enabled,
     ];
@@ -27,6 +35,9 @@ class OutputLanguage extends BaseModel
         'status',
     ];
 
+    /**
+     * @var array<string,string>
+     */
     protected $casts = [
         'status' => OutputLanguageStatus::class,
     ];
@@ -59,6 +70,9 @@ class OutputLanguage extends BaseModel
     |                              Scopes                                      |
     |--------------------------------------------------------------------------|
    */
+    /**
+     * @param  Builder<OutputLanguage>  $query
+     */
     public function scopeEnabled(Builder $query): void
     {
         $query->where('status', OutputLanguageStatus::Enabled);

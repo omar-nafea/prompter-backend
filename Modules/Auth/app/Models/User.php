@@ -6,6 +6,9 @@ namespace Modules\Auth\app\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\BaseAuthenticatable;
+use App\ValueObjects\Email;
+use App\ValueObjects\Phone;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
@@ -16,9 +19,20 @@ use Modules\Auth\database\factories\UserFactory;
 use Modules\ProjectManagement\app\Models\Project;
 use MohamedGaber\SanctumRefreshToken\Traits\HasApiTokens;
 
-class User extends BaseAuthenticatable
+/**
+ * @property-read int $id
+ * @property-read string $name
+ * @property-read string $password
+ * @property-read Email $email
+ * @property-read ?Phone $phone
+ * @property-read UserStatus $status
+ * @property-read Collection<int, Project> $projects
+ */
+final class User extends BaseAuthenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
     /*
    |--------------------------------------------------------------------------|
@@ -43,7 +57,7 @@ class User extends BaseAuthenticatable
         'status' => UserStatus::class,
     ];
 
-    /** @var array<string, string> */
+    /** @var array<string, mixed> */
     protected $attributes = [
         'status' => UserStatus::Active,
     ];
@@ -58,7 +72,7 @@ class User extends BaseAuthenticatable
      |                           Constants                                      |
      |--------------------------------------------------------------------------|
      */
-    const MORPH_MAP = 1;
+    public const MORPH_MAP = 1;
     /*
     |--------------------------------------------------------------------------|
     |                             Mutators                                     |
@@ -77,7 +91,7 @@ class User extends BaseAuthenticatable
     |--------------------------------------------------------------------------|
     */
 
-    public static function factory($count = null, $state = [])
+    protected static function newFactory(): UserFactory
     {
         return UserFactory::new();
     }
@@ -94,6 +108,9 @@ class User extends BaseAuthenticatable
     |--------------------------------------------------------------------------|
    */
 
+    /**
+     * @return HasMany<Project>
+     */
     public function projects(): HasMany
     {
         return $this->hasMany(Project::class);

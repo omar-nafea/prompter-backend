@@ -6,8 +6,14 @@ namespace Modules\ProjectManagement\app\Models;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\ProjectManagement\Database\Factories\ProjectInputRuleFactory;
 
-class ProjectInputRule extends BaseModel
+/**
+ * @property-read int $id
+ * @property-read string $label
+ * @property-read string $name
+ */
+final class ProjectInputRule extends BaseModel
 {
     use HasFactory;
 
@@ -48,9 +54,9 @@ class ProjectInputRule extends BaseModel
     |--------------------------------------------------------------------------|
     */
 
-    protected static function newFactory()
+    protected static function newFactory(): ProjectInputRuleFactory
     {
-        return \Modules\ProjectManagement\Database\Factories\ProjectInputRuleFactory::new();
+        return ProjectInputRuleFactory::new();
     }
 
     /*

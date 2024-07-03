@@ -4,18 +4,31 @@ declare(strict_types=1);
 
 namespace Modules\UserManagement\app\Http\Controllers;
 
+use Illuminate\Auth\AuthManager;
+use Illuminate\Http\JsonResponse;
 use Modules\Auth\app\Http\Resources\UserResource;
+use Modules\Auth\app\Models\User;
 use Modules\UserManagement\app\Actions\Profile\FetchUserProfileAction;
 
-class ProfileController
+final class ProfileController
 {
-    public function show(FetchUserProfileAction $action)
+    public function __construct(
+        protected AuthManager $auth
+    ) {}
+
+    public function show(FetchUserProfileAction $action): JsonResponse
     {
+        /** @var User $user */
+        $user = $this->auth->user();
+
         return apiResponse()
             ->success()
-            ->data(UserResource::make(
-                $action->execute(auth()->user())
-            ))
-            ->send();
+            ->data(
+                data: UserResource::make(
+                    $action->execute(
+                        user: $user
+                    )
+                )
+            )->send();
     }
 }

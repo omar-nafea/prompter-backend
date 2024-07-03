@@ -12,7 +12,7 @@ use Modules\Exceptions\app\Factory\Contract\ExceptionMappingFactory as Exception
 use Modules\Exceptions\app\Factory\ExceptionMappingFactory;
 use Modules\Exceptions\app\Handler\Handler;
 
-class ExceptionsServiceProvider extends ServiceProvider
+final class ExceptionsServiceProvider extends ServiceProvider
 {
     protected string $moduleName = 'Exceptions';
 
@@ -76,6 +76,8 @@ class ExceptionsServiceProvider extends ServiceProvider
 
     /**
      * Get the services provided by the provider.
+     *
+     * @return string[]
      */
     public function provides(): array
     {
@@ -112,10 +114,15 @@ class ExceptionsServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(module_path($this->moduleName, 'config/config.php'), $this->moduleNameLower);
     }
 
+    /**
+     * @return string[]
+     */
     private function getPublishableViewPaths(): array
     {
         $paths = [];
-        foreach (config('view.paths') as $path) {
+        /** @var string[] $viewPaths */
+        $viewPaths = config('view.paths');
+        foreach ($viewPaths as $path) {
             if (is_dir($path . '/modules/' . $this->moduleNameLower)) {
                 $paths[] = $path . '/modules/' . $this->moduleNameLower;
             }

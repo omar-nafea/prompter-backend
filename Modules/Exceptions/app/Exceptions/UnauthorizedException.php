@@ -9,15 +9,15 @@ use MohamedGaber\ApiResponse\Builder\ErrorApiResponseBuilder;
 use Symfony\Component\HttpFoundation\Response as ResponseStatusCode;
 use Throwable;
 
-class UnauthorizedException extends BaseException
+final class UnauthorizedException extends BaseException
 {
     public function __construct(
         public BaseUnauthorizedException $baseUnauthorizedException,
         ?string $message = null,
         int $code = 0,
         ?Throwable $previous = null,
-        $id = '',
-        $name = ''
+        mixed $id = '',
+        mixed $name = ''
     ) {
         parent::__construct(
             $message ?? $this->baseUnauthorizedException->getMessage(),
@@ -28,7 +28,7 @@ class UnauthorizedException extends BaseException
         );
     }
 
-    protected function withResponse(ErrorApiResponseBuilder $response)
+    protected function withResponse(ErrorApiResponseBuilder $response): ?ErrorApiResponseBuilder
     {
         return $response->withMeta(
             config('app.debug') ? [

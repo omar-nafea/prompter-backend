@@ -6,8 +6,9 @@ namespace Modules\ProjectManagement\app\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Override;
 
-class ProjectManagementServiceProvider extends ServiceProvider
+final class ProjectManagementServiceProvider extends ServiceProvider
 {
     protected string $moduleName = 'ProjectManagement';
 
@@ -29,6 +30,7 @@ class ProjectManagementServiceProvider extends ServiceProvider
     /**
      * Register the service provider.
      */
+    #[Override]
     public function register(): void
     {
         $this->app->register(RouteServiceProvider::class);
@@ -96,16 +98,24 @@ class ProjectManagementServiceProvider extends ServiceProvider
 
     /**
      * Get the services provided by the provider.
+     *
+     * @return string[]
      */
+    #[Override]
     public function provides(): array
     {
         return [];
     }
 
+    /**
+     * @return string[]
+     */
     private function getPublishableViewPaths(): array
     {
         $paths = [];
-        foreach (config('view.paths') as $path) {
+        /** @var string[] $viewPaths */
+        $viewPaths = config('view.paths');
+        foreach ($viewPaths as $path) {
             if (is_dir($path . '/modules/' . $this->moduleNameLower)) {
                 $paths[] = $path . '/modules/' . $this->moduleNameLower;
             }

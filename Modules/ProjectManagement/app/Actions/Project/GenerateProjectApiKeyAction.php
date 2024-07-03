@@ -6,9 +6,9 @@ namespace Modules\ProjectManagement\app\Actions\Project;
 
 use Str;
 
-class GenerateProjectApiKeyAction
+final class GenerateProjectApiKeyAction
 {
-    public function execute()
+    public function execute(): string
     {
         //todo implement logic like sanctum tokens generation
         return Str::random(32);

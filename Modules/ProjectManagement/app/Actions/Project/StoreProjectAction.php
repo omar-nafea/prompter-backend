@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Modules\ProjectManagement\app\Actions;
+namespace Modules\ProjectManagement\app\Actions\Project;
 
 use Closure;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Pipeline;
-use Modules\ProjectManagement\app\Actions\Project\GenerateProjectApiKeyAction;
 use Modules\ProjectManagement\app\Dtos\Project\ProjectInputDto;
+use Modules\ProjectManagement\app\Dtos\Project\ProjectOutputDto;
 use Modules\ProjectManagement\app\Dtos\Project\StoreProjectDto;
 use Modules\ProjectManagement\app\Models\Project;
 
@@ -18,10 +18,9 @@ final class StoreProjectAction
         protected GenerateProjectApiKeyAction $generateProjectApiKeyAction
     ) {}
 
-    public function execute(StoreProjectDto $dto)
+    public function execute(StoreProjectDto $dto): Project
     {
-        ds($dto->toArray());
-
+        /** @var Project */
         return DB::transaction(
             fn () => Pipeline::send(['dto' => $dto])
                 ->through([
@@ -29,44 +28,48 @@ final class StoreProjectAction
                     $this->storeProjectInputs(...),
                     $this->storeObjectiveQuestions(...),
                     $this->storeProjectOutputs(...),
-                ])->then(fn ($params) => $params['project']),
+                ])->then(/** @param array{dto: StoreProjectDto, project: Project} $params */
+                    destination: static fn (array $params): Project => $params['project']
+                ),
         );
     }
 
-    protected function storeProjectData(array $params, Closure $next)
+    /**
+     * @param  array{dto: StoreProjectDto, project: Project}  $params
+     */
+    protected function storeProjectData(array $params, Closure $next): Project
     {
         /* @var StoreProjectDto $dto */
         $dto = $params['dto'];
-        $params['project'] = $dto->creator->projects()->create($dto->projectDto->toArray() + [
-            'api_key' => $this->generateProjectApiKeyAction->execute(),
-        ]);
+        $params['project'] = $dto->creator->projects()->create(
+            $dto->projectDto->toArray() + [
+                'api_key' => $this->generateProjectApiKeyAction->execute(),
+            ]
+        );
         $params['project']->outputLanguages()->attach($dto->outputLanguages);
 
         return $next($params);
     }
 
-    protected function storeObjectiveQuestions(array $params, Closure $next)
+    /**
+     * @param  array{dto: StoreProjectDto, project: Project}  $params
+     */
+    protected function storeObjectiveQuestions(array $params, Closure $next): Project
     {
         /* @var StoreProjectDto $dto */
         $dto = $params['dto'];
 
         /** @var Project $project */
         $project = $params['project'];
-
-        //        /** @var ObjectiveQuestionDto $objectiveQuestion */
-        //        foreach ( $dto->objectiveQuestions as $objectiveQuestion){
         $project->answers()->createMany($dto->objectiveQuestions->toArray());
 
-        //            ProjectObjectiveAnswer::create([
-        //                'project_id' => $project->id,
-        //                'question_id' => $objectiveQuestion->questionId,
-        //                'answer' => $objectiveQuestion->answer
-        //            ]);
-        //        }
         return $next($params);
     }
 
-    protected function storeProjectInputs(array $params, Closure $next)
+    /**
+     * @param  array{dto: StoreProjectDto, project: Project}  $params
+     */
+    protected function storeProjectInputs(array $params, Closure $next): Project
     {
         /* @var StoreProjectDto $dto */
         $dto = $params['dto'];
@@ -87,14 +90,17 @@ final class StoreProjectAction
         return $next($params);
     }
 
-    protected function storeProjectOutputs(array $params, Closure $next)
+    /**
+     * @param  array{dto: StoreProjectDto, project: Project}  $params
+     */
+    protected function storeProjectOutputs(array $params, Closure $next): Project
     {
         /* @var StoreProjectDto $dto */
         $dto = $params['dto'];
 
         /** @var Project $project */
         $project = $params['project'];
-        /** @var ProjectInputDto $projectInput */
+        /** @var ProjectOutputDto $projectOutput */
         foreach ($dto->projectOutputs as $projectOutput) {
             $output = $project->outputs()->create($projectOutput->except('values')->toArray());
             if ($projectOutput->values) {
@@ -108,15 +114,10 @@ final class StoreProjectAction
         return $next($params);
     }
 
-    protected function sample(array $params, Closure $next)
-    {
-        /* @var StoreProjectDto $dto */
-        $dto = $params['dto'];
-
-        return $next($params);
-    }
-
-    protected function generateApiKey(array $params, Closure $next)
+    /**
+     * @param  array{dto: StoreProjectDto, project: Project}  $params
+     */
+    protected function sample(array $params, Closure $next): Project
     {
         /* @var StoreProjectDto $dto */
         $dto = $params['dto'];

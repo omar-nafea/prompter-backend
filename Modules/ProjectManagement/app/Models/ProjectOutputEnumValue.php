@@ -7,7 +7,12 @@ namespace Modules\ProjectManagement\app\Models;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class ProjectOutputEnumValue extends BaseModel
+/**
+ * @property-read int $id
+ * @property-read int $project_input_id
+ * @property-read string $value
+ */
+final class ProjectOutputEnumValue extends BaseModel
 {
     use HasFactory;
 

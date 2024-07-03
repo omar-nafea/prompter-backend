@@ -6,21 +6,22 @@ namespace Modules\ProjectManagement\app\Actions\Project;
 
 use Modules\ProjectManagement\app\Models\Project;
 
-class FetchSingleProjectAction
+final class FetchSingleProjectAction
 {
-    public function execute(string $projectKey)
+    public function execute(string $projectKey): Project
     {
         return Project::query()
             //->allowedForUser($dto->user) todo implement and use this scope
             ->with([
-                'inputs',
-                'outputs',
+                'inputs.enumValues',
+                'outputs.enumValues',
                 'answers.objectiveQuestion',
                 'aiService',
                 'aiCallType',
                 'aiResponseType',
                 'outputLanguages',
             ])
-            ->where('key', $projectKey)->firstOrFail();
+            ->where('key', $projectKey)
+            ->firstOrFail();
     }
 }

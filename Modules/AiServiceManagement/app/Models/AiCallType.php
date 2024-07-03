@@ -10,7 +10,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\AiServiceManagement\app\Enums\AiCallType as AiCallTypeEnum;
 use Modules\AiServiceManagement\app\Enums\AiCallTypeStatus;
 
-class AiCallType extends BaseModel
+/**
+ * @property-read int $id
+ * @property-read string $name
+ * @property-read string $description
+ * @property-read AiCallTypeEnum $type
+ * @property-read AiCallTypeStatus $status
+ */
+final class AiCallType extends BaseModel
 {
     use HasFactory;
 
@@ -26,6 +33,9 @@ class AiCallType extends BaseModel
         'status',
     ];
 
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'type' => AiCallTypeEnum::class,
         'status' => AiCallTypeStatus::class,
@@ -53,7 +63,7 @@ class AiCallType extends BaseModel
     |                             Helpers                                      |
     |--------------------------------------------------------------------------|
     */
-    protected static function newFactory()
+    protected static function newFactory(): AiCallTypeFactory
     {
         return AiCallTypeFactory::new();
     }

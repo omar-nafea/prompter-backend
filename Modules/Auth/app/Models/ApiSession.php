@@ -5,9 +5,18 @@ declare(strict_types=1);
 namespace Modules\Auth\app\Models;
 
 use App\Models\BaseModel;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class ApiSession extends BaseModel
+/**
+ * @property-read int $id
+ * @property-read string $platform_type
+ * @property-read string $identity_type
+ * @property-read CarbonImmutable $verified_at
+ * @property-read int $user_id
+ * @property-read User $user
+ */
+final class ApiSession extends BaseModel
 {
     use HasFactory;
 
@@ -24,9 +33,9 @@ class ApiSession extends BaseModel
     ];
 
     protected $casts = [
-        'identity_type' => UserTypes::class,
+        //        'identity_type' => UserTypes::class,
         'verified_at' => 'datetime',
-        'platform_type' => PlatformType::class,
+        //        'platform_type' => PlatformType::class,
     ];
     /*
      |--------------------------------------------------------------------------|

@@ -7,18 +7,15 @@ namespace App\Providers;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
-use Str;
 
-class AppServiceProvider extends ServiceProvider
+final class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
      */
-    public function register(): void
-    {
-        //
-    }
+    public function register(): void {}
 
     /**
      * Bootstrap any application services.
@@ -55,13 +52,13 @@ class AppServiceProvider extends ServiceProvider
         );
     }
 }
-if (! function_exists('minify')) {
-    function minify($value, $separator = '')
-    {
-        return preg_replace(
-            '/^\s*[\r\n]/m',
-            '',
-            str_replace("\n", $separator, $value)
-        );
-    }
-}
+//if ( ! function_exists('minify')) {
+//    function minify($value, $separator = '')
+//    {
+//        return preg_replace(
+//            '/^\s*[\r\n]/m',
+//            '',
+//            str_replace("\n", $separator, $value)
+//        );
+//    }
+//}

@@ -7,7 +7,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\AiServiceManagement\app\Models\AiCallType;
 
-class AiCallTypeFactory extends Factory
+final class AiCallTypeFactory extends Factory
 {
     protected $model = AiCallType::class;
 

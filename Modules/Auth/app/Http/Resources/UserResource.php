@@ -6,21 +6,27 @@ namespace Modules\Auth\app\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Auth\app\Models\User;
+use Override;
 
-class UserResource extends JsonResource
+/**
+ * @property-read User $resource
+ */
+final class UserResource extends JsonResource
 {
+    /**
+     * @return array<string,mixed>
+     */
+    #[Override]
     public function toArray($request): array
     {
-        /* @var User|self $this */
-
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email->toNative(),
-            'phone' => $this->phone->toNative(),
+            'id' => $this->resource->id,
+            'name' => $this->resource->name,
+            'email' => $this->resource->email->toNative(),
+            'phone' => $this->resource->phone?->toNative(),
             'status' => [
-                'name' => $this->status->label(),
-                'value' => $this->status->value,
+                'name' => $this->resource->status->label(),
+                'value' => $this->resource->status->value,
             ],
         ];
 

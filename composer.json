@@ -12,9 +12,9 @@
         "laravel/prompts": "^0.1.19",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
-        "mohamed-gaber/api-response": "dev-master",
-        "mohamed-gaber/pipeline-filter": "dev-master",
-        "mohamed-gaber/unique-model-key-generator": "dev-master",
+        "mohamed-gaber/api-response": "1.0.x-dev",
+        "mohamed-gaber/pipeline-filter": "1.0.x-dev",
+        "mohamed-gaber/unique-model-key-generator": "1.0.x-dev",
         "mohamedgaber-intake40/sanctum-refresh-token": "^2.3",
         "nwidart/laravel-modules": "^10.0",
         "pascaldevink/shortuuid": "^4.0",
@@ -26,11 +26,13 @@
         "glhd/laravel-dumper": "^2.0",
         "lanin/laravel-api-debugger": "^4.0",
         "laradumps/laradumps": "^3.0",
+        "larastan/larastan": "^2.0",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.18",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^7.0",
-        "phpunit/phpunit": "^10.1",
+        "pestphp/pest": "^2.34",
+        "pestphp/pest-plugin-type-coverage": "^2.8",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
@@ -61,7 +63,15 @@
             "@php artisan key:generate --ansi"
         ],
         "lint": "pint",
-        "test:lint": "pint --test"
+        "test:lint": "pint --test",
+        "test:unit": "./vendor/bin/pest --order-by random",
+        "test:static": "phpstan analyse",
+        "test:type-coverage": "pest --type-coverage --min=100",
+        "test": [
+            "@test:lint",
+            "@test:unit",
+            "@test:static"
+        ]
     },
     "extra": {
         "laravel": {
@@ -78,12 +88,13 @@
             "wikimedia/composer-merge-plugin": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "repositories": [
         {
             "type": "path",
-            "url": "Packages/ApiResponse"
+            "url": "Packages/ApiResponse",
+            "branch": "dev-master"
         },
         {
             "type": "path",

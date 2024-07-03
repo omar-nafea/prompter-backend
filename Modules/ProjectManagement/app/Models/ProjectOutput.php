@@ -8,7 +8,17 @@ use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class ProjectOutput extends BaseModel
+/**
+ * @property-read int $id
+ * @property-read string $name
+ * @property-read string $description
+ * @property-read string $data_type
+ * @property-read bool $is_required
+ * @property-read int|null $max_length
+ * @property-read int $project_id
+ * @property-read Project $project
+ */
+final class ProjectOutput extends BaseModel
 {
     use HasFactory;
 
@@ -63,6 +73,9 @@ class ProjectOutput extends BaseModel
     |                              Relations                                   |
     |--------------------------------------------------------------------------|
    */
+    /**
+     * @return HasMany<ProjectOutputEnumValue>
+     */
     public function enumValues(): HasMany
     {
         return $this->hasMany(ProjectOutputEnumValue::class);

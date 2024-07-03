@@ -7,7 +7,7 @@ namespace MohamedGaber\UniqueModelKeyGenerator;
 use Illuminate\Support\Str;
 use MohamedGaber\UniqueModelKeyGenerator\Contracts\UniqueModelKeyGeneratorFactory as UniqueModelKeyGeneratorFactoryContract;
 
-class UniqueModelKeyGeneratorFactory implements UniqueModelKeyGeneratorFactoryContract
+final class UniqueModelKeyGeneratorFactory implements UniqueModelKeyGeneratorFactoryContract
 {
     public function generate(string $prefix = ''): string
     {

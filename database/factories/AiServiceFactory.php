@@ -7,7 +7,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\AiServiceManagement\app\Models\AiService;
 
-class AiServiceFactory extends Factory
+final class AiServiceFactory extends Factory
 {
     protected $model = AiService::class;
 

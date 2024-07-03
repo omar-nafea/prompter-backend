@@ -9,7 +9,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\ProjectManagement\app\Enums\DataType;
 
-class ProjectInput extends BaseModel
+/**
+ * @property-read int $id
+ * @property-read string $name
+ * @property-read DataType $data_type
+ * @property-read bool $is_required
+ * @property-read int|null $max_length
+ * @property-read string $description
+ * @property-read int $project_id
+ * @property-read Project $project
+ */
+final class ProjectInput extends BaseModel
 {
     use HasFactory;
 
@@ -70,6 +80,9 @@ class ProjectInput extends BaseModel
     |--------------------------------------------------------------------------|
    */
 
+    /**
+     * @return HasMany<ProjectInputEnumValue>
+     */
     public function enumValues(): HasMany
     {
         return $this->hasMany(ProjectInputEnumValue::class);

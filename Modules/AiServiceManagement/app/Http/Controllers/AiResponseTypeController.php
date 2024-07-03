@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace Modules\AiServiceManagement\app\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Modules\AiServiceManagement\app\Actions\AiResponseType\FetchAiResponseTypeListAction;
 use Modules\AiServiceManagement\app\Http\Resources\AiResponseTypeResource;
 
-class AiResponseTypeController
+final class AiResponseTypeController
 {
-    public function index(FetchAiResponseTypeListAction $action)
+    public function index(FetchAiResponseTypeListAction $action): JsonResponse
     {
         return apiResponse()
             ->success()

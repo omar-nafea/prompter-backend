@@ -16,7 +16,7 @@ return new class() extends Migration
      */
     public function up(): void
     {
-        Schema::create('project_output_languages', function (Blueprint $table) {
+        Schema::create('project_output_languages', function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(Project::class);
             $table->foreignIdFor(OutputLanguage::class);

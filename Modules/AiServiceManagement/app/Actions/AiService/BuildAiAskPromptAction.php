@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\AiServiceManagement\app\Actions\AiService;
 
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 use Modules\ProjectManagement\app\Enums\ProjectQuestionType;
@@ -13,7 +14,12 @@ use Modules\ProjectManagement\app\Models\ProjectOutput;
 
 final class BuildAiAskPromptAction
 {
-    public function execute(Project $project, array $inputsData)
+    /**
+     * @param  array<string,mixed>  $inputsData
+     *
+     * @throws Exception
+     */
+    public function execute(Project $project, array $inputsData): string
     {
         //        dd($project->expected_outcome);
 
@@ -30,7 +36,7 @@ final class BuildAiAskPromptAction
         //Capucci 1 pc 7.00 EGP instead of 10.00 EGP';
         //        $project->expected_outcome = 'Given the following customer data and context for Tawfeer Market, generate a personalized marketing message strategy';
         //        dd($project->expected_outcome);
-        $string = str($this->getPromptTemplate())
+        $string = Str::of($this->getPromptTemplate())
             ->replace('[BACKGROUND]', Str::minify($this->getQuestionAnswer($project, ProjectQuestionType::Background)))
             ->replace('[EXPECTED OUTCOMES]', $project->expected_outcome)
             ->replace(
@@ -51,14 +57,14 @@ final class BuildAiAskPromptAction
                 '[OUTPUTS WITH DESCRIPTION]',
                 $this->prepareOutputsWithDescription($project->outputs, true, '.')
             )
-            ->replace('[OUTPUT MAXIMUM LENGTH]', $project->max_output_length) // todo add output maximum to project table
+            ->replace('[OUTPUT MAXIMUM LENGTH]', (string) $project->max_output_length) // todo add output maximum to project table
             ->toString();
 
         //        dd($string);
 
         return $string;
-        response()->json(compact('string'))->throwResponse();
-        dd($string);
+        //        response()->json(compact('string'))->throwResponse();
+        //        dd($string);
         //        $str = sprintf(
         //            $string,
         //            $project->background,
@@ -77,7 +83,7 @@ final class BuildAiAskPromptAction
 
         //validate the response is valid format and have valid outputs
 
-        return $prompt;
+        //        return $prompt;
     }
 
     /**
@@ -105,11 +111,14 @@ final class BuildAiAskPromptAction
         );
     }
 
+    /**
+     * @param  Collection<int, ProjectInput>  $projectInputs
+     */
     protected function prepareInputsWithDescription(Collection $projectInputs, bool $withWrapper = false, string $separator = ';'): string
     {
         return (string) Str::minify(
             value: $projectInputs->reduce(
-                callback: function (string $accumulator, ProjectInput $projectInput, int $idx) use ($projectInputs, $withWrapper, $separator) {
+                callback: function (string $accumulator, ProjectInput $projectInput, int $idx) use ($projectInputs, $separator, $withWrapper) {
                     if ($idx === $projectInputs->count() - 1) {
                         $separator = '';
                     }
@@ -129,11 +138,19 @@ final class BuildAiAskPromptAction
         );
     }
 
+    /**
+     * @param  array<string, mixed>  $inputsData
+     *
+     * @throws Exception
+     */
     protected function prepareInputsWithValues(array $inputsData, bool $withWrapper = false, string $separator = ' '): string
     {
         return (string) Str::minify(
             value: collect($inputsData)->reduce(
-                callback: function (string $accumulator, mixed $value, mixed $key) use ($withWrapper, $separator) {
+                callback: static function (string $accumulator, mixed $value, mixed $key) use ($separator, $withWrapper) {
+                    if ( ! (is_bool($value) || is_string($value) || is_int($value))) {
+                        throw new Exception('value must be string, int or bool :' . gettype($value) . $value);
+                    }
                     $pattern = '-%s:%s' . $separator;
                     $accumulator .= $withWrapper ?
                         sprintf($pattern, $key, is_bool($value) ? ($value ? 'yes' : 'no') : $value) :

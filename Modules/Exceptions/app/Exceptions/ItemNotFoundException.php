@@ -8,15 +8,15 @@ use Illuminate\Support\ItemNotFoundException as BaseItemNotFoundException;
 use MohamedGaber\ApiResponse\Builder\ErrorApiResponseBuilder;
 use Throwable;
 
-class ItemNotFoundException extends BaseException
+final class ItemNotFoundException extends BaseException
 {
     public function __construct(
         public BaseItemNotFoundException $baseItemNotFoundException,
         ?string $message = null,
         int $code = 0,
         ?Throwable $previous = null,
-        $id = '',
-        $name = ''
+        mixed $id = '',
+        mixed $name = ''
     ) {
         parent::__construct(
             $message ?? $this->baseItemNotFoundException->getMessage(),
@@ -27,7 +27,7 @@ class ItemNotFoundException extends BaseException
         );
     }
 
-    protected function withResponse(ErrorApiResponseBuilder $response)
+    protected function withResponse(ErrorApiResponseBuilder $response): ErrorApiResponseBuilder
     {
         return $response->withMeta(
             config('app.debug') ? [

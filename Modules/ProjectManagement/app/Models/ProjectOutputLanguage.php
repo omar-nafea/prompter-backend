@@ -7,7 +7,14 @@ namespace Modules\ProjectManagement\app\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class ProjectOutputLanguage extends Pivot
+/**
+ * @property-read int $id
+ * @property-read int $project_id
+ * @property-read int $output_language_id
+ * @property-read Project $project
+ * @property-read OutputLanguage $outputLanguage
+ */
+final class ProjectOutputLanguage extends Pivot
 {
     use HasFactory;
 

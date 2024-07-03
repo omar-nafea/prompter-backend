@@ -12,14 +12,16 @@ use Illuminate\Validation\Validator;
 use Modules\AiServiceManagement\app\Models\AiCallType;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
 use Modules\AiServiceManagement\app\Models\AiService;
+use Modules\Auth\app\Models\User;
 use Modules\ProjectManagement\app\Enums\DataType;
 use Modules\ProjectManagement\app\Enums\OutputLanguageStatus;
 use Modules\ProjectManagement\app\Enums\ProjectOutputFormat;
 use Modules\ProjectManagement\app\Models\OutputLanguage;
 use Modules\ProjectManagement\app\Models\Project;
 use Modules\ProjectManagement\app\Models\ProjectObjectiveQuestion;
+use Override;
 
-class ProjectRequest extends BaseApiRequest
+final class ProjectRequest extends BaseApiRequest
 {
     protected bool $forEdit = false;
 
@@ -27,14 +29,14 @@ class ProjectRequest extends BaseApiRequest
 
     protected ?Project $project = null;
 
-    public function forEdit($forEdit = true): static
+    public function forEdit(bool $forEdit = true): self
     {
         $this->forEdit = $forEdit;
 
         return $this;
     }
 
-    public function forStep($step): static
+    public function forStep(int $step): self
     {
         $this->currentStep = $step;
 
@@ -46,36 +48,51 @@ class ProjectRequest extends BaseApiRequest
         return true;
     }
 
+    #[Override]
     protected function prepareForValidation(): void
     {
         $this->forEdit = $this->isMethod('PUT');
         if ($this->forEdit) {
-            $this->project = Project::findOrFail($this->route('project'));
+            /** @var User $user */
+            $user = $this->user();
+            $this->project = Project::query()
+                ->allowedForUser($user)
+                ->where('key', $this->route('project'))
+                ->firstOrFail();
         }
 
-        if ($step = (int) $this->route('step')) {
-            $this->currentStep = $step;
+        if (is_string($this->route('step'))) {
+            $this->currentStep = (int) $this->route('step');
         }
 
     }
 
+    /**
+     * @return array<string,mixed>
+     */
+    #[Override]
     public function rules(): array
     {
         $rules = [];
         foreach (range(1, $this->currentStep) as $step) {
-            $rules = [...$rules, ...$this->{"step{$step}rules"}()];
+            $rules = array_merge($rules, $this->{"step{$step}rules"}());
         }
 
         return $rules;
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     public function step1Rules(): array
     {
         return [
             'name' => [
                 'required',
                 'string',
-                Rule::unique(Project::class, 'name')->where('user_id', auth()->id()),
+                Rule::unique(Project::class, 'name')
+                    ->where('user_id', auth()->user()?->id)
+                    ->ignore($this->project?->id),
                 'min:' . config('global.min_string_length'),
                 'max:' . config('global.max_string_length'),
             ],
@@ -87,7 +104,17 @@ class ProjectRequest extends BaseApiRequest
             'objective_questions.*' => [
                 'required',
                 'array',
-                'size:2',
+                Rule::when(
+                    $this->forEdit,
+                    [
+                        'min:2',
+                        'max:3',
+                    ],
+                    [
+                        'size:2',
+                    ]
+                ),
+
             ],
             'objective_questions.*.question_id' => [
                 'required',
@@ -96,6 +123,12 @@ class ProjectRequest extends BaseApiRequest
                 Rule::exists(ProjectObjectiveQuestion::class, 'id')
                     ->where('status', 1)
                     ->withoutTrashed(),
+            ],
+            'objective_questions.*.answer_id' => [
+                Rule::requiredIf($this->forEdit),
+                'integer',
+                'min:' . config('global.min_integer'),
+                'max:' . config('global.max_integer'),
             ],
             'objective_questions.*.answer' => [
                 'required',
@@ -126,6 +159,7 @@ class ProjectRequest extends BaseApiRequest
             ],
             'output_languages.*' => [
                 'required',
+                'integer',
                 'filled',
                 'distinct',
                 Rule::exists(OutputLanguage::class, 'id')
@@ -136,6 +170,9 @@ class ProjectRequest extends BaseApiRequest
         ];
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     public function step2Rules(): array
     {
         return [
@@ -163,6 +200,9 @@ class ProjectRequest extends BaseApiRequest
         ];
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     public function step3Rules(): array
     {
         return [
@@ -174,6 +214,13 @@ class ProjectRequest extends BaseApiRequest
                 'required',
                 'array',
                 new ValidateInputOutputEnumValues(),
+            ],
+            'project_inputs.*.id' => [
+                'missing_if:' . $this->forEdit . ',false',
+                'integer',
+                'min:' . config('global.min_integer'),
+                'max:' . config('global.max_integer'),
+                'distinct',
             ],
             'project_inputs.*.name' => [
                 'required',
@@ -208,6 +255,9 @@ class ProjectRequest extends BaseApiRequest
         ];
     }
 
+    /**
+     * @return array<string,mixed>
+     */
     public function step4Rules(): array
     {
         return [
@@ -219,6 +269,13 @@ class ProjectRequest extends BaseApiRequest
                 'required',
                 'array',
                 new ValidateInputOutputEnumValues(),
+            ],
+            'project_outputs.*.id' => [
+                'missing_if:' . $this->forEdit . ',false',
+                'integer',
+                'min:' . config('global.min_integer'),
+                'max:' . config('global.max_integer'),
+                'distinct',
             ],
             'project_outputs.*.name' => [
                 'required',
@@ -253,19 +310,21 @@ class ProjectRequest extends BaseApiRequest
         ];
     }
 
-    public function withValidator(Validator $validator): void
+    protected function withValidator(Validator $validator): void
     {
-        $validator->after(function (Validator $validator) {
+        $validator->after(function (Validator $validator): void {
             if ($validator->errors()->count()) {
                 $validator->errors()->add(
-                    'failed_step',
-                    $this->determineFailedRuleStep(Arr::first($validator->errors()->keys()))
+                    key: 'failed_step',
+                    message: (string) $this->determineFailedRuleStep(
+                        failedRule: Arr::first($validator->errors()->keys())//@phpstan-ignore-line
+                    )
                 );
             }
         });
     }
 
-    public function determineFailedRuleStep(string $failedRule): ?int
+    protected function determineFailedRuleStep(string $failedRule): ?int
     {
         $result = null;
         foreach (range(1, 4) as $step) {
@@ -277,5 +336,10 @@ class ProjectRequest extends BaseApiRequest
         }
 
         return $result;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
     }
 }

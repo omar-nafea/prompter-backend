@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Auth\app\Http\Controllers\ControlPanel;
 
+use Illuminate\Http\JsonResponse;
 use Modules\Auth\app\Actions\ControlPanel\LoginAction;
 use Modules\Auth\app\Dtos\ControlPanel\LoginDto;
 use Modules\Auth\app\Http\Requests\LoginRequest;
@@ -12,7 +13,7 @@ use Modules\Auth\app\Http\Resources\UserResource;
 
 final class LoginController
 {
-    public function __invoke(LoginRequest $request, LoginAction $loginAction)
+    public function __invoke(LoginRequest $request, LoginAction $loginAction): JsonResponse
     {
         [
             'authToken' => $authToken,

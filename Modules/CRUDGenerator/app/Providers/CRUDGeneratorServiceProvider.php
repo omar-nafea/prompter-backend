@@ -12,7 +12,7 @@ use Modules\CRUDGenerator\app\Console\Commands\CreateDtoCommand;
 use Modules\CRUDGenerator\app\Console\Commands\CreateReqDtoAct;
 use Modules\CRUDGenerator\app\Console\Commands\MakeEnum;
 
-class CRUDGeneratorServiceProvider extends ServiceProvider
+final class CRUDGeneratorServiceProvider extends ServiceProvider
 {
     protected string $moduleName = 'CRUDGenerator';
 

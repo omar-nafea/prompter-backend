@@ -11,29 +11,35 @@ use Modules\AiServiceManagement\app\Http\Resources\AiCallTypeResource;
 use Modules\AiServiceManagement\app\Http\Resources\AiResponseTypeResource;
 use Modules\AiServiceManagement\app\Http\Resources\AiServiceResource;
 use Modules\ProjectManagement\app\Models\Project;
+use Override;
 
-class ProjectResource extends JsonResource
+/**
+ * @property-read Project $resource
+ */
+final class ProjectResource extends JsonResource
 {
+    /**
+     * @return array<string,mixed>
+     */
+    #[Override]
     public function toArray(Request $request)
     {
-        /** @var Project|self $this */
-        //        ds($this->outputLanguages);
         return [
-            'id' => $this->key,
-            'name' => $this->name,
-            'expected_outcome' => $this->expected_outcome,
-            'max_output_length' => $this->max_output_length,
+            'id' => $this->resource->key,
+            'name' => $this->resource->name,
+            'expected_outcome' => $this->resource->expected_outcome,
+            'max_output_length' => $this->resource->max_output_length,
             'output_format' => [
-                'name' => $this->output_format?->label(),
-                'value' => $this->output_format?->value,
+                'name' => $this->resource->output_format->label(),
+                'value' => $this->resource->output_format->value,
             ],
-            'api_key' => $this->api_key,
+            'api_key' => $this->resource->api_key,
             'status' => [
-                'name' => $this->status,
-                'value' => $this->status,
+                'name' => $this->resource->status,
+                'value' => $this->resource->status,
             ],
-            'created_at' => DateTimeResource::make($this->created_at),
-            'updated_at' => DateTimeResource::make($this->updated_at),
+            'created_at' => DateTimeResource::make($this->resource->created_at),
+            'updated_at' => DateTimeResource::make($this->resource->updated_at),
             'output_languages' => OutputLanguageResource::collection($this->whenLoaded('outputLanguages')),
             'ai_service' => AiServiceResource::make($this->whenLoaded('aiService')),
             'ai_call_type' => AiCallTypeResource::make($this->whenLoaded('aiCallType')),

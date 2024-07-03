@@ -9,7 +9,14 @@ use Database\Factories\AiResponseTypeFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\AiServiceManagement\app\Enums\AiResponseTypeStatus;
 
-class AiResponseType extends BaseModel
+/**
+ * @property-read int $id
+ * @property-read string $name
+ * @property-read string $description
+ * @property-read AiResponseTypeStatus $status
+ * @property-read string $type
+ */
+final class AiResponseType extends BaseModel
 {
     use HasFactory;
 
@@ -25,6 +32,9 @@ class AiResponseType extends BaseModel
         'type',
     ];
 
+    /**
+     * @var array<string, string>
+     */
     protected $casts = [
         'status' => AiResponseTypeStatus::class,
     ];
@@ -51,7 +61,7 @@ class AiResponseType extends BaseModel
     |                             Helpers                                      |
     |--------------------------------------------------------------------------|
     */
-    protected static function newFactory()
+    protected static function newFactory(): AiResponseTypeFactory
     {
         return AiResponseTypeFactory::new();
     }

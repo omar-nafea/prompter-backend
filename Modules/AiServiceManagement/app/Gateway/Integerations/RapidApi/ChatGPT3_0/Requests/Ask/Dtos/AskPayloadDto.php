@@ -6,7 +6,7 @@ namespace Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT
 
 use Spatie\LaravelData\Data;
 
-class AskPayloadDto extends Data
+final class AskPayloadDto extends Data
 {
     public function __construct(
         public string $prompt

@@ -13,10 +13,10 @@ return new class() extends Migration
      */
     public function up(): void
     {
-        Schema::create('project_input_rule_pivot', function (Blueprint $table) {
+        Schema::create('project_input_rule_pivot', function (Blueprint $table): void {
             $table->id();
-            $table->foreignIdFor(\Modules\ProjectManagement\app\Models\Project::class);
-            $table->foreignIdFor(\Modules\ProjectManagement\app\Models\ProjectInputRule::class)->constrained()->restrictOnDelete();
+            $table->foreignIdFor(Modules\ProjectManagement\app\Models\Project::class);
+            $table->foreignIdFor(Modules\ProjectManagement\app\Models\ProjectInputRule::class)->constrained()->restrictOnDelete();
             $table->json('params');
             $table->timestamps();
             $table->softDeletes();

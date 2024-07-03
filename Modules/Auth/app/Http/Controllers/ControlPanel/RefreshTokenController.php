@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Auth\app\Http\Controllers\ControlPanel;
 
+use Illuminate\Http\JsonResponse;
 use Modules\Auth\app\Actions\RefreshTokenAction;
 use Modules\Auth\app\Dtos\RefreshTokenDto;
 use Modules\Auth\app\Http\Requests\RefreshTokenRequest;
@@ -11,7 +12,7 @@ use Modules\Auth\app\Http\Resources\TokenResource;
 
 final class RefreshTokenController
 {
-    public function __invoke(RefreshTokenRequest $request, RefreshTokenAction $refreshTokenAction)
+    public function __invoke(RefreshTokenRequest $request, RefreshTokenAction $refreshTokenAction): JsonResponse
     {
         [
             'authToken' => $authToken,

@@ -170,8 +170,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        \App\Providers\ValidationServiceProvider::class,
-        \App\Providers\PolymorphicServiceProvider::class,
+        App\Providers\ValidationServiceProvider::class,
+        App\Providers\PolymorphicServiceProvider::class,
     ])->toArray(),
 
     /*

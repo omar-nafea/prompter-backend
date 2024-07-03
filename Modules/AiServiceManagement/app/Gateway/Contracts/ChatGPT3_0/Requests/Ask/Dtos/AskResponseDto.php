@@ -6,7 +6,13 @@ namespace Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT3_0\Requests\
 
 interface AskResponseDto
 {
+    /**
+     * @return array<string,mixed>
+     */
     public function toArray(): array;
 
+    /**
+     * @return array<string,mixed>
+     */
     public function data(): array;
 }

@@ -6,21 +6,28 @@ namespace Modules\AiServiceManagement\app\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\AiServiceManagement\app\Models\AiResponseType;
+use Modules\AiServiceManagement\app\Models\AiCallType;
+use Override;
 
-class AiResponseTypeResource extends JsonResource
+/**
+ * @property-read AiCallType $resource
+ */
+final class AiResponseTypeResource extends JsonResource
 {
+    /**
+     * @return array<string,mixed>
+     */
+    #[Override]
     public function toArray(Request $request): array
     {
-        /** @var AiResponseType|self $this */
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
-            'type' => $this->type,
+            'id' => $this->resource->id,
+            'name' => $this->resource->name,
+            'description' => $this->resource->description,
+            'type' => $this->resource->type,
             'status' => [
-                'name' => $this->status->label(),
-                'value' => $this->status->value,
+                'name' => $this->resource->status->label(),
+                'value' => $this->resource->status->value,
             ],
         ];
     }

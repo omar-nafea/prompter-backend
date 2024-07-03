@@ -6,7 +6,7 @@ namespace Modules\CRUDGenerator\app\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
 
-class CreateApiRequestCommand extends GeneratorCommand
+final class CreateApiRequestCommand extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.

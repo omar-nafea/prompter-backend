@@ -8,18 +8,26 @@ use Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT3_0\ChatGPT3_0 as C
 use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask\AskRequest;
 use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask\Dtos\AskPayloadDto;
 use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask\Dtos\AskResponseDto;
+use Saloon\Exceptions\Request\FatalRequestException;
+use Saloon\Exceptions\Request\RequestException;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
-class ChatGPT3_0 implements ChatGPT3_0Contract
+final class ChatGPT3_0 implements ChatGPT3_0Contract
 {
     public function __construct(
         protected ChatGPT3_0Connector $connector,
     ) {}
 
+    /**
+     * @throws FatalRequestException
+     * @throws RequestException
+     */
     public function ask(AskPayloadDto $dto): AskResponseDto
     {
+        /** @var AskRequest $request */
         $request = app(AskRequest::class);
+        /** @var array<int,mixed>$body */
         $body = $request->body()->get('body');
         $body[] = [
             'content' => $dto->prompt,
@@ -30,6 +38,7 @@ class ChatGPT3_0 implements ChatGPT3_0Contract
 
         //        $this->fake();
 
+        /** @var AskResponseDto */
         return $this->connector->send($request)->dtoOrFail();
     }
 

@@ -8,7 +8,14 @@ use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ProjectObjectiveAnswer extends BaseModel
+/**
+ * @property-read int $id
+ * @property-read string $name
+ * @property-read int $project_objective_question_id
+ * @property-read int $project_id
+ * @property-read string $answer
+ */
+final class ProjectObjectiveAnswer extends BaseModel
 {
     use HasFactory;
 
@@ -61,8 +68,14 @@ class ProjectObjectiveAnswer extends BaseModel
     |--------------------------------------------------------------------------|
    */
 
+    /**
+     * @return BelongsTo<ProjectObjectiveQuestion,self>
+     */
     public function objectiveQuestion(): BelongsTo
     {
-        return $this->belongsTo(ProjectObjectiveQuestion::class, 'project_objective_question_id');
+        return $this->belongsTo(
+            ProjectObjectiveQuestion::class,
+            'project_objective_question_id'
+        );
     }
 }
