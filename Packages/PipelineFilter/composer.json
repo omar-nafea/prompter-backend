@@ -15,5 +15,10 @@
     ],
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "require": {}
+    "require": {},
+    "extra": {
+        "branch-alias": {
+            "dev-feature/update-project": "1.0.x-dev"
+        }
+    }
 }

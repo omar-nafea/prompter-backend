@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0e0ca66d71a29d3ebf95a6f4ca61516e",
+    "content-hash": "840c87aa45df5692130fe557bed4203d",
     "packages": [
         {
             "name": "amphp/amp",
@@ -3108,13 +3108,18 @@
         },
         {
             "name": "mohamed-gaber/api-response",
-            "version": "dev-master",
+            "version": "dev-feature/update-project",
             "dist": {
                 "type": "path",
                 "url": "Packages/ApiResponse",
-                "reference": "7535aea87d4f485d7c50c8597a54a5a82901a79a"
+                "reference": "3ad975989ad59103a27b5e30f06d917345be8357"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-feature/update-project": "1.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "MohamedGaber\\ApiResponse\\": "src/"
@@ -3138,13 +3143,18 @@
         },
         {
             "name": "mohamed-gaber/pipeline-filter",
-            "version": "dev-master",
+            "version": "dev-feature/update-project",
             "dist": {
                 "type": "path",
                 "url": "Packages/PipelineFilter",
-                "reference": "3f190d5c5a5cdd9ab6c84ff105f280d35826a6fd"
+                "reference": "31bed2241a7d1aee3f4bd9468ee48fe9779ae25a"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-feature/update-project": "1.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "MohamedGaber\\PipelineFilter\\": "src/"
@@ -3165,11 +3175,11 @@
         },
         {
             "name": "mohamed-gaber/unique-model-key-generator",
-            "version": "dev-master",
+            "version": "dev-feature/update-project",
             "dist": {
                 "type": "path",
                 "url": "Packages/UniqueModelKeyGenerator",
-                "reference": "ef04655a5ca4112b9b0e5da157f18877086f3fbc"
+                "reference": "a3d2e4eb2744552e29dc9afaeffbaa29fa165bb1"
             },
             "require": {
                 "illuminate/support": "^10.0"
@@ -3180,6 +3190,9 @@
                     "providers": [
                         "MohamedGaber\\UniqueModelKeyGenerator\\UniqueModelKeyGeneratorServiceProvider"
                     ]
+                },
+                "branch-alias": {
+                    "dev-feature/update-project": "1.0.x-dev"
                 }
             },
             "autoload": {
@@ -11519,26 +11532,7 @@
             "time": "2024-04-26T13:56:40+00:00"
         }
     ],
-    "aliases": [
-        {
-            "package": "mohamed-gaber/api-response",
-            "version": "9999999-dev",
-            "alias": "1.0.0",
-            "alias_normalized": "1.0.0.0"
-        },
-        {
-            "package": "mohamed-gaber/pipeline-filter",
-            "version": "9999999-dev",
-            "alias": "1.0.0",
-            "alias_normalized": "1.0.0.0"
-        },
-        {
-            "package": "mohamed-gaber/unique-model-key-generator",
-            "version": "9999999-dev",
-            "alias": "1.0.0",
-            "alias_normalized": "1.0.0.0"
-        }
-    ],
+    "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
         "mohamed-gaber/api-response": 20,

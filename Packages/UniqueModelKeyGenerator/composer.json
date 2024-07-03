@@ -19,6 +19,9 @@
             "providers": [
                 "MohamedGaber\\UniqueModelKeyGenerator\\UniqueModelKeyGeneratorServiceProvider"
             ]
+        },
+        "branch-alias": {
+            "dev-feature/update-project": "1.0.x-dev"
         }
     }
 }
