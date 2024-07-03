@@ -3108,16 +3108,16 @@
         },
         {
             "name": "mohamed-gaber/api-response",
-            "version": "dev-feature/update-project",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "Packages/ApiResponse",
-                "reference": "3ad975989ad59103a27b5e30f06d917345be8357"
+                "reference": "406de0926a057dabc1200f258cfc8a05cad1bd07"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-feature/update-project": "1.0.x-dev"
+                    "dev-master": "1.0.x-dev"
                 }
             },
             "autoload": {
@@ -3143,16 +3143,16 @@
         },
         {
             "name": "mohamed-gaber/pipeline-filter",
-            "version": "dev-feature/update-project",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "Packages/PipelineFilter",
-                "reference": "31bed2241a7d1aee3f4bd9468ee48fe9779ae25a"
+                "reference": "abad57846a75d508e1ccfc2c9977193bcfd91ff9"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-feature/update-project": "1.0.x-dev"
+                    "dev-master": "1.0.x-dev"
                 }
             },
             "autoload": {
@@ -3175,11 +3175,11 @@
         },
         {
             "name": "mohamed-gaber/unique-model-key-generator",
-            "version": "dev-feature/update-project",
+            "version": "dev-master",
             "dist": {
                 "type": "path",
                 "url": "Packages/UniqueModelKeyGenerator",
-                "reference": "a3d2e4eb2744552e29dc9afaeffbaa29fa165bb1"
+                "reference": "acae88b407eb71740d8abb13b510ab2c811b224a"
             },
             "require": {
                 "illuminate/support": "^10.0"
@@ -3192,7 +3192,7 @@
                     ]
                 },
                 "branch-alias": {
-                    "dev-feature/update-project": "1.0.x-dev"
+                    "dev-master": "1.0.x-dev"
                 }
             },
             "autoload": {
