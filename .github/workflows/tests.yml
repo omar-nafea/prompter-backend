@@ -25,6 +25,12 @@ jobs:
         run: |
           composer install  --no-interaction
 
+      - name: Create .env file
+        run: cp .env.example .env
+
+      - name: Generate APP_KEY
+        run: php artisan key:generate
+
       - name: Code Style 🏭
         run: composer test:lint
 
