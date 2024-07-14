@@ -7,6 +7,7 @@ parameters:
     excludePaths:
         - **/tests/**
         - Modules/CRUDGenerator/**/**
+        - **/**/**/Database/Factories/**
     level: 9
     checkModelProperties: true
     ignoreErrors:
