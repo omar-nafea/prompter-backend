@@ -23,7 +23,7 @@ final class ProjectSeeder extends Seeder
     public function run(): void
     {
         //      $this->dummyProject();
-        DB::transaction(fn() => $this->tawfeerProject());
+        DB::transaction(fn () => $this->tawfeerProject());
     }
 
     protected function dummyProject(): void
@@ -217,7 +217,7 @@ Membership'
         $project->outputLanguages()->attach([1]);
         $project->answers()->create([
             'project_objective_question_id' => 1,
-            'answer' => "### Tawfeer Market Context:
+            'answer' => '### Tawfeer Market Context:
 Tawfeer Market is an online grocery startup in Egypt that offers a convenient and affordable way to shop for groceries online and get them delivered to your door in less than 2 hours. Tawfeer has its own fulfillment centers and stores, which gives it more control over its supply chain and value delivery. Tawfeer also has a powerful in-house marketing department that reaches its target market with cost-efficiency and low customer acquisition cost.
 
 ### Available coupons
@@ -227,7 +227,7 @@ Never propose a coupon that is not listed here
 
 ### Products currently at discount
 White tissue kitchen towel 3+1 Roll 77.95 RGP instead of 91.50 EGP
-Capucci 1 pc 7.00 EGP instead of 10.00 EGP"
+Capucci 1 pc 7.00 EGP instead of 10.00 EGP',
         ]);
         $inputsData = [
             new ProjectInputDto(
@@ -333,9 +333,9 @@ Capucci 1 pc 7.00 EGP instead of 10.00 EGP"
             $input = $project->inputs()->create($projectInput->except('values')->toArray());
             if ($projectInput->values) {
                 $input->enumValues()
-                      ->createMany(
-                          collect($projectInput->values)->map(fn($enumValue) => ['value' => $enumValue])
-                      );
+                    ->createMany(
+                        collect($projectInput->values)->map(fn ($enumValue) => ['value' => $enumValue])
+                    );
             }
         }
         $outputsData = [
@@ -380,9 +380,9 @@ Capucci 1 pc 7.00 EGP instead of 10.00 EGP"
             $output = $project->outputs()->create($projectOutput->except('values')->toArray());
             if ($projectOutput->values) {
                 $output->enumValues()
-                       ->createMany(
-                           collect($projectOutput->values)->map(fn($enumValue) => ['value' => $enumValue])
-                       );
+                    ->createMany(
+                        collect($projectOutput->values)->map(fn ($enumValue) => ['value' => $enumValue])
+                    );
             }
         }
     }

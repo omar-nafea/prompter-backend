@@ -172,7 +172,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ValidationServiceProvider::class,
         App\Providers\PolymorphicServiceProvider::class,
-        \MohamedGaber\ApiResponse\ApiResponseServiceProvider::class,
+        MohamedGaber\ApiResponse\ApiResponseServiceProvider::class,
     ])->toArray(),
 
     /*
