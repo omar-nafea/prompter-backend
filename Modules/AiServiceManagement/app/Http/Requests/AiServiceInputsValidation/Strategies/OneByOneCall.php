@@ -6,7 +6,9 @@ namespace Modules\AiServiceManagement\app\Http\Requests\AiServiceInputsValidatio
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Modules\AiServiceManagement\app\Http\Requests\AiServiceInputsValidation\Strategies\Contracts\AiCallTypeStrategy;
+use Modules\ProjectManagement\app\Enums\DataType;
 use Modules\ProjectManagement\app\Models\Project;
 use Modules\ProjectManagement\app\Models\ProjectInput;
 
@@ -24,9 +26,11 @@ final class OneByOneCall implements AiCallTypeStrategy
         /** @var Collection<string, string[]> $rulesCollection */
         $rulesCollection = $this->project->inputs->mapWithKeys(
             callback: fn (ProjectInput $input): array => [
-                $input->name => $this->getRoles($input),
+                $input->name => $this->getRules($input),
             ]
         );
+        //todo handle validate enum values
+        //$rulesCollection->push(Rule::in($input->enumValues->pluck('name')));
 
         /** @var array<string, string[]> */
         return $rulesCollection->toArray();
@@ -35,7 +39,7 @@ final class OneByOneCall implements AiCallTypeStrategy
     /**
      * @return string[]
      */
-    protected function getRoles(ProjectInput $input): array
+    protected function getRules(ProjectInput $input): array
     {
         $rules = [];
         if ($input->is_required) {
@@ -43,7 +47,11 @@ final class OneByOneCall implements AiCallTypeStrategy
         } else {
             $rules[] = 'nullable';
         }
-        $rules[] = Str::lower($input->data_type->name);
+        if ($input->data_type !== DataType::Enum) {
+            $rules[] = Str::lower($input->data_type->name);
+        } else {
+            $rules[] = 'array';
+        }
         if ($input->max_length) {
             $rules[] = 'max:' . $input->max_length;
         }
