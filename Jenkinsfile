@@ -6,8 +6,7 @@ pipeline {
       sshagent(['prompter-server']) {
         sh 'rsync * prompter@198.7.113.119:~/back'
         }
-    }
-      
+    } 
     }
     stage('install-packages'){
     steps {
@@ -26,5 +25,4 @@ pipeline {
     }
     }
 }
-  
 }
