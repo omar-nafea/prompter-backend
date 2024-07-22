@@ -14,7 +14,7 @@ final class AiServiceSeeder extends Seeder
      */
     public function run(): void
     {
-//        AiService::factory()->count(5)->create();
+        //        AiService::factory()->count(5)->create();
         $data = [
             'GPT 3.5',
             'GPT 3.5 turbo',
@@ -22,12 +22,12 @@ final class AiServiceSeeder extends Seeder
             'GPT 4.0 turbo',
             'Gemini',
         ];
-        foreach ($data as $idx => $name){
+        foreach ($data as $idx => $name) {
             AiService::create([
                 'name' => $name,
                 'description' => $name,
                 'price' => 0,
-                'status' => $idx ==0 ? 1:0
+                'status' => $idx === 0 ? 1 : 0,
             ]);
         }
     }
