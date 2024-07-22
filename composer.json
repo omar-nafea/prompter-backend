@@ -19,7 +19,9 @@
         "nwidart/laravel-modules": "^10.0",
         "pascaldevink/shortuuid": "^4.0",
         "saloonphp/saloon": "^3.0",
-        "spatie/laravel-data": "^4.5"
+        "spatie/laravel-backup": "^9.0",
+        "spatie/laravel-data": "^4.5",
+        "ext-zip": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
