@@ -25,7 +25,6 @@
         },
         "laravel": {
             "providers": [
-                "MohamedGaber\\ApiResponse\\ApiResponseServiceProvider"
             ]
         }
     }
