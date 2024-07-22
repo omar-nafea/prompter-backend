@@ -14,6 +14,24 @@ final class AiResponseTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        AiResponseType::factory()->count(3)->create();
+        //        AiResponseType::factory()->count(3)->create();
+        AiResponseType::create([
+            'name' => 'instant response',
+            'description' => 'Get The request response instantly',
+            'type' => 3,
+            'status' => 1,
+        ]);
+        AiResponseType::create([
+            'name' => 'webhook',
+            'description' => 'Get The request response later by webhook',
+            'type' => 2,
+            'status' => 0,
+        ]);
+        AiResponseType::create([
+            'name' => 'request id to call later',
+            'description' => 'Request respond with unique id to call it later to get your response',
+            'type' => 3,
+            'status' => 0,
+        ]);
     }
 }
