@@ -14,6 +14,18 @@ final class AiCallTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        AiCallType::factory(10)->create();
+//        AiCallType::factory(10)->create();
+        AiCallType::create([
+            'name' => 'one by one',
+            'description' => 'One Query per request',
+            'type' => 1,
+            'status' => 1
+        ]);
+        AiCallType::create([
+            'name' => 'bulk',
+            'description' => 'Bulk Queries per request',
+            'status' => 0,
+            'type' => 1
+        ]);
     }
 }
