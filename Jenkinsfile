@@ -4,9 +4,24 @@ pipeline {
     stage('move-to-prompter-server'){
     steps {
       sshagent(['prompter-server']) {
-        sh 'rsync -rvu * prompter@198.7.113.119:~/back'
+        sh 'ssh  prompter@198.7.113.119 "cd back && echo \\"Start building at: $(date)\\">> ~/back/build.log "'
+        sh 'rsync -rvu * prompter@198.7.113.119:~/back >> ~/back/build.log 2>&1'
         }
-    } 
+    }
+    }
+    stage('backup database'){
+    steps {
+      sshagent(['prompter-server']) {
+        sh 'ssh  prompter@198.7.113.119 "cd back && sudo chmod -R 775 storage bootstrap/cache && php artisan backup:run --only-db"'
+        }
+    }
+    }
+    stage('queue restart'){
+    steps {
+      sshagent(['prompter-server']) {
+        sh 'ssh  prompter@198.7.113.119 "cd back && php artisan queue:restart && php artisan down"'
+        }
+    }
     }
     stage('install-packages'){
     steps {
@@ -15,21 +30,6 @@ pipeline {
         }
     }
     }
-    stage('backup database'){
-    steps {
-      sshagent(['prompter-server']) {
-        sh 'ssh  prompter@198.7.113.119 "cd back && sudo chmod -R 777 storage bootstrap/cache && php artisan backup:run --only-db"'
-        }
-    }
-    }
-    stage('queue restart'){
-    steps {
-      sshagent(['prompter-server']) {
-        sh 'ssh  prompter@198.7.113.119 "cd back && sudo chmod -R 777 storage bootstrap/cache && php artisan queue:restart && php artisan down"'
-        }
-    }
-    }
-    
     stage('migrate'){
     steps {
       sshagent(['prompter-server']) {
@@ -40,7 +40,14 @@ pipeline {
     stage('composer install -no-dev'){
     steps {
       sshagent(['prompter-server']) {
-        sh 'ssh  prompter@198.7.113.119 "cd back && composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader && php artisan optimize:clear"'
+        sh 'ssh  prompter@198.7.113.119 "cd back && composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader && sudo chmod -R 775 storage bootstrap/cache"'
+        }
+    }
+    }
+    stage('cache'){
+    steps {
+      sshagent(['prompter-server']) {
+        sh 'ssh  prompter@198.7.113.119 "cd back && php artisan optimize && php artisan app:cache-data && php artisan queue:restart"'
         }
     }
     }
@@ -61,7 +68,7 @@ pipeline {
     stage('server up'){
     steps {
       sshagent(['prompter-server']) {
-        sh 'ssh  prompter@198.7.113.119 "cd back && sudo chmod -R 777 storage bootstrap/cache"'
+        sh 'ssh  prompter@198.7.113.119 "cd back && sudo chmod -R 775 storage bootstrap/cache"'
         sh 'ssh  prompter@198.7.113.119 "cd back && sudo chown -R prompter:www-data back & sudo nginx -s reload"'
         sh 'ssh  prompter@198.7.113.119 "cd back && php artisan up"'
         }
