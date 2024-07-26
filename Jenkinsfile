@@ -4,7 +4,7 @@ pipeline {
     stage('move-to-prompter-server'){
     steps {
       sshagent(['prompter-server']) {
-        sh 'ssh  prompter@198.7.113.119 "cd back && echo \\"Start building at: $(date)\\">> ~/back/build.log "'
+        sh 'ssh  prompter@198.7.113.119 "cd back && echo \\"Build start at: $(date)\\">> ~/back/build.log "'
         sh 'rsync -rvu * prompter@198.7.113.119:~/back >> ~/back/build.log 2>&1'
         }
     }
@@ -73,6 +73,18 @@ pipeline {
         sh 'ssh  prompter@198.7.113.119 "cd back && php artisan up"'
         }
     }
+    }
+}
+post {
+    success {
+        sshagent(['prompter-server']) {
+            sh 'ssh prompter@198.7.113.119 "cd back && echo \\"Build successfully at: $(date)\\" >> ~/back/build.log"'
+        }
+    }
+    failure {
+        sshagent(['prompter-server']) {
+            sh 'ssh prompter@198.7.113.119 "cd back && echo \\"Build failed at: $(date)\\" >> ~/back/build.log"'
+        }
     }
 }
 }
