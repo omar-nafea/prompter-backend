@@ -5,7 +5,7 @@ pipeline {
     steps {
       sshagent(['prompter-server']) {
         sh 'ssh  prompter@198.7.113.119 "cd back && echo \\"Build start at: $(date)\\">> ~/back/build.log "'
-        sh 'rsync -rvu * prompter@198.7.113.119:~/back | tee -a /home/prompter/back/build.log 2>&1'
+        sh 'rsync -rvu * prompter@198.7.113.119:~/back'
         }
     }
     }
