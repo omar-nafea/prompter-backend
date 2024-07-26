@@ -11,7 +11,7 @@ pipeline {
     stage('backup database'){
     steps {
       sshagent(['prompter-server']) {
-        sh 'ssh  prompter@198.7.113.119 "cd back && php artisan backup:run --only-db"'
+        sh 'ssh  prompter@198.7.113.119 "cd back && sudo chmod -R 777 storage bootstrap/cache && php artisan backup:run --only-db"'
         }
     }
     }
