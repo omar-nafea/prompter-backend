@@ -4,7 +4,7 @@ pipeline {
     stage('move-to-prompter-server'){
     steps {
       sshagent(['prompter-server']) {
-        sh 'rsync * prompter@198.7.113.119:~/back'
+        sh 'rsync -rvu * prompter@198.7.113.119:~/back'
         }
     } 
     }
