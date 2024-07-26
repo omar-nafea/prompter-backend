@@ -78,7 +78,7 @@ Route::middleware('web')->group(
     function (): void {
         Route::get('test', function (): void {
             dd(
-                auth()
+                123
             );
         });
     }
