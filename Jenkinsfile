@@ -8,6 +8,13 @@ pipeline {
         }
     } 
     }
+    stage('install-packages'){
+    steps {
+      sshagent(['prompter-server']) {
+        sh 'ssh  prompter@198.7.113.119 "cd back && composer install && php artisan optimize:clear"'
+        }
+    }
+    }
     stage('backup database'){
     steps {
       sshagent(['prompter-server']) {
@@ -22,13 +29,7 @@ pipeline {
         }
     }
     }
-    stage('install-packages'){
-    steps {
-      sshagent(['prompter-server']) {
-        sh 'ssh  prompter@198.7.113.119 "cd back && composer install && php artisan optimize:clear"'
-        }
-    }
-    }
+    
     stage('migrate'){
     steps {
       sshagent(['prompter-server']) {
