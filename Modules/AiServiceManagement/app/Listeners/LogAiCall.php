@@ -16,7 +16,7 @@ final class LogAiCall implements ShouldHandleEventsAfterCommit, ShouldQueue
 
     public function handle(BaseAiCallEvent $event): void
     {
-        if ( ! config('log_ai_calls_enabled')) {
+        if ( ! config('ai-service-management.log_ai_calls_enabled')) {
             return;
         }
         $event->log(
