@@ -8,6 +8,7 @@ return [
         'max_attempts' => 1,
         'seconds' => 1 * 60,
     ],
+    'log_ai_calls_enabled' => env('LOG_AI_CALLS_ENABLED', false),
     'integrations' => [
         'ai_service_integration' => 'rapid_api',
         'rapid_api' => [

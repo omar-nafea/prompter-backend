@@ -36,7 +36,7 @@ final class ChatGPT3_0 implements ChatGPT3_0Contract
         $request->body()->set($body);
         //        dd($request->body()->all());
 
-        //        $this->fake();
+        $this->fake();
 
         /** @var AskResponseDto */
         return $this->connector->send($request)->dtoOrFail();

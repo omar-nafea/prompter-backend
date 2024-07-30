@@ -7,14 +7,20 @@ namespace Modules\AiServiceManagement\app\Dtos;
 use App\Dtos\BaseDto;
 use Modules\AiServiceManagement\app\Http\Requests\AskAiServiceRequest;
 use Modules\ProjectManagement\app\Models\Project;
+use Str;
 
 final class AskAiServiceDto extends BaseDto
 {
     public function __construct(
         public Project $project,
         /** @var array<string,mixed> */
-        public array $data
-    ) {}
+        public array $data,
+        public ?string $requestUuid = null,
+    ) {
+        if ( ! $requestUuid) {
+            $this->requestUuid = Str::uuid()->toString();
+        }
+    }
 
     public static function fromAskAiServiceRequest(AskAiServiceRequest $request): self
     {

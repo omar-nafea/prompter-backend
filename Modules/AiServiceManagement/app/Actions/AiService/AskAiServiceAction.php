@@ -8,6 +8,10 @@ use Exception;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Container\Container;
 use Modules\AiServiceManagement\app\Dtos\AskAiServiceDto;
+use Modules\AiServiceManagement\app\Events\AiCallRequestFailed;
+use Modules\AiServiceManagement\app\Events\AiCallRequestPrepared;
+use Modules\AiServiceManagement\app\Events\AiCallRequestSent;
+use Modules\AiServiceManagement\app\Events\AiCallRequestStarted;
 use Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT3_0\ChatGPT3_0;
 use Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT3_0\Requests\Ask\Dtos\AskResponseDto;
 use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask\Dtos\AskPayloadDto;
@@ -21,20 +25,41 @@ final class AskAiServiceAction
     ) {}
 
     /**
-     * @param AskAiServiceDto $dto
-     * @return array
+     * @return mixed[]
+     *
      * @throws BindingResolutionException
      */
     public function execute(AskAiServiceDto $dto): array
     {
         //todo fire start event
+        event(
+            new AiCallRequestStarted(
+                requestUuid: (string) $dto->requestUuid,
+                requestBody: $dto->data,
+                aiServiceName: $dto->project->aiService->name,
+                projectId: $dto->project->id,
+                integrationService: (string) config('ai-service-management.integrations.ai_service_integration'),// @phpstan-ignore-line
+            )
+        );
         try {
             $response = $this->handle($dto);
+            event(
+                new AiCallRequestSent(
+                    requestUuid: (string) $dto->requestUuid,
+                    response: $response->toArray()
+                )
+            );
 
             //todo fire sent event
             return $response->data();
         } catch (Exception $exception) {
             //todo fire failed event
+            event(
+                new AiCallRequestFailed(
+                    requestUuid: (string) $dto->requestUuid,
+                    error: $exception->getMessage(),
+                )
+            );
             throw $exception;
         }
     }
@@ -52,9 +77,18 @@ final class AskAiServiceAction
             )
         );
 
+        $prompt = $this->buildAiAskPromptAction->execute(project: $dto->project, inputsData: $dto->data);
+        event(
+            new AiCallRequestPrepared(
+                requestUuid: (string) $dto->requestUuid,
+                prompt: $prompt,
+                aiConnector: str(get_class($serviceClass))->after('Gateway\Integerations\\')->toString()
+            )
+        );
+
         return $serviceClass->ask(
             dto: new AskPayloadDto(
-                prompt: $this->buildAiAskPromptAction->execute($dto->project, $dto->data)
+                prompt: $prompt
             )
         );
         //todo validate request response according to ai service related to project and valid project outputs
