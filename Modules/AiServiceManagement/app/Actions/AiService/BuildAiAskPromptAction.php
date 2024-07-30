@@ -37,27 +37,57 @@ final class BuildAiAskPromptAction
         //        $project->expected_outcome = 'Given the following customer data and context for Tawfeer Market, generate a personalized marketing message strategy';
         //        dd($project->expected_outcome);
         $string = Str::of($this->getPromptTemplate())
-            ->replace('[BACKGROUND]', Str::minify($this->getQuestionAnswer($project, ProjectQuestionType::Background)))
-            ->replace('[EXPECTED OUTCOMES]', $project->expected_outcome)
             ->replace(
-                '[LIST OF OUTPUTS WITH DESCRIPTION OF EACH IF AVAILABLE]',
-                $this->prepareOutputsWithDescription(projectOutputs: $project->outputs, separator: ',')
+                search: '[BACKGROUND]',
+                replace: Str::minify(
+                    $this->getQuestionAnswer(
+                        project: $project,
+                        questionType: ProjectQuestionType::Background
+                    )
+                )
             )
             ->replace(
-                '[LIST OF INPUTS WITH DESCRIPTION OF EACH IF AVAILABLE]',
-                $this->prepareInputsWithDescription($project->inputs, false, ',')
+                search: '[EXPECTED OUTCOMES]',
+                replace: $project->expected_outcome
             )
-            ->replace('[FORMAT]', $project->output_format->label())// todo add format to project table
             ->replace(
-                '[INPUTS WITH VALUES]',
-                $this->prepareInputsWithValues($inputsData)
+                search: '[LIST OF OUTPUTS WITH DESCRIPTION OF EACH IF AVAILABLE]',
+                replace: $this->prepareOutputsWithDescription(
+                    projectOutputs: $project->outputs,
+                    separator: ','
+                )
             )
-            ->replace('[LANGUAGE]', $project->outputLanguages->pluck('name')->join(','))// todo add language to project table
             ->replace(
-                '[OUTPUTS WITH DESCRIPTION]',
-                $this->prepareOutputsWithDescription($project->outputs, true, '.')
+                search: '[LIST OF INPUTS WITH DESCRIPTION OF EACH IF AVAILABLE]',
+                replace: $this->prepareInputsWithDescription(
+                    projectInputs: $project->inputs,
+                    separator: ','
+                )
             )
-            ->replace('[OUTPUT MAXIMUM LENGTH]', (string) $project->max_output_length) // todo add output maximum to project table
+            ->replace(
+                search: '[FORMAT]',
+                replace: $project->output_format->label()
+            )
+            ->replace(
+                search: '[INPUTS WITH VALUES]',
+                replace: $this->prepareInputsWithValues(inputsData: $inputsData)
+            )
+            ->replace(
+                search: '[LANGUAGE]',
+                replace: $project->outputLanguages->pluck(value: 'name')->join(glue: ',')
+            )
+            ->replace(
+                search: '[OUTPUTS WITH DESCRIPTION]',
+                replace: $this->prepareOutputsWithDescription(
+                    projectOutputs: $project->outputs,
+                    withWrapper: true,
+                    separator: '.'
+                )
+            )
+            ->replace(
+                search: '[OUTPUT MAXIMUM LENGTH]',
+                replace: (string) $project->max_output_length
+            )
             ->toString();
 
         //        dd($string);
@@ -100,7 +130,7 @@ final class BuildAiAskPromptAction
                     $pattern = '[%s]:%s ' . $separator . ' ';
                     $accumulator .= $withWrapper ?
                         sprintf($pattern, $projectOutput->name, Str::minify($projectOutput->description, ' ')) :
-                        sprintf(str_replace(['[', ']'], ['', ''], $pattern), $projectOutput->name, $projectOutput->description);
+                        sprintf(str_replace(search: ['[', ']'], replace: ['', ''], subject: $pattern), $projectOutput->name, $projectOutput->description);
 
                     //            $accumulator .= sprintf('[%s], %s;', $projectOutput->name, $projectOutput->description);
                     return $accumulator;
@@ -129,7 +159,7 @@ final class BuildAiAskPromptAction
                     }
                     $accumulator .= $withWrapper ?
                         sprintf($pattern, $projectInput->name, $projectInput->description) :
-                        sprintf(str_replace(['[', ']'], ['', ''], $pattern), $projectInput->name, $projectInput->description);
+                        sprintf(str_replace(search: ['[', ']'], replace: ['', ''], subject: $pattern), $projectInput->name, $projectInput->description);
 
                     return $accumulator;
                 },
@@ -154,7 +184,7 @@ final class BuildAiAskPromptAction
                     $pattern = '-%s:%s' . $separator;
                     $accumulator .= $withWrapper ?
                         sprintf($pattern, $key, is_bool($value) ? ($value ? 'yes' : 'no') : $value) :
-                        sprintf(str_replace(['[', ']'], ['', ''], $pattern), $key, $value);
+                        sprintf(str_replace(search: ['[', ']'], replace: ['', ''], subject: $pattern), $key, $value);
 
                     return $accumulator;
                 },
@@ -172,6 +202,6 @@ final class BuildAiAskPromptAction
     {
         return $project->loadMissing('answers')
             ->answers
-            ->firstWhere('project_objective_question_id', $questionType->value)?->answer ?? '';
+            ->firstWhere(key: 'project_objective_question_id', operator: $questionType->value)?->answer ?? '';
     }
 }

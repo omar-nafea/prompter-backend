@@ -35,6 +35,7 @@ final class AiServiceManagementServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->register(RouteServiceProvider::class);
+        $this->app->register(EventServiceProvider::class);
     }
 
     protected function bindAiServices(): void
