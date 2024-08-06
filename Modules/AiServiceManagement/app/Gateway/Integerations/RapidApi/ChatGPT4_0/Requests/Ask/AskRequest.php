@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask;
+namespace Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT4_0\Requests\Ask;
 
 use JsonException;
 use Modules\AiServiceManagement\app\Gateway\Dtos\AskResponseDto;
-use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask\Actions\ConvertTextResponseToJsonAction;
-use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask\Exceptions\FailedResponseException;
+use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT4_0\Requests\Ask\Actions\ConvertTextResponseToJsonAction;
+use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT4_0\Requests\Ask\Exceptions\FailedResponseException;
 use Override;
 use Saloon\Contracts\Body\HasBody;
 use Saloon\Enums\Method;
@@ -36,7 +36,7 @@ final class AskRequest extends Request implements HasBody
     #[Override]
     public function resolveEndpoint(): string
     {
-        return '/';
+        return '/chat/completions';
     }
 
     /**
@@ -45,12 +45,8 @@ final class AskRequest extends Request implements HasBody
     protected function defaultBody(): array
     {
         return [
-            'body' => [
-                [
-                    'content' => "Hello! I\'m an AI assistant bot based on ChatGPT 3. How may I help you?",
-                    'role' => 'system',
-                ],
-            ],
+            'model' => 'gpt-4o',
+            'messages' => [],
         ];
     }
 
@@ -63,7 +59,7 @@ final class AskRequest extends Request implements HasBody
         $res['raw_response'] = $response->json();
         //info(json_encode($response->json()));
         /** @var string $textResponse */
-        $textResponse = $response->json()['text'] ?? '';
+        $textResponse = $response->json()['choices'][0]['message']['content'] ?? ''; //@phpstan-ignore-line
         $res['data'] = $this->convertTextResponseToJsonAction->execute(
             textResponse: $textResponse
         );
@@ -77,7 +73,7 @@ final class AskRequest extends Request implements HasBody
     #[Override]
     public function hasRequestFailed(Response $response): ?bool
     {
-        return $response->status() !== ResponseStatus::HTTP_OK || ! $response->json('text');
+        return $response->status() !== ResponseStatus::HTTP_OK || ! $response->json('choices');
         //todo customize failed response
     }
 

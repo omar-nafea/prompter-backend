@@ -18,7 +18,6 @@ final class AiCallRequestStarted extends BaseAiCallEvent
         public array $requestBody,
         public string $aiServiceName,
         public int $projectId,
-        public string $integrationService,
     ) {
         parent::__construct();
     }
@@ -30,7 +29,6 @@ final class AiCallRequestStarted extends BaseAiCallEvent
             'request_body' => $this->requestBody,
             'ai_service_name' => $this->aiServiceName,
             'project_id' => $this->projectId,
-            'integration_service' => $this->integrationService,
         ];
     }
 }

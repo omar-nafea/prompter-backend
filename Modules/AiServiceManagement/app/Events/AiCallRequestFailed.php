@@ -21,7 +21,7 @@ final class AiCallRequestFailed extends BaseAiCallEvent
     {
         return [
             'status' => $this->status,
-            'error' => $this->error,
+            'response' => $this->error,
         ];
     }
 }
