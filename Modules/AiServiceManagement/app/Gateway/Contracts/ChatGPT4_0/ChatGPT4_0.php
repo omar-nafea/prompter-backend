@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT3_0;
+namespace Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT4_0;
 
 use Modules\AiServiceManagement\app\Gateway\Dtos\AskPayloadDto;
 use Modules\AiServiceManagement\app\Gateway\Dtos\AskResponseDto;
 
 /**
- * @see \Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\ChatGPT3_0
+ * @see \Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT4_0\ChatGPT4_0
  * */
-interface ChatGPT3_0
+interface ChatGPT4_0
 {
     public function ask(AskPayloadDto $dto): AskResponseDto;
 }

@@ -2,15 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT3_0;
+namespace Modules\AiServiceManagement\app\Gateway\Contracts\GeminiFlash1_5;
 
 use Modules\AiServiceManagement\app\Gateway\Dtos\AskPayloadDto;
 use Modules\AiServiceManagement\app\Gateway\Dtos\AskResponseDto;
 
-/**
- * @see \Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\ChatGPT3_0
- * */
-interface ChatGPT3_0
+interface GeminiFlash1_5
 {
     public function ask(AskPayloadDto $dto): AskResponseDto;
 }

@@ -7,7 +7,9 @@ namespace Modules\AiServiceManagement\app\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT3_0\ChatGPT3_0;
-use Modules\AiServiceManagement\app\Gateway\Factories\ChatGPT3_0Factory;
+use Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT4_0\ChatGPT4_0;
+use Modules\AiServiceManagement\app\Gateway\Contracts\GeminiFlash1_5\GeminiFlash1_5;
+use Modules\AiServiceManagement\app\Gateway\Factories\AiGatewayFactory;
 
 final class AiServiceManagementServiceProvider extends ServiceProvider
 {
@@ -35,13 +37,24 @@ final class AiServiceManagementServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->register(RouteServiceProvider::class);
+        $this->app->register(EventServiceProvider::class);
     }
 
     protected function bindAiServices(): void
     {
         $this->app->bind(
             abstract: ChatGPT3_0::class,
-            concrete: fn () => app(ChatGPT3_0Factory::class)->make()
+            concrete: fn () => app(AiGatewayFactory::class)->make('ChatGPT3_0')
+        );
+
+        $this->app->bind(
+            abstract: ChatGPT4_0::class,
+            concrete: fn () => app(AiGatewayFactory::class)->make('ChatGPT4_0')
+        );
+
+        $this->app->bind(
+            abstract: GeminiFlash1_5::class,
+            concrete: fn () => app(AiGatewayFactory::class)->make('Gemini_1_5_Flash')
         );
     }
 

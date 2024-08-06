@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask;
+namespace Modules\AiServiceManagement\app\Gateway\Integerations\Google\GeminiFlash1_5\Requests;
 
 use JsonException;
 use Modules\AiServiceManagement\app\Gateway\Dtos\AskResponseDto;
@@ -36,7 +36,7 @@ final class AskRequest extends Request implements HasBody
     #[Override]
     public function resolveEndpoint(): string
     {
-        return '/';
+        return '/gemini-1.5-flash:generateContent';
     }
 
     /**
@@ -45,10 +45,14 @@ final class AskRequest extends Request implements HasBody
     protected function defaultBody(): array
     {
         return [
-            'body' => [
+            'generationConfig' => [
+                'responseMimeType' => 'application/json',
+            ],
+            'safetySettings' => [],
+            'contents' => [
                 [
-                    'content' => "Hello! I\'m an AI assistant bot based on ChatGPT 3. How may I help you?",
-                    'role' => 'system',
+                    'role' => 'user',
+                    'parts' => [],
                 ],
             ],
         ];
@@ -60,10 +64,11 @@ final class AskRequest extends Request implements HasBody
     #[Override]
     public function createDtoFromResponse(Response $response): AskResponseDto
     {
+        //        dd($response->json());
         $res['raw_response'] = $response->json();
         //info(json_encode($response->json()));
         /** @var string $textResponse */
-        $textResponse = $response->json()['text'] ?? '';
+        $textResponse = $response->json()['candidates'][0]['content']['parts'][0]['text'] ?? ''; //@phpstan-ignore-line
         $res['data'] = $this->convertTextResponseToJsonAction->execute(
             textResponse: $textResponse
         );
@@ -77,7 +82,7 @@ final class AskRequest extends Request implements HasBody
     #[Override]
     public function hasRequestFailed(Response $response): ?bool
     {
-        return $response->status() !== ResponseStatus::HTTP_OK || ! $response->json('text');
+        return $response->status() !== ResponseStatus::HTTP_OK || ! $response->json('candidates');
         //todo customize failed response
     }
 

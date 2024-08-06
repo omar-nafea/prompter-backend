@@ -16,7 +16,7 @@ final class ProjectInputRuleFactory extends Factory
 
     public function definition(): array
     {
-        return [
+        return [ // @phpstan-ignore-line
             'label' => $this->faker->unique()->word,
             'name' => $this->faker->unique()->word,
             'status' => 1,

@@ -22,7 +22,7 @@ final class AiServiceCallingController
             ->data(
                 data: $action->execute(
                     dto: AskAiServiceDto::fromAskAiServiceRequest($request)
-                )->data()
+                )
             )->send();
     }
 }

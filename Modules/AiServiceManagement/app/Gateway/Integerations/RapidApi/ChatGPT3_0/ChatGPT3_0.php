@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0;
 
 use Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT3_0\ChatGPT3_0 as ChatGPT3_0Contract;
+use Modules\AiServiceManagement\app\Gateway\Dtos\AskPayloadDto;
+use Modules\AiServiceManagement\app\Gateway\Dtos\AskResponseDto;
 use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask\AskRequest;
-use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask\Dtos\AskPayloadDto;
-use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask\Dtos\AskResponseDto;
 use Saloon\Exceptions\Request\FatalRequestException;
 use Saloon\Exceptions\Request\RequestException;
 use Saloon\Http\Faking\MockClient;
@@ -36,7 +36,9 @@ final class ChatGPT3_0 implements ChatGPT3_0Contract
         $request->body()->set($body);
         //        dd($request->body()->all());
 
-        //        $this->fake();
+        if (config('ai-service-management.integrations.fake_response') || config('ai-service-management.integrations.rapid_api.ChatGPT3_0.fake_response')) {
+            $this->fake();
+        }
 
         /** @var AskResponseDto */
         return $this->connector->send($request)->dtoOrFail();
