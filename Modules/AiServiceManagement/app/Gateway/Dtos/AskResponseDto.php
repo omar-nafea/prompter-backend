@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask\Dtos;
+namespace Modules\AiServiceManagement\app\Gateway\Dtos;
 
 use App\Dtos\BaseDto;
 use JsonException;
-use Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT3_0\Requests\Ask\Dtos\AskResponseDto as AskResponseDtoContract;
 
-final class AskResponseDto extends BaseDto implements AskResponseDtoContract
+final class AskResponseDto extends BaseDto
 {
     /**
      * @param  array<string, mixed>  $data

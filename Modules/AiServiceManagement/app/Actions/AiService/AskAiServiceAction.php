@@ -13,9 +13,10 @@ use Modules\AiServiceManagement\app\Events\AiCallRequestPrepared;
 use Modules\AiServiceManagement\app\Events\AiCallRequestSent;
 use Modules\AiServiceManagement\app\Events\AiCallRequestStarted;
 use Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT3_0\ChatGPT3_0;
-use Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT3_0\Requests\Ask\Dtos\AskResponseDto;
-use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask\Dtos\AskPayloadDto;
-use Modules\ProjectManagement\app\Models\Project;
+use Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT4_0\ChatGPT4_0;
+use Modules\AiServiceManagement\app\Gateway\Contracts\GeminiFlash1_5\GeminiFlash1_5;
+use Modules\AiServiceManagement\app\Gateway\Dtos\AskPayloadDto;
+use Modules\AiServiceManagement\app\Gateway\Dtos\AskResponseDto;
 
 final class AskAiServiceAction
 {
@@ -38,7 +39,6 @@ final class AskAiServiceAction
                 requestBody: $dto->data,
                 aiServiceName: $dto->project->aiService->name,
                 projectId: $dto->project->id,
-                integrationService: (string) config('ai-service-management.integrations.ai_service_integration'),// @phpstan-ignore-line
             )
         );
         try {
@@ -76,13 +76,13 @@ final class AskAiServiceAction
                 aiServiceName: $dto->project->aiService->name
             )
         );
-
         $prompt = $this->buildAiAskPromptAction->execute(project: $dto->project, inputsData: $dto->data);
+
         event(
             new AiCallRequestPrepared(
                 requestUuid: (string) $dto->requestUuid,
                 prompt: $prompt,
-                aiConnector: str(get_class($serviceClass))->after('Gateway\Integerations\\')->toString()
+                aiConnector: str(get_class($serviceClass))->after('Gateway\Integerations\\')->toString(),
             )
         );
 
@@ -98,7 +98,8 @@ final class AskAiServiceAction
     {
         return match ($aiServiceName) {
             'GPT 3.5' => ChatGPT3_0::class,
-            'GPT 4.0' => ChatGPT3_0::class,
+            'GPT 4.0' => ChatGPT4_0::class,
+            'Gemini' => GeminiFlash1_5::class,
             default => throw new Exception('invalid ai service name')
         };
     }
