@@ -34,6 +34,7 @@ final class ProjectResource extends JsonResource
                 'value' => $this->resource->output_format->value,
             ],
             'api_key' => $this->resource->api_key,
+            'public_key' => $this->resource->key,
             'status' => [
                 'name' => $this->resource->status,
                 'value' => $this->resource->status,
