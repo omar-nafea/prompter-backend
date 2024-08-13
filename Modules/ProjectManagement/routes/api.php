@@ -17,6 +17,9 @@ Route::prefix('projects')->name('projects.')->as('projects.')->group(static func
     Route::get('{project}/code-snippets', [ProjectController::class, 'codeSnippets'])->name('code-snippets');
     Route::post('validate/steps/{step}', [ProjectController::class, 'validateProjectFormOnly'])->name('store.validate');
     Route::put('{project}/validate/steps/{step}', [ProjectController::class, 'validateProjectFormOnly'])->name('update.validate');
+    Route::prefix('{project}')->group(static function (): void {
+        require_once __DIR__ . '/api/project-moderators.php';
+    });
 });
 
 Route::get('project-objective-questions', [ProjectObjectiveQuestionController::class, 'index'])->name('project-objective-questions.index');

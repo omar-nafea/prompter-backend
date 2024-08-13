@@ -185,4 +185,14 @@ final class Project extends BaseModel
             ->using(ProjectOutputLanguage::class)
             ->withTimestamps();
     }
+
+    /**
+     * @return BelongsToMany<User>
+     */
+    public function moderators(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'project_moderators')
+            ->using(ProjectModerator::class)
+            ->withTimestamps();
+    }
 }
