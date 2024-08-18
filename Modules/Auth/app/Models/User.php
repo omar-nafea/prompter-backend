@@ -11,6 +11,7 @@ use App\ValueObjects\Phone;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Notifications\Notifiable;
 use Modules\Auth\app\Casts\EmailCast;
 use Modules\Auth\app\Casts\PhoneCast;
@@ -21,8 +22,8 @@ use MohamedGaber\SanctumRefreshToken\Traits\HasApiTokens;
 
 /**
  * @property-read int $id
- * @property-read string $name
- * @property-read string $password
+ * @property-read ?string $name
+ * @property-read ?string $password
  * @property-read Email $email
  * @property-read ?Phone $phone
  * @property-read UserStatus $status
@@ -96,12 +97,30 @@ final class User extends BaseAuthenticatable
         return UserFactory::new();
     }
 
+    public function getEmailForPasswordReset(): string
+    {
+        return $this->email->toNative();
+    }
+
+    public function getEmailForVerification(): string
+    {
+        return $this->email->toNative();
+    }
+
+    public function routeNotificationForMail($notification = null): string
+    {
+        return $this->email->toNative();
+    }
+
     /*
     |--------------------------------------------------------------------------|
     |                              Scopes                                      |
     |--------------------------------------------------------------------------|
    */
-
+    /**
+     * @param  Builder|\Illuminate\Database\Eloquent\Builder<self>  $query
+     */
+    public function scopeAllowedForUser(Builder|\Illuminate\Database\Eloquent\Builder $query, User $user): void {}
     /*
     |--------------------------------------------------------------------------|
     |                              Relations                                   |

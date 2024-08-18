@@ -4,6 +4,7 @@ namespace {{ namespace }};
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Query\Builder;
 
 class {{ class }} extends BaseModel
 {
@@ -46,7 +47,14 @@ class {{ class }} extends BaseModel
     |                              Scopes                                      |
     |--------------------------------------------------------------------------|
    */
+    */
+    /**
+     * @param  Builder|\Illuminate\Database\Eloquent\Builder<self>  $query
+     */
+    public function scopeAllowedForUser(Builder|\Illuminate\Database\Eloquent\Builder $query, User $user): void
+    {
 
+    }
     /*
     |--------------------------------------------------------------------------|
     |                              Relations                                   |

@@ -3,13 +3,44 @@
 declare(strict_types=1);
 
 use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT3_0\Requests\Ask\AskRequest;
+use Modules\ProjectManagement\app\Models\Project;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
 Route::middleware('api')->group(
     function (): void {
         Route::get('api/test', function () {
-            dd(Modules\ProjectManagement\app\Enums\ProjectOutputFormat::enabledCases());
+            (new Modules\Auth\app\Actions\ForgetPasswordAction())->execute(
+                new Modules\Auth\app\Dtos\ForgetPasswordDto(
+                    App\ValueObjects\Email::from('test@test.com')
+                )
+            );
+            dd('123');
+            //            $reset  = DB::table('password_reset_tokens')->where('email', 'test@test.com')->first();
+            (new Modules\Auth\app\Actions\ResetPasswordAction())->execute(
+                new Modules\Auth\app\Dtos\ResetPasswordDto(
+                    App\ValueObjects\Email::from('test@test.com'),
+                    'f11b5c8f6efcd66da48fa474b61d53b4a2089566e06fecb985bff2f6b2fa123a',
+                    '123456789',
+                    '123456789'
+                )
+            );
+            dd('123');
+            $projects = Project::allowedForUser(
+                Modules\Auth\app\Models\User::findOrFail(21)
+            )->get();
+
+            return Modules\ProjectManagement\app\Http\Resources\ProjectResource::collection($projects);
+
+            return [
+                'x' => Project::allowedForUser(
+                    Modules\Auth\app\Models\User::findOrFail(21)
+                )->get()->map(fn (Project $project) => $project->is_owner),
+            ];
+            //            return new \App\Mail\ProjectModeratorInvitationMail(\Modules\ProjectManagement\app\Models\Project::latest()->first());
+            //            Mail::to('asd@asdasd.com')->send(new \App\Mail\ProjectModeratorInvitationMail(\Modules\ProjectManagement\app\Models\Project::latest()->first()));
+            //            dd("123");
+            //            dd(Modules\ProjectManagement\app\Enums\ProjectOutputFormat::enabledCases());
 
             dd('warning real ai call');
             //            $resposne = "

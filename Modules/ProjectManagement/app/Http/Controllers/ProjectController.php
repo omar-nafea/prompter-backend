@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\ProjectManagement\app\Http\Controllers;
 
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Modules\Auth\app\Models\User;
@@ -108,9 +109,17 @@ final class ProjectController
             ->send();
     }
 
-    public function destroy(string $project): JsonResponse
+    public function destroy(string $project): JsonResponse|Responsable
     {
-        auth()->user()?->projects()->where('key', $project)->firstOrFail()->delete();
+        //todo use dto ,request and action classes
+        //todo authorize to only project owner only
+
+        $project = auth()->user()?->projects()->where('key', $project)->firstOrFail();
+        if ($project->user_id !== auth()->id()) {
+            return apiError()
+                ->message('You are not authorized to delete this project');
+        }
+        $project->delete();
 
         return apiResponse()
             ->success()

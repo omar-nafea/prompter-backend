@@ -57,6 +57,7 @@ final class RouteServiceProvider extends ServiceProvider
             ->middleware([
                 'api',
                 'auth:sanctum',
+                'verified',
             ])
             ->group(module_path('ProjectManagement', '/routes/api.php'));
     }

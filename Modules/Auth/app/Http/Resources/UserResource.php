@@ -28,6 +28,7 @@ final class UserResource extends JsonResource
                 'name' => $this->resource->status->label(),
                 'value' => $this->resource->status->value,
             ],
+            'email_verified' => (bool) $this->resource->email_verified_at,
         ];
 
     }

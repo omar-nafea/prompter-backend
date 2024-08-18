@@ -15,7 +15,7 @@ final class FetchProjectListAction
      */
     public function execute(User $user): LengthAwarePaginator
     {
-        return $user->projects()
+        return Project::allowedForUser($user)
             ->with([
                 'inputs',
                 'outputs',

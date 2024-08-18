@@ -39,6 +39,7 @@ final class ProjectResource extends JsonResource
                 'name' => $this->resource->status,
                 'value' => $this->resource->status,
             ],
+            'is_owner' => $this->resource->is_owner,
             'created_at' => DateTimeResource::make($this->resource->created_at),
             'updated_at' => DateTimeResource::make($this->resource->updated_at),
             'output_languages' => OutputLanguageResource::collection($this->whenLoaded('outputLanguages')),
