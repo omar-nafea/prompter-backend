@@ -43,6 +43,7 @@ final class ProjectInput extends BaseModel
 
     protected $casts = [
         'data_type' => DataType::class,
+        'is_required' => 'bool',
     ];
     /*
      |--------------------------------------------------------------------------|

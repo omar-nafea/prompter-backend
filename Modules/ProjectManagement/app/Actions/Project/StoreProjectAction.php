@@ -61,7 +61,7 @@ final class StoreProjectAction
 
         /** @var Project $project */
         $project = $params['project'];
-        $project->answers()->createMany($dto->objectiveQuestions->toArray());
+        $project->answers()->createMany($dto->objectiveQuestions->except('answerId')->toArray());
 
         return $next($params);
     }
@@ -78,7 +78,7 @@ final class StoreProjectAction
         $project = $params['project'];
         /** @var ProjectInputDto $projectInput */
         foreach ($dto->projectInputs as $projectInput) {
-            $input = $project->inputs()->create($projectInput->except('values')->toArray());
+            $input = $project->inputs()->create($projectInput->except('values', 'id')->toArray());
             if ($projectInput->values) {
                 $input->enumValues()
                     ->createMany(
@@ -102,7 +102,7 @@ final class StoreProjectAction
         $project = $params['project'];
         /** @var ProjectOutputDto $projectOutput */
         foreach ($dto->projectOutputs as $projectOutput) {
-            $output = $project->outputs()->create($projectOutput->except('values')->toArray());
+            $output = $project->outputs()->create($projectOutput->except('values', 'id')->toArray());
             if ($projectOutput->values) {
                 $output->enumValues()
                     ->createMany(

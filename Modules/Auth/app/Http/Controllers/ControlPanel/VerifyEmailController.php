@@ -10,8 +10,9 @@ use Modules\Auth\app\Models\User;
 
 final class VerifyEmailController
 {
-    public function __invoke(Request $request)
+    public function verify(Request $request)
     {
+        //todo refactor to action class
         $user = User::findOrFail($request->route('id'));
 
         if ( ! hash_equals(sha1($user->getEmailForVerification()), (string) $request->route('hash'))) {
@@ -24,5 +25,17 @@ final class VerifyEmailController
         }
 
         return redirect()->away(config('app.frontend_url') . 'email-verification/success');
+    }
+
+    public function resend(Request $request)
+    {
+        //todo refactor to action class
+        //todo throttle
+        if (auth()->user()->hasVerifiedEmail()) {
+            return apiError()->message('Already Verified');
+        }
+        auth()->user()->sendEmailVerificationNotification();
+
+        return apiSuccess()->message('Email verification link sent.');
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Modules\Auth\app\Http\Middleware\EnsureEmailIsVerified;
 
 final class Kernel extends HttpKernel
 {
@@ -65,6 +66,6 @@ final class Kernel extends HttpKernel
         'precognitive' => \Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests::class,
         'signed' => Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'verified' => EnsureEmailIsVerified::class,
     ];
 }
