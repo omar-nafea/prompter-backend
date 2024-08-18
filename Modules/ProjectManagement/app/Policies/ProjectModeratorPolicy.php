@@ -21,6 +21,8 @@ final class ProjectModeratorPolicy
 
     public function checkExistence(User $user, CheckProjectModeratorExistenceDto $dto): bool|Response
     {
+        //todo authorize to only project owner only
+
         if ($dto->email->toNative() === $user->email->toNative()) {
             return Response::deny(
                 'You can not add or invite yourself as a moderator.',
@@ -46,6 +48,8 @@ final class ProjectModeratorPolicy
 
     public function invite(User $user, InviteProjectModeratorDto $dto): bool|Response
     {
+        //todo authorize to only project owner only
+
         if ($dto->email->toNative() === $user->email->toNative()) {
             return Response::deny(
                 'You can not add or invite yourself as a moderator.',

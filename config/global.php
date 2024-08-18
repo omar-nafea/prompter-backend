@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 return [
     'max_string_length' => 250,
+    'min_password_length' => 6,
     'min_string_length' => 3,
     'max_text_length' => 2500,
     'min_text_length' => 3,

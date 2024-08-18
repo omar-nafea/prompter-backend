@@ -97,6 +97,21 @@ final class User extends BaseAuthenticatable
         return UserFactory::new();
     }
 
+    public function getEmailForPasswordReset(): string
+    {
+        return $this->email->toNative();
+    }
+
+    public function getEmailForVerification(): string
+    {
+        return $this->email->toNative();
+    }
+
+    public function routeNotificationForMail($notification = null): string
+    {
+        return $this->email->toNative();
+    }
+
     /*
     |--------------------------------------------------------------------------|
     |                              Scopes                                      |

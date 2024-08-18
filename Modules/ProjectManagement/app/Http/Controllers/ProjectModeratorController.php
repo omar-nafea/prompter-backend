@@ -42,6 +42,7 @@ final class ProjectModeratorController
         CheckProjectModeratorExistenceRequest $request,
         CheckProjectModeratorExistenceAction $action,
     ): Responsable {
+        sleep(5);
 
         $dto = CheckProjectModeratorExistenceDto::fromCheckProjectModeratorExistenceRequest($request);
         Gate::authorize('checkExistence', [ProjectModerator::class, $dto]);
@@ -65,6 +66,7 @@ final class ProjectModeratorController
         InviteProjectModeratorRequest $request,
         InviteProjectModeratorAction $action,
     ): Responsable {
+        sleep(5);
 
         $dto = InviteProjectModeratorDto::fromInviteProjectModeratorRequest($request);
         Gate::authorize('invite', [ProjectModerator::class, $dto]);

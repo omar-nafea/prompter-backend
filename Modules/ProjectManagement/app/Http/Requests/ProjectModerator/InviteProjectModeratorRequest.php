@@ -21,7 +21,7 @@ final class InviteProjectModeratorRequest extends BaseApiRequest
         return [
             'email' => [
                 'required',
-                'email:strict,dns',
+                'email:rfc,strict',
                 'min:' . config('global.min_string_length'),
                 'max:' . config('global.max_string_length'),
             ],

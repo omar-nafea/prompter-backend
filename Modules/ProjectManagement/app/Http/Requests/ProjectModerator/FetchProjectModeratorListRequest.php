@@ -11,6 +11,7 @@ final class FetchProjectModeratorListRequest extends BaseApiRequest
 {
     public function authorize(): bool
     {
+        //todo authorize to only project owner only
         //        Gate::authorize('',[x::class,$this->route('')]);
         return true;
     }

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Modules\ProjectManagement\app\Models;
 
 use App\Models\BaseModel;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -102,7 +104,10 @@ final class Project extends BaseModel
     |                            Accessors                                     |
     |--------------------------------------------------------------------------|
     */
-
+    public function isOwner(): Attribute
+    {
+        return Attribute::get(fn () => $this->user_id === auth()->id());
+    }
     /*
     |--------------------------------------------------------------------------|
     |                             Helpers                                      |
@@ -116,11 +121,18 @@ final class Project extends BaseModel
    */
 
     /**
-     * @param  Builder|\Illuminate\Database\Eloquent\Builder<self>  $query
+     * @param  Builder|EloquentBuilder<self>  $query
      */
-    public function scopeAllowedForUser(Builder|\Illuminate\Database\Eloquent\Builder $query, User $user): void
+    public function scopeAllowedForUser(Builder|EloquentBuilder $query, User $user): void
     {
-        $query->where('user_id', $user->id);
+        $query->where(
+            fn (Builder|EloquentBuilder $query) => $query
+                ->where('user_id', $user->id)
+                ->orWhereHas(
+                    'moderators',
+                    static fn (Builder|EloquentBuilder $query) => $query->where('project_moderators.user_id', $user->id)
+                )
+        );
     }
 
     /*
@@ -194,5 +206,10 @@ final class Project extends BaseModel
         return $this->belongsToMany(User::class, 'project_moderators')
             ->using(ProjectModerator::class)
             ->withTimestamps();
+    }
+
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

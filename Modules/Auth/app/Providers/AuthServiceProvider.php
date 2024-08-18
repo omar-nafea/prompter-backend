@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Modules\Auth\app\Providers;
 
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Modules\Auth\app\Models\User;
 
 final class AuthServiceProvider extends ServiceProvider
 {
@@ -24,6 +26,9 @@ final class AuthServiceProvider extends ServiceProvider
         $this->registerConfig();
         //$this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
+
+        ResetPassword::createUrlUsing(fn (User $user, string $token) => config('auth.reset_password.frontend_url') . '?token=' . $token);
+
     }
 
     /**

@@ -16,6 +16,7 @@ final class RegisterAction
     public function execute(RegisterDto $dto): array
     {
         $user = User::create($dto->toArray());
+        $user->sendEmailVerificationNotification();
 
         return [
             'authToken' => $user->createAuthToken('ss-auth'),

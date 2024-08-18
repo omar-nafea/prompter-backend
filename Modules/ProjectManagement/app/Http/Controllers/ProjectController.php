@@ -110,6 +110,9 @@ final class ProjectController
 
     public function destroy(string $project): JsonResponse
     {
+        //todo use dto ,request and action classes
+        //todo authorize to only project owner only
+
         auth()->user()?->projects()->where('key', $project)->firstOrFail()->delete();
 
         return apiResponse()
