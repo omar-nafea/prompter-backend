@@ -32,7 +32,6 @@ final class AskAiServiceAction
      */
     public function execute(AskAiServiceDto $dto): array
     {
-        //todo fire start event
         event(
             new AiCallRequestStarted(
                 requestUuid: (string) $dto->requestUuid,
@@ -50,10 +49,8 @@ final class AskAiServiceAction
                 )
             );
 
-            //todo fire sent event
             return $response->data();
         } catch (Exception $exception) {
-            //todo fire failed event
             event(
                 new AiCallRequestFailed(
                     requestUuid: (string) $dto->requestUuid,

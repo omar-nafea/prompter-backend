@@ -14,9 +14,11 @@ final class FailedResponseException extends BaseException
      */
     public static function failedAskResponse(array $rawResponse): self
     {
+        info('failedAskResponse ' . json_encode($rawResponse));
+
         return new self(
             message: __('ai-service-management::gateway.errors.failedAskResponse')
-            . ' ' . json_encode($rawResponse),//todo handle debug mode here from config
+            . ' ' . (bool) config('ai-service-management.debug_enabled') ? json_encode($rawResponse) : '',
             code: Response::HTTP_BAD_REQUEST,
             id: '84c0786c-2b8c-4229-97a9-36ce9c7de1b0',
             name: self::getClassShortName() . ':failedAskResponse'
