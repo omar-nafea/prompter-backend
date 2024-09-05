@@ -30,9 +30,8 @@ final class ConvertTextResponseToJsonAction
             ->trim()
             ->toString();
         if ( ! json_validate($string)) {
-            //todo add exception here
             info('not json ' . json_encode($textResponse));
-            dd('not json');
+            apiError()->message('Invalid JSON response received')->send();
         }
 
         /** @var array<string,mixed> */
