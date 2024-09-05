@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http;
 
+use App\Http\Middleware\ForceJsonMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Modules\Auth\app\Http\Middleware\EnsureEmailIsVerified;
 
@@ -43,6 +44,7 @@ final class Kernel extends HttpKernel
 
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
+            ForceJsonMiddleware::class,
             \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
