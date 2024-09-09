@@ -25,7 +25,7 @@ final class ChatGPT4_0Connector extends Connector
         return [
             'X-RapidAPI-Host' => config('ai-service-management.integrations.rapid_api.ChatGPT4_0.host'),
             'X-RapidAPI-Key' => config('ai-service-management.integrations.rapid_api.ChatGPT4_0.api_key'),
-            'Content-Type' => 'application/json',
+            //            'Content-Type' => 'application/json',
             'Accept' => 'application/json',
         ];
     }

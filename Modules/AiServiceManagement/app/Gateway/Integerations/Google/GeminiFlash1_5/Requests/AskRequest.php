@@ -92,6 +92,11 @@ final class AskRequest extends Request implements HasBody
     #[Override]
     public function getRequestException(Response $response, ?Throwable $senderException): ?Throwable
     {
-        return FailedResponseException::failedAskResponse($response->json());
+        info(json_encode($response->json()));
+
+        return FailedResponseException::failedAskResponse(
+            (bool) config('ai-service-management.debug_enabled') ? $response->json() :
+                ['message' => 'Something went wrong. Please try again later.']
+        );
     }
 }

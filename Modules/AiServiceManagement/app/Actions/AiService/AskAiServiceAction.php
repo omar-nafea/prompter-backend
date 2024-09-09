@@ -14,6 +14,7 @@ use Modules\AiServiceManagement\app\Events\AiCallRequestSent;
 use Modules\AiServiceManagement\app\Events\AiCallRequestStarted;
 use Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT3_0\ChatGPT3_0;
 use Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT4_0\ChatGPT4_0;
+use Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT4_0Turbo\ChatGPT4_0Turbo;
 use Modules\AiServiceManagement\app\Gateway\Contracts\GeminiFlash1_5\GeminiFlash1_5;
 use Modules\AiServiceManagement\app\Gateway\Dtos\AskPayloadDto;
 use Modules\AiServiceManagement\app\Gateway\Dtos\AskResponseDto;
@@ -96,6 +97,7 @@ final class AskAiServiceAction
         return match ($aiServiceName) {
             'GPT 3.5' => ChatGPT3_0::class,
             'GPT 4.0' => ChatGPT4_0::class,
+            'GPT 4o' => ChatGPT4_0Turbo::class,
             'Gemini' => GeminiFlash1_5::class,
             default => throw new Exception('invalid ai service name')
         };

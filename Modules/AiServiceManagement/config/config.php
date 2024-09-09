@@ -18,6 +18,7 @@ return [
         'ai_service_integrations' => [
             'ChatGPT3_0' => 'rapid_api',
             'ChatGPT4_0' => 'rapid_api',
+            'ChatGPT4_0Turbo' => 'rapid_api',
             'Gemini_1_5_Flash' => 'google',
         ],
         //global integration configurations
@@ -37,6 +38,14 @@ return [
                 'host' => env('RAPID_API_CHAT_GPT4_0_HOST'),
                 'api_key' => env('RAPID_API_CHAT_GPT4_0_API_KEY'),
                 'class' => Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT4_0\ChatGPT4_0::class,
+            ],
+            'ChatGPT4_0Turbo' => [
+                'name' => 'ChatGPT4_0Turbo',
+                'fake_response' => env('RAPID_API_CHAT_CHAT_GPT4_0_TURBO_FAKE_RESPONSE', false),
+                'base_url' => env('RAPID_API_CHAT_CHAT_GPT4_0_TURBO_BASE_URL'),
+                'host' => env('RAPID_API_CHAT_CHAT_GPT4_0_TURBO_HOST'),
+                'api_key' => env('RAPID_API_CHAT_CHAT_GPT4_0_TURBO_API_KEY'),
+                'class' => Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT4_0Turbo\ChatGPT4_0Turbo::class,
             ],
         ],
         'google' => [

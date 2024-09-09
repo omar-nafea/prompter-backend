@@ -10,17 +10,18 @@ use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT4_0\Re
 use Modules\AiServiceManagement\app\Gateway\Integerations\RapidApi\ChatGPT4_0\Requests\Ask\Exceptions\FailedResponseException;
 use Override;
 use Saloon\Contracts\Body\HasBody;
+use Saloon\Data\MultipartValue;
 use Saloon\Enums\Method;
 use Saloon\Http\Request;
 use Saloon\Http\Response;
-use Saloon\Traits\Body\HasJsonBody;
+use Saloon\Traits\Body\HasMultipartBody;
 use Saloon\Traits\Plugins\HasTimeout;
 use Symfony\Component\HttpFoundation\Response as ResponseStatus;
 use Throwable;
 
 final class AskRequest extends Request implements HasBody
 {
-    use HasJsonBody;
+    use HasMultipartBody;
     use HasTimeout;
 
     protected int $connectTimeout = 60;
@@ -36,17 +37,18 @@ final class AskRequest extends Request implements HasBody
     #[Override]
     public function resolveEndpoint(): string
     {
-        return '/chat/completions';
+        return '/chat';
     }
 
     /**
-     * @return array<string,mixed>
+     * @return array<int,MultipartValue>
      */
     protected function defaultBody(): array
     {
         return [
-            'model' => 'gpt-4o',
-            'messages' => [],
+            new MultipartValue(name: 'model', value: 'GPT-4'),
+            new MultipartValue(name: 'content', value: 'You\'re my helpful'),
+            new MultipartValue(name: 'memo', value: 'false'),
         ];
     }
 
@@ -59,7 +61,7 @@ final class AskRequest extends Request implements HasBody
         $res['raw_response'] = $response->json();
         //info(json_encode($response->json()));
         /** @var string $textResponse */
-        $textResponse = $response->json()['choices'][0]['message']['content'] ?? ''; //@phpstan-ignore-line
+        $textResponse = $response->json('gpt') ?? '';
         $res['data'] = $this->convertTextResponseToJsonAction->execute(
             textResponse: $textResponse
         );
@@ -73,7 +75,7 @@ final class AskRequest extends Request implements HasBody
     #[Override]
     public function hasRequestFailed(Response $response): ?bool
     {
-        return $response->status() !== ResponseStatus::HTTP_OK || ! $response->json('choices');
+        return $response->status() !== ResponseStatus::HTTP_OK || ! $response->json('status') || ! $response->json('gpt');
         //todo customize failed response
     }
 
@@ -83,6 +85,11 @@ final class AskRequest extends Request implements HasBody
     #[Override]
     public function getRequestException(Response $response, ?Throwable $senderException): ?Throwable
     {
-        return FailedResponseException::failedAskResponse($response->json());
+        info(json_encode($response->json()));
+
+        return FailedResponseException::failedAskResponse(
+            (bool) config('ai-service-management.debug_enabled') ? $response->json() :
+                ['message' => 'Something went wrong. Please try again later.']
+        );
     }
 }
