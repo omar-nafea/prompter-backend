@@ -86,7 +86,8 @@ final class AskAiServiceAction
 
         return $serviceClass->ask(
             dto: new AskPayloadDto(
-                prompt: $prompt
+                prompt: $prompt,
+                project: $dto->project,
             )
         );
         //todo validate request response according to ai service related to project and valid project outputs

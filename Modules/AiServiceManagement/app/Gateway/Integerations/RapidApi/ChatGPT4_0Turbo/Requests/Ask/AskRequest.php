@@ -52,6 +52,11 @@ final class AskRequest extends Request implements HasBody
         ];
     }
 
+    public function setMaxTokens(int $maxTokens): void
+    {
+        $this->body()->merge(['max_tokens' => $maxTokens]);
+    }
+
     /**
      * @throws JsonException
      */

@@ -35,6 +35,7 @@ final class ChatGPT4_0Turbo implements ChatGPT4_0TurboContract
             'role' => 'user',
         ];
         $request->body()->set($body);
+        $request->setMaxTokens($dto->project->max_tokens);
 
         if (config('ai-service-management.integrations.fake_response') || config('ai-service-management.integrations.rapid_api.ChatGPT4_0Turbo.fake_response')) {
             $this->fake();

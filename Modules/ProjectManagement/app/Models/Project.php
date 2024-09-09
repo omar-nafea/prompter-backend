@@ -108,6 +108,11 @@ final class Project extends BaseModel
     {
         return Attribute::get(fn () => $this->user_id === auth()->id());
     }
+
+    public function maxTokens(): Attribute
+    {
+        return Attribute::get(fn () => (int) ceil($this->max_output_length / 4));
+    }
     /*
     |--------------------------------------------------------------------------|
     |                             Helpers                                      |
