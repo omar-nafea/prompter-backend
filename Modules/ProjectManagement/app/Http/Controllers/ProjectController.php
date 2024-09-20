@@ -8,13 +8,16 @@ use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Modules\Auth\app\Models\User;
+use Modules\ProjectManagement\app\Actions\Project\DuplicateProjectAction;
 use Modules\ProjectManagement\app\Actions\Project\FetchProjectCodeSnippetsAction;
 use Modules\ProjectManagement\app\Actions\Project\FetchProjectListAction;
 use Modules\ProjectManagement\app\Actions\Project\FetchSingleProjectAction;
 use Modules\ProjectManagement\app\Actions\Project\StoreProjectAction;
 use Modules\ProjectManagement\app\Actions\Project\UpdateProjectAction;
+use Modules\ProjectManagement\app\Dtos\Project\DuplicateProjectDto;
 use Modules\ProjectManagement\app\Dtos\Project\StoreProjectDto;
 use Modules\ProjectManagement\app\Dtos\Project\UpdateProjectDto;
+use Modules\ProjectManagement\app\Http\Requests\Project\DuplicateProjectRequest;
 use Modules\ProjectManagement\app\Http\Requests\Project\ProjectRequest;
 use Modules\ProjectManagement\app\Http\Resources\ProjectResource;
 
@@ -124,6 +127,21 @@ final class ProjectController
         return apiResponse()
             ->success()
             ->message('Project deleted successfully')
+            ->send();
+    }
+
+    public function duplicate(
+        DuplicateProjectRequest $request,
+        DuplicateProjectAction $action,
+    ): JsonResponse|Responsable {
+
+        $action->execute(
+            dto: DuplicateProjectDto::fromDuplicateProjectRequest($request)
+        );
+
+        return apiResponse()
+            ->success()
+            ->message('Project duplicated successfully')
             ->send();
     }
 }
