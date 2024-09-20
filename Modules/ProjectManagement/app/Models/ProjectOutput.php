@@ -13,7 +13,7 @@ use Modules\ProjectManagement\app\Enums\DataType;
  * @property-read int $id
  * @property-read string $name
  * @property-read string $description
- * @property-read string $data_type
+ * @property-read DataType $data_type
  * @property-read bool $is_required
  * @property-read int|null $max_length
  * @property-read int $project_id
