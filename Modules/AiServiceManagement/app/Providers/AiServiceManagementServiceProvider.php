@@ -11,6 +11,7 @@ use Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT4_0\ChatGPT4_0;
 use Modules\AiServiceManagement\app\Gateway\Contracts\ChatGPT4_0Turbo\ChatGPT4_0Turbo;
 use Modules\AiServiceManagement\app\Gateway\Contracts\GeminiFlash1_5\GeminiFlash1_5;
 use Modules\AiServiceManagement\app\Gateway\Factories\AiGatewayFactory;
+use Modules\AiServiceManagement\Console\Commands\Migrations\FillMaxTokensForAiServices;
 
 final class AiServiceManagementServiceProvider extends ServiceProvider
 {
@@ -69,7 +70,9 @@ final class AiServiceManagementServiceProvider extends ServiceProvider
      */
     protected function registerCommands(): void
     {
-        // $this->commands([]);
+        $this->commands([
+            FillMaxTokensForAiServices::class,
+        ]);
     }
 
     /**

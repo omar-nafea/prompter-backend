@@ -6,6 +6,7 @@ namespace Modules\AiServiceManagement\app\Models;
 
 use App\Models\BaseModel;
 use Database\Factories\AiServiceFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Modules\AiServiceManagement\app\Enums\AiServiceStatus;
 
@@ -29,6 +30,7 @@ final class AiService extends BaseModel
         'name',
         'description',
         'price',
+        'max_tokens',
         'status',
         'created_by',
         'updated_by',
@@ -58,6 +60,15 @@ final class AiService extends BaseModel
     |                            Accessors                                     |
     |--------------------------------------------------------------------------|
     */
+    /**
+     * @return Attribute<int,never>
+     */
+    protected function maxCharacters(): Attribute
+    {
+        return Attribute::get(
+            fn () => (int) ($this->max_tokens / config('ai-service-management.characters_per_token_divisor')),
+        );
+    }
 
     /*
     |--------------------------------------------------------------------------|

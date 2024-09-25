@@ -40,6 +40,7 @@ final class UpdateProjectAction
         $dto = $params['dto'];
         $dto->project->update($dto->projectDto->toArray());
         $dto->project->outputLanguages()->sync($dto->outputLanguages);
+        $dto->project->touch();
 
         return $next($params);
     }

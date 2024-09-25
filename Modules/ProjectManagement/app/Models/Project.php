@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\ProjectManagement\app\Models;
 
+use App\Cache\Contracts\ShouldResetCache;
+use App\Cache\Traits\HasResetCache;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -17,6 +19,7 @@ use Modules\AiServiceManagement\app\Models\AiCallType;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
 use Modules\AiServiceManagement\app\Models\AiService;
 use Modules\Auth\app\Models\User;
+use Modules\ProjectManagement\app\Actions\Project\CheckProjectPromptHasExceededMaxTokensAction;
 use Modules\ProjectManagement\app\Enums\ProjectOutputFormat;
 use MohamedGaber\UniqueModelKeyGenerator\Traits\HasUniqueModelKey;
 
@@ -49,9 +52,10 @@ use MohamedGaber\UniqueModelKeyGenerator\Traits\HasUniqueModelKey;
  * @property-read Collection<int, OutputLanguage> $outputLanguages
  * @property-read Collection<int, ProjectObjectiveAnswer> $answers
  */
-final class Project extends BaseModel
+final class Project extends BaseModel implements ShouldResetCache
 {
     use HasFactory;
+    use HasResetCache;
     use HasUniqueModelKey;
 
     /*
@@ -112,6 +116,17 @@ final class Project extends BaseModel
     public function maxTokens(): Attribute
     {
         return Attribute::get(fn () => (int) ceil($this->max_output_length / 4));
+    }
+
+    /**
+     * @return Attribute<bool,never>
+     */
+    protected function hasExceededMaxTokens(): Attribute
+    {
+        //todo migrate to db column
+        return Attribute::get(
+            fn (): bool => app(CheckProjectPromptHasExceededMaxTokensAction::class)->execute($this),
+        );
     }
     /*
     |--------------------------------------------------------------------------|

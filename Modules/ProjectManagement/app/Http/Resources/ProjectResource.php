@@ -39,6 +39,7 @@ final class ProjectResource extends JsonResource
                 'name' => $this->resource->status,
                 'value' => $this->resource->status,
             ],
+            'has_exceeded_max_tokens' => $this->resource->has_exceeded_max_tokens,
             'is_owner' => $this->resource->is_owner,
             'created_at' => DateTimeResource::make($this->resource->created_at),
             'updated_at' => DateTimeResource::make($this->resource->updated_at),

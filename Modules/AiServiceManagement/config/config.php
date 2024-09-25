@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 return [
     'name' => 'AiServiceManagement',
+    'characters_per_token_divisor' => env('CHARACTERS_PER_TOKEN_DIVISOR', 4),
     'throttle' => [
         'max_attempts' => 1,
         'seconds' => 1,
