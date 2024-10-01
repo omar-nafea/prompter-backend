@@ -9,6 +9,7 @@ use App\Rules\ValidateInputOutputEnumValues;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
+use Modules\AiServiceManagement\app\Enums\AiServiceModelsType;
 use Modules\AiServiceManagement\app\Models\AiCallType;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
 use Modules\AiServiceManagement\app\Models\AiService;
@@ -196,6 +197,14 @@ final class ProjectRequest extends BaseApiRequest
                 Rule::exists(AiResponseType::class, 'id')
                     ->where('status', 1)//todo add ai service enum
                     ->withoutTrashed(),
+            ],
+            'ai_temperature' => [
+                Rule::requiredIf(
+                    in_array($this->input('ai_service_id'), AiServiceModelsType::supportsTemperatureIds())
+                ),
+                'decimal:1',
+                'min:0.1',
+                'max:0.9',
             ],
         ];
     }

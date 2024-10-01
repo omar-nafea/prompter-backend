@@ -46,7 +46,7 @@ final class AppServiceProvider extends ServiceProvider
                 return preg_replace(
                     '/^\s*[\r\n]/m',
                     $separator,
-                    str_replace("\n", $separator, $value)
+                    str_replace("\n", $separator, $value ?? '')
                 );
             }
         );

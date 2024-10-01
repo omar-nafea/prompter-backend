@@ -20,6 +20,7 @@ final class StoreProjectDto extends BaseDto
      */
     public function __construct(
         public ProjectDto $projectDto,
+        public ProjectDetailsDto $projectDetailsDto,
         #[DataCollectionOf(ObjectiveQuestionDto::class)]
         public DataCollection $objectiveQuestions,
         #[DataCollectionOf(ProjectInputDto::class)]
@@ -35,6 +36,7 @@ final class StoreProjectDto extends BaseDto
         return self::from(
             $request->validated() + [
                 'projectDto' => ProjectDto::from($request->validated()),
+                'projectDetailsDto' => ProjectDetailsDto::from($request->validated()),
                 'creator' => $request->user(),
             ]
         );

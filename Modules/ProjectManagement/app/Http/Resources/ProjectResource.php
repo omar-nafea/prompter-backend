@@ -40,6 +40,10 @@ final class ProjectResource extends JsonResource
                 'value' => $this->resource->status,
             ],
             'is_owner' => $this->resource->is_owner,
+            $this->mergeWhen($this->resource->relationLoaded('details'), fn () => [
+                'ai_temperature' => $this->resource->details?->ai_temperature,
+                'has_exceeded_max_tokens' => (bool) $this->resource->details?->has_exceeded_max_tokens,
+            ]),
             'created_at' => DateTimeResource::make($this->resource->created_at),
             'updated_at' => DateTimeResource::make($this->resource->updated_at),
             'output_languages' => OutputLanguageResource::collection($this->whenLoaded('outputLanguages')),

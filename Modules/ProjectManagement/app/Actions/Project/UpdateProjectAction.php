@@ -40,6 +40,16 @@ final class UpdateProjectAction
         $dto = $params['dto'];
         $dto->project->update($dto->projectDto->toArray());
         $dto->project->outputLanguages()->sync($dto->outputLanguages);
+        if ($dto->projectDetailsDto->aiTemperature) {
+            $dto->project->details()->updateOrCreate([], [
+                'ai_temperature' => $dto->projectDetailsDto->aiTemperature,
+            ]);
+        }
+        $dto->project->details()->updateOrCreate([], [
+            'has_exceeded_max_tokens' => app(CheckProjectPromptHasExceededMaxTokensAction::class)->execute(
+                project: $dto->project,
+            ),
+        ]);
 
         return $next($params);
     }

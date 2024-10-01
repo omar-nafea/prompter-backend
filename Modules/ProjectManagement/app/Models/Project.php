@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Modules\ProjectManagement\app\Models;
 
+use App\Cache\Contracts\ShouldResetCache;
+use App\Cache\Traits\HasResetCache;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -12,6 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Query\Builder;
 use Modules\AiServiceManagement\app\Models\AiCallType;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
@@ -49,9 +52,10 @@ use MohamedGaber\UniqueModelKeyGenerator\Traits\HasUniqueModelKey;
  * @property-read Collection<int, OutputLanguage> $outputLanguages
  * @property-read Collection<int, ProjectObjectiveAnswer> $answers
  */
-final class Project extends BaseModel
+final class Project extends BaseModel implements ShouldResetCache
 {
     use HasFactory;
+    use HasResetCache;
     use HasUniqueModelKey;
 
     /*
@@ -113,6 +117,7 @@ final class Project extends BaseModel
     {
         return Attribute::get(fn () => (int) ceil($this->max_output_length / 4));
     }
+
     /*
     |--------------------------------------------------------------------------|
     |                             Helpers                                      |
@@ -213,8 +218,19 @@ final class Project extends BaseModel
             ->withTimestamps();
     }
 
+    /**
+     * @return BelongsTo<User>
+     */
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * @return HasOne<ProjectDetail>
+     */
+    public function details(): HasOne
+    {
+        return $this->hasOne(ProjectDetail::class);
     }
 }

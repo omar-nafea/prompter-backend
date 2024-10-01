@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 return [
     'name' => 'AiServiceManagement',
+    'characters_per_token_divisor' => env('CHARACTERS_PER_TOKEN_DIVISOR', 4),
     'throttle' => [
         'max_attempts' => 1,
         'seconds' => 1,
     ],
     'log_ai_calls_enabled' => env('LOG_AI_CALLS_ENABLED', false),
     'debug_enabled' => env('AI_DEBUG_ENABLED', false),
+    'default_temperature' => env('DEFAULT_TEMPERATURE', 0.9),
     'integrations' => [
         'ai_service_integration' => 'rapid_api',
         'fake_response' => env('AI_SERVICE_FAKE_RESPONSE', false),

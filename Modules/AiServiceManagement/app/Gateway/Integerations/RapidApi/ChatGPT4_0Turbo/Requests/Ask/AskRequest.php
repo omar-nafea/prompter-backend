@@ -57,6 +57,11 @@ final class AskRequest extends Request implements HasBody
         $this->body()->merge(['max_tokens' => $maxTokens]);
     }
 
+    public function setTemperature(float $temperature): void
+    {
+        $this->body()->merge(['temperature' => $temperature]);
+    }
+
     /**
      * @throws JsonException
      */
