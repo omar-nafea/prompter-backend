@@ -14,12 +14,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Query\Builder;
 use Modules\AiServiceManagement\app\Models\AiCallType;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
 use Modules\AiServiceManagement\app\Models\AiService;
 use Modules\Auth\app\Models\User;
-use Modules\ProjectManagement\app\Actions\Project\CheckProjectPromptHasExceededMaxTokensAction;
 use Modules\ProjectManagement\app\Enums\ProjectOutputFormat;
 use MohamedGaber\UniqueModelKeyGenerator\Traits\HasUniqueModelKey;
 
@@ -118,16 +118,6 @@ final class Project extends BaseModel implements ShouldResetCache
         return Attribute::get(fn () => (int) ceil($this->max_output_length / 4));
     }
 
-    /**
-     * @return Attribute<bool,never>
-     */
-    protected function hasExceededMaxTokens(): Attribute
-    {
-        //todo migrate to db column
-        return Attribute::get(
-            fn (): bool => app(CheckProjectPromptHasExceededMaxTokensAction::class)->execute($this),
-        );
-    }
     /*
     |--------------------------------------------------------------------------|
     |                             Helpers                                      |
@@ -228,8 +218,19 @@ final class Project extends BaseModel implements ShouldResetCache
             ->withTimestamps();
     }
 
+    /**
+     * @return BelongsTo<User>
+     */
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * @return HasOne<ProjectDetail>
+     */
+    public function details(): HasOne
+    {
+        return $this->hasOne(ProjectDetail::class);
     }
 }

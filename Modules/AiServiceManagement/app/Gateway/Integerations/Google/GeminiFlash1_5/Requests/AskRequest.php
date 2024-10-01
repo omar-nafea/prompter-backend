@@ -58,6 +58,13 @@ final class AskRequest extends Request implements HasBody
         ];
     }
 
+    public function setTemperature(float $temperature): void
+    {
+        $body = $this->body()->get();
+        $body['generationConfig']['temperature'] = $temperature;
+        $this->body()->set($body);
+    }
+
     /**
      * @throws JsonException
      */

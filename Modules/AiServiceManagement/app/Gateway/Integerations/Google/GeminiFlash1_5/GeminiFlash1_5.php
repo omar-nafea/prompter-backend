@@ -31,6 +31,7 @@ final class GeminiFlash1_5 implements GeminiFlash1_5Contract
         /** @var array<int,mixed>$body */
         $body = $request->body()->get();
         $body['contents'][0]['parts']['text'] = $dto->prompt;
+        $request->setTemperature($dto->project->details->ai_temperature);
         //        dd($body);
         //        dd($request->body()->get(),$body);
         //        $body[] = [

@@ -22,6 +22,7 @@ final class UpdateProjectDto extends BaseDto
     public function __construct(
         public Project $project,
         public ProjectDto $projectDto,
+        public ProjectDetailsDto $projectDetailsDto,
         #[DataCollectionOf(ObjectiveQuestionDto::class)]
         public DataCollection $objectiveQuestions,
         #[DataCollectionOf(ProjectInputDto::class)]
@@ -38,6 +39,7 @@ final class UpdateProjectDto extends BaseDto
             $request->validated() + [
                 'project' => $request->getProject(),
                 'projectDto' => ProjectDto::from($request->validated()),
+                'projectDetailsDto' => ProjectDetailsDto::from($request->validated()),
                 'authUser' => $request->user(),
             ]
         );

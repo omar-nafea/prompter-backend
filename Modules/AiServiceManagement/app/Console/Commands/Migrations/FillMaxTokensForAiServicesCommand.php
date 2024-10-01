@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Modules\AiServiceManagement\Console\Commands\Migrations;
+namespace Modules\AiServiceManagement\app\Console\Commands\Migrations;
 
 use Illuminate\Console\Command;
 use Modules\AiServiceManagement\app\Models\AiService;
 
-final class FillMaxTokensForAiServices extends Command
+final class FillMaxTokensForAiServicesCommand extends Command
 {
     /**
      * The name and signature of the console command.

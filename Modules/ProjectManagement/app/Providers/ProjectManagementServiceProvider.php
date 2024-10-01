@@ -6,6 +6,8 @@ namespace Modules\ProjectManagement\app\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Modules\ProjectManagement\app\Console\Commands\Migrations\FillAiTemperatureForProjectDetailsCommand;
+use Modules\ProjectManagement\app\Console\Commands\Migrations\FillHasExceededMaxTokensForProjectDetailsCommand;
 use Override;
 
 final class ProjectManagementServiceProvider extends ServiceProvider
@@ -41,7 +43,10 @@ final class ProjectManagementServiceProvider extends ServiceProvider
      */
     protected function registerCommands(): void
     {
-        // $this->commands([]);
+        $this->commands([
+            FillAiTemperatureForProjectDetailsCommand::class,
+            FillHasExceededMaxTokensForProjectDetailsCommand::class,
+        ]);
     }
 
     /**

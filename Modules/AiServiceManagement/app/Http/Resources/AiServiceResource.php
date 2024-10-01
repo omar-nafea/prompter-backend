@@ -28,6 +28,8 @@ final class AiServiceResource extends JsonResource
                 'name' => $this->resource->status->label(),
                 'value' => $this->resource->status->value,
             ],
+            'default_temperature' => $this->resource->default_temperature,
+            'supports_configurable_temperature' => $this->resource->supports_configurable_temperature,
         ];
     }
 }
