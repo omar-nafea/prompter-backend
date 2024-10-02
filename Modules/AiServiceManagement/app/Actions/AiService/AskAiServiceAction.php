@@ -79,7 +79,7 @@ final class AskAiServiceAction
         event(
             new AiCallRequestPrepared(
                 requestUuid: (string) $dto->requestUuid,
-                prompt: $prompt,
+                //                prompt: $prompt,
                 aiConnector: str(get_class($serviceClass))->after('Gateway\Integerations\\')->toString(),
             )
         );

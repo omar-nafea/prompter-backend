@@ -13,7 +13,7 @@ final class AiCallRequestPrepared extends BaseAiCallEvent
 
     public function __construct(
         public string $requestUuid,
-        public string $prompt,
+        //        public string $prompt,
         public string $aiConnector,
         public ?string $integrationService = null,
     ) {
@@ -24,7 +24,7 @@ final class AiCallRequestPrepared extends BaseAiCallEvent
     public function toArray(): array
     {
         return [
-            'prompt' => $this->prompt,
+            //            'prompt' => $this->prompt,
             'status' => $this->status,
             'ai_connector' => $this->aiConnector,
             'integration_service' => $this->integrationService,

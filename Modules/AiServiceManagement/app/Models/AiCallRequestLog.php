@@ -34,7 +34,7 @@ final class AiCallRequestLog extends BaseModel
         'project_id',
         'status',
         'request_body',
-        'prompt',
+        //        'prompt',
         'response',
         'status_log',
         'integration_service',
