@@ -67,7 +67,8 @@ final class AiService extends BaseModel
     protected function maxCharacters(): Attribute
     {
         return Attribute::get(
-            fn () => (int) ($this->max_tokens / config('ai-service-management.characters_per_token_divisor')),
+            //            fn () => (int) ($this->max_tokens / config('ai-service-management.characters_per_token_divisor')),
+            fn () => (int) ($this->max_tokens),
         );
     }
 

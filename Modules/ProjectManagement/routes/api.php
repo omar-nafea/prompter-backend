@@ -7,7 +7,9 @@ use Modules\ProjectManagement\app\Http\Controllers\OutputLanguageController;
 use Modules\ProjectManagement\app\Http\Controllers\ProjectController;
 use Modules\ProjectManagement\app\Http\Controllers\ProjectObjectiveQuestionController;
 use Modules\ProjectManagement\app\Http\Controllers\ProjectOutputFormatController;
+use Modules\ProjectManagement\app\Http\Controllers\PrompterTestController;
 
+Route::get('prompter-test/samples', [PrompterTestController::class, 'samples'])->name('prompter-test.samples');
 Route::prefix('projects')->name('projects.')->as('projects.')->group(static function (): void {
     Route::post('/', [ProjectController::class, 'store'])->name('store');
     Route::get('/', [ProjectController::class, 'index'])->name('index');
