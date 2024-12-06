@@ -7,6 +7,7 @@ namespace Modules\AiServiceManagement\app\Actions\AiService;
 use Exception;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Facades\Storage;
 use Modules\AiServiceManagement\app\Dtos\AskAiServiceDto;
 use Modules\AiServiceManagement\app\Events\AiCallRequestFailed;
 use Modules\AiServiceManagement\app\Events\AiCallRequestPrepared;
@@ -50,7 +51,10 @@ final class AskAiServiceAction
                 )
             );
 
-            return $response->data();
+            return [
+                'request_uuid' => $dto->requestUuid,
+                ...$response->data(),
+            ];
         } catch (Exception $exception) {
             event(
                 new AiCallRequestFailed(
@@ -75,6 +79,7 @@ final class AskAiServiceAction
             )
         );
         $prompt = $this->buildAiAskPromptAction->execute(project: $dto->project, inputsData: $dto->data);
+        Storage::disk('local')->put('prompt.txt', $prompt);
 
         event(
             new AiCallRequestPrepared(

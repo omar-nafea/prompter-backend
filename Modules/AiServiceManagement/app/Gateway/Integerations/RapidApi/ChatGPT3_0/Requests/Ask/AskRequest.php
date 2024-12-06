@@ -63,7 +63,8 @@ final class AskRequest extends Request implements HasBody
         $res['raw_response'] = $response->json();
         //info(json_encode($response->json()));
         /** @var string $textResponse */
-        $textResponse = $response->json()['text'] ?? '';
+        $textResponse = $response->json()['text'] ??
+            $response->json()['result']['choices'][0]['text'] ?? '';
         $res['data'] = $this->convertTextResponseToJsonAction->execute(
             textResponse: $textResponse
         );

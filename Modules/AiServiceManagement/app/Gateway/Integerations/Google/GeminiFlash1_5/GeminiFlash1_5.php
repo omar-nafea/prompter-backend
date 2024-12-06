@@ -12,6 +12,7 @@ use Saloon\Exceptions\Request\FatalRequestException;
 use Saloon\Exceptions\Request\RequestException;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
+use Storage;
 
 final class GeminiFlash1_5 implements GeminiFlash1_5Contract
 {
@@ -51,45 +52,7 @@ final class GeminiFlash1_5 implements GeminiFlash1_5Contract
     protected function fake(): void
     {
         $mockClient = new MockClient([
-            '*' => MockResponse::make(body: '{
-    "candidates": [
-        {
-            "content": {
-                "parts": [
-                    {
-                        "text": "{\"messageType\": \"Coupon Offers on products\", \"messageContent\": \"Get 20EGP off your next order of 500EGP or more! Use code FreeD at checkout. Enjoy your shopping!\", \"communicationChannels\": [\"Push Notification\", \"SMS\", \"Email\", \"WhatsApp\"], \"messageHeader\": \"Special Offer for You!\", \"sendTiming\": {\"Push Notification\": \"10:00\", \"SMS\": \"12:00\", \"Email\": \"14:00\", \"WhatsApp\": \"16:00\"}}\n"
-                    }
-                ],
-                "role": "model"
-            },
-            "finishReason": "STOP",
-            "index": 0,
-            "safetyRatings": [
-                {
-                    "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-                    "probability": "NEGLIGIBLE"
-                },
-                {
-                    "category": "HARM_CATEGORY_HATE_SPEECH",
-                    "probability": "NEGLIGIBLE"
-                },
-                {
-                    "category": "HARM_CATEGORY_HARASSMENT",
-                    "probability": "NEGLIGIBLE"
-                },
-                {
-                    "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-                    "probability": "NEGLIGIBLE"
-                }
-            ]
-        }
-    ],
-    "usageMetadata": {
-        "promptTokenCount": 885,
-        "candidatesTokenCount": 118,
-        "totalTokenCount": 1003
-    }
-}', status: 200),
+            '*' => MockResponse::make(body: Storage::disk('local')->get('samples/responses/gemini-flash1_5')),
         ]);
         $this->connector->withMockClient($mockClient);
     }

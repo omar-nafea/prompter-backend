@@ -6,7 +6,7 @@ return [
     'name' => 'AiServiceManagement',
     'characters_per_token_divisor' => env('CHARACTERS_PER_TOKEN_DIVISOR', 4),
     'throttle' => [
-        'max_attempts' => 1,
+        'max_attempts' => 50,
         'seconds' => 1,
     ],
     'log_ai_calls_enabled' => env('LOG_AI_CALLS_ENABLED', false),

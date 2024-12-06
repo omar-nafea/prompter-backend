@@ -27,6 +27,11 @@ final class ConvertTextResponseToJsonAction
         $string = Str::of($textResponse)
             ->remove('```')
             ->remove('json')
+            ->remove("\n")
+            ->replace(",\n}", '}')
+            ->replaceMatches('/,(\s*\n*[\}\]])/', '$1')
+            ->replaceMatches('/,(\s*[\}\]])/', '$1')
+            ->replaceMatches('/,(\s*[}\]])/', '$1')
             ->trim()
             ->toString();
         if ( ! json_validate($string)) {
