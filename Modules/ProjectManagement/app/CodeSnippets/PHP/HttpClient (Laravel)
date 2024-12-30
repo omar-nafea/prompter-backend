@@ -3,9 +3,9 @@
 $response = Http::asJson()
     ->withHeader('X-Api-Key', '{{API_KEY}}')//your project api key
     ->withHeader('X-Public-Key', '{{PUBLIC_KEY}}')//your project public key
-    ->post('{{END_POINT}}', [
+    ->post('{{END_POINT}}',
      {{INPUTS}}
-    ])
+    )
     ->throw()
     ->json();
 
