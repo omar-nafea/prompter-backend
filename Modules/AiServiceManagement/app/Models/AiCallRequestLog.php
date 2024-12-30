@@ -6,7 +6,9 @@ namespace Modules\AiServiceManagement\app\Models;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\MassPrunable;
 use Modules\AiServiceManagement\app\DataObjects\AiCallRequestLog\AiCallStatusLogDataObject;
 use Modules\AiServiceManagement\app\Enums\AiCallRequestStatus;
 use Modules\AiServiceManagement\app\Observers\AiCallRequestLogObserver;
@@ -16,6 +18,7 @@ use Spatie\LaravelData\DataCollection;
 final class AiCallRequestLog extends BaseModel
 {
     use HasFactory;
+    use MassPrunable;
 
     /*
     |--------------------------------------------------------------------------|
@@ -74,7 +77,13 @@ final class AiCallRequestLog extends BaseModel
     |                             Helpers                                      |
     |--------------------------------------------------------------------------|
     */
-
+    /**
+     * @return Builder<self>
+     */
+    public function prunable(): Builder
+    {
+        return self::where('created_at', '<=', now()->subMonths(3));
+    }
     /*
     |--------------------------------------------------------------------------|
     |                              Scopes                                      |
