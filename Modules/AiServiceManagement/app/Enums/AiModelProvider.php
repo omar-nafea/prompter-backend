@@ -28,6 +28,9 @@ enum AiModelProvider: int
     #[Label('Custom (OpenAI-compatible)')]
     case OpenAiCompatible = 4;
 
+    #[Label('OpenRouter')]
+    case OpenRouter = 5;
+
     /**
      * @return array<int, array{name: string, value: int, requires_connector_url: bool}>
      */

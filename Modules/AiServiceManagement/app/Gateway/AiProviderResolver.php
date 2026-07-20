@@ -20,10 +20,11 @@ final class AiProviderResolver
     public function for(AiModelProvider $provider): AiProviderConnector
     {
         return match ($provider) {
-            AiModelProvider::OpenAi => $this->app->make(OpenAiConnector::class),
+            AiModelProvider::OpenAi,
+            AiModelProvider::OpenRouter,
+            AiModelProvider::OpenAiCompatible => $this->app->make(OpenAiConnector::class),
             AiModelProvider::Gemini => $this->app->make(GeminiConnector::class),
             AiModelProvider::Anthropic => $this->app->make(AnthropicConnector::class),
-            AiModelProvider::OpenAiCompatible => $this->app->make(OpenAiConnector::class),
         };
     }
 }

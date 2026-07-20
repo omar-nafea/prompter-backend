@@ -6,6 +6,7 @@ namespace Modules\AiServiceManagement\app\Gateway\Providers;
 
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
+use Modules\AiServiceManagement\app\Enums\AiModelProvider;
 use Modules\AiServiceManagement\app\Gateway\Concerns\ParsesAiTextResponse;
 use Modules\AiServiceManagement\app\Gateway\Contracts\AiProviderConnector;
 use Modules\AiServiceManagement\app\Gateway\Dtos\AskResponseDto;
@@ -16,6 +17,8 @@ final class OpenAiConnector implements AiProviderConnector
     use ParsesAiTextResponse;
 
     private const ENDPOINT = 'https://api.openai.com/v1/chat/completions';
+
+    private const OPENROUTER_ENDPOINT = 'https://openrouter.ai/api/v1/chat/completions';
 
     public function complete(AiModel $model, string $prompt): AskResponseDto
     {
@@ -63,7 +66,9 @@ final class OpenAiConnector implements AiProviderConnector
 
     private function endpoint(AiModel $model): string
     {
-        return $model->connector_url ?? self::ENDPOINT;
+        return $model->provider === AiModelProvider::OpenRouter
+            ? self::OPENROUTER_ENDPOINT
+            : ($model->connector_url ?? self::ENDPOINT);
     }
 
     /**

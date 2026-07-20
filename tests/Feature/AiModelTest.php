@@ -62,3 +62,28 @@ test('an OpenAI-compatible model uses and stores its connector URL', function ()
         'connector_url' => 'https://api.z.ai/api/paas/v4/chat/completions',
     ]);
 });
+
+test('an OpenRouter model uses its built-in connector URL', function (): void {
+    Sanctum::actingAs(User::factory()->create());
+    Http::preventStrayRequests();
+    Http::fake([
+        'https://openrouter.ai/api/v1/chat/completions' => Http::response([
+            'choices' => [['message' => ['content' => 'ok']]],
+        ]),
+    ]);
+
+    $this->putJson('/api/ai-model', [
+        'name' => 'openai/gpt-4o-mini',
+        'alias' => 'OpenRouter model',
+        'provider' => 5,
+        'api_key' => 'openrouter-secret-key',
+    ])->assertOk()
+        ->assertJsonPath('data.provider.name', 'OpenRouter')
+        ->assertJsonPath('data.connector_url', null);
+
+    $this->assertDatabaseHas('ai_models', [
+        'name' => 'openai/gpt-4o-mini',
+        'provider' => 5,
+        'connector_url' => null,
+    ]);
+});
