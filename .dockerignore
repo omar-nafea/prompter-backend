@@ -1,0 +1,16 @@
+vendor
+node_modules
+.git
+.env
+storage/logs/*
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/app/public/*
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+.composer
+.phpunit.result.cache
+graphify-out

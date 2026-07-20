@@ -36,7 +36,7 @@ final class FillMaxTokensForAiServicesCommand extends Command
             'Gemini' => 0,
         ];
         foreach ($data as $name => $value) {
-            AiService::where('name', $name)->firstOrFail()->update(['max_tokens' => $value]);
+            AiService::where('name', $name)->update(['max_tokens' => $value]);
         }
 
         return self::SUCCESS;

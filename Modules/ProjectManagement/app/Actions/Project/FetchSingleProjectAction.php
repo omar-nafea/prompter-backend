@@ -16,7 +16,6 @@ final class FetchSingleProjectAction
                 'inputs.enumValues',
                 'outputs.enumValues',
                 'answers.objectiveQuestion',
-                'aiService',
                 'aiCallType',
                 'aiResponseType',
                 'outputLanguages',

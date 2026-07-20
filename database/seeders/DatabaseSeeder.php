@@ -15,9 +15,10 @@ final class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            AiServiceSeeder::class,
             AiCallTypeSeeder::class,
             AiResponseTypeSeeder::class,
+            OutputLanguageSeeder::class,
+            ProjectObjectiveQuestionSeeder::class,
         ]);
         // \App\Models\User::factory(10)->create();
 

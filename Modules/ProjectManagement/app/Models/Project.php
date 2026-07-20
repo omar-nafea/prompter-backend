@@ -18,7 +18,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Query\Builder;
 use Modules\AiServiceManagement\app\Models\AiCallType;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
-use Modules\AiServiceManagement\app\Models\AiService;
 use Modules\Auth\app\Models\User;
 use Modules\ProjectManagement\app\Enums\ProjectOutputFormat;
 use MohamedGaber\UniqueModelKeyGenerator\Traits\HasUniqueModelKey;
@@ -28,7 +27,6 @@ use MohamedGaber\UniqueModelKeyGenerator\Traits\HasUniqueModelKey;
  * @property-read string $name
  * @property-read string $expected_outcome
  * @property-read string $description
- * @property-read string $ai_service_id
  * @property-read string $ai_call_type_id
  * @property-read string $ai_response_type_id
  * @property-read string $user_id
@@ -40,7 +38,6 @@ use MohamedGaber\UniqueModelKeyGenerator\Traits\HasUniqueModelKey;
  * @property-read AiResponseType $aiResponseType
  * @property-read User $user
  * @property-read AiCallType $aiCallType
- * @property-read AiService $aiService
  * @property-read int $created_by
  * @property-read int $updated_by
  * @property-read int $deleted_by
@@ -75,7 +72,6 @@ final class Project extends BaseModel implements ShouldResetCache
         'name',
         'expected_outcome',
         'status',
-        'ai_service_id',
         'ai_call_type_id',
         'ai_response_type_id',
         'user_id',
@@ -172,14 +168,6 @@ final class Project extends BaseModel implements ShouldResetCache
     public function inputs(): HasMany
     {
         return $this->hasMany(ProjectInput::class);
-    }
-
-    /**
-     * @return BelongsTo<AiService,self>
-     */
-    public function aiService(): BelongsTo
-    {
-        return $this->belongsTo(AiService::class);
     }
 
     /**

@@ -19,7 +19,6 @@ final class FetchProjectListAction
             ->with([
                 'inputs',
                 'outputs',
-                'aiService',
                 'aiCallType',
                 'aiResponseType',
                 'details',

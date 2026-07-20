@@ -9,10 +9,8 @@ use App\Rules\ValidateInputOutputEnumValues;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
-use Modules\AiServiceManagement\app\Enums\AiServiceModelsType;
 use Modules\AiServiceManagement\app\Models\AiCallType;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
-use Modules\AiServiceManagement\app\Models\AiService;
 use Modules\Auth\app\Models\User;
 use Modules\ProjectManagement\app\Enums\DataType;
 use Modules\ProjectManagement\app\Enums\OutputLanguageStatus;
@@ -177,13 +175,6 @@ final class ProjectRequest extends BaseApiRequest
     public function step2Rules(): array
     {
         return [
-            'ai_service_id' => [
-                'required',
-                'integer',
-                Rule::exists(AiService::class, 'id')
-                    ->where('status', 1)//todo add ai service enum
-                    ->withoutTrashed(),
-            ],
             'ai_call_type_id' => [
                 'required',
                 'integer',
@@ -199,9 +190,7 @@ final class ProjectRequest extends BaseApiRequest
                     ->withoutTrashed(),
             ],
             'ai_temperature' => [
-                Rule::requiredIf(
-                    in_array($this->input('ai_service_id'), AiServiceModelsType::supportsTemperatureIds())
-                ),
+                'required',
                 'decimal:1',
                 'min:0.1',
                 'max:0.9',

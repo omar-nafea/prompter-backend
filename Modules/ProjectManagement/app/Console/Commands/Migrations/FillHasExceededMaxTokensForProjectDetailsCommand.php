@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Modules\ProjectManagement\app\Console\Commands\Migrations;
 
 use Illuminate\Console\Command;
-use Modules\ProjectManagement\app\Actions\Project\CheckProjectPromptHasExceededMaxTokensAction;
 use Modules\ProjectManagement\app\Models\Project;
 
 final class FillHasExceededMaxTokensForProjectDetailsCommand extends Command
@@ -31,9 +30,7 @@ final class FillHasExceededMaxTokensForProjectDetailsCommand extends Command
     {
         Project::query()->get()->each(function (Project $project): void {
             $project->details()->updateOrCreate([], [
-                'has_exceeded_max_tokens' => app(CheckProjectPromptHasExceededMaxTokensAction::class)->execute(
-                    project : $project
-                ),
+                'has_exceeded_max_tokens' => false,
             ]);
         });
 

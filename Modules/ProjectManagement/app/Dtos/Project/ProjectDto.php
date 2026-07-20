@@ -12,7 +12,6 @@ final class ProjectDto extends BaseDto
     public function __construct(
         public string $name,
         public string $expectedOutcome,
-        public int $aiServiceId,
         public int $aiCallTypeId,
         public int $aiResponseTypeId,
         public int $maxOutputLength,

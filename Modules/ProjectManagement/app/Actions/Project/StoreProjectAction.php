@@ -47,15 +47,8 @@ final class StoreProjectAction
             ]
         );
         $params['project']->outputLanguages()->attach($dto->outputLanguages);
-        if ($dto->projectDetailsDto->aiTemperature) {
-            $params['project']->details()->create([
-                'ai_temperature' => $dto->projectDetailsDto->aiTemperature,
-            ]);
-        }
-        $params['project']->details()->updateOrCreate([], [
-            'has_exceeded_max_tokens' => app(CheckProjectPromptHasExceededMaxTokensAction::class)->execute(
-                project: $params['project']
-            ),
+        $params['project']->details()->create([
+            'ai_temperature' => $dto->projectDetailsDto->aiTemperature ?? 0.9,
         ]);
 
         return $next($params);

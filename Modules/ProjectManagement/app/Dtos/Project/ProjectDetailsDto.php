@@ -9,6 +9,6 @@ use App\Dtos\BaseDto;
 final class ProjectDetailsDto extends BaseDto
 {
     public function __construct(
-        public float $aiTemperature,
+        public ?float $aiTemperature = null,
     ) {}
 }
