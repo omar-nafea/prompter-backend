@@ -42,6 +42,9 @@ final class ProjectResource extends JsonResource
             'is_owner' => $this->resource->is_owner,
             $this->mergeWhen($this->resource->relationLoaded('details'), fn () => [
                 'ai_temperature' => $this->resource->details?->ai_temperature,
+                'ai_system_prompt' => $this->resource->details?->system_prompt,
+                'ai_max_output_tokens' => $this->resource->details?->max_output_tokens,
+                'ai_response_schema' => $this->resource->details?->response_schema,
             ]),
             'ai_model' => AiModelResource::make($this->whenLoaded('aiModel')),
             'created_at' => DateTimeResource::make($this->resource->created_at),

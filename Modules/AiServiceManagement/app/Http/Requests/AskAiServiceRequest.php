@@ -33,7 +33,7 @@ final class AskAiServiceRequest extends BaseApiRequest
     {
         $apiKey = $this->header('X-Api-Key');
         $publicKey = $this->header('X-Public-Key');
-        if ( ! $publicKey || ! $apiKey) {
+        if ( ! is_string($publicKey) || ! is_string($apiKey) || $publicKey === '' || $apiKey === '') {
             throw ProjectException::invalidPublicOrApiKey();
         }
         /** @var Project $project */
@@ -41,7 +41,7 @@ final class AskAiServiceRequest extends BaseApiRequest
             ->where('key', $publicKey)
             ->with(['answers', 'aiModel'])
             ->firstOrFail();
-        if ($apiKey !== $project->api_key) {
+        if ( ! hash_equals((string) $project->api_key, $apiKey)) {
             throw ProjectException::invalidPublicOrApiKey();
         }
         $this->project = $project;

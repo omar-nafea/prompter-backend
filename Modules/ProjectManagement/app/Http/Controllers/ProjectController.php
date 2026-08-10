@@ -14,11 +14,13 @@ use Modules\ProjectManagement\app\Actions\Project\FetchProjectListAction;
 use Modules\ProjectManagement\app\Actions\Project\FetchSingleProjectAction;
 use Modules\ProjectManagement\app\Actions\Project\StoreProjectAction;
 use Modules\ProjectManagement\app\Actions\Project\UpdateProjectAction;
+use Modules\ProjectManagement\app\Actions\Project\UpdateProjectLlmConfigurationAction;
 use Modules\ProjectManagement\app\Dtos\Project\DuplicateProjectDto;
 use Modules\ProjectManagement\app\Dtos\Project\StoreProjectDto;
 use Modules\ProjectManagement\app\Dtos\Project\UpdateProjectDto;
 use Modules\ProjectManagement\app\Http\Requests\Project\DuplicateProjectRequest;
 use Modules\ProjectManagement\app\Http\Requests\Project\ProjectRequest;
+use Modules\ProjectManagement\app\Http\Requests\Project\UpdateProjectLlmConfigurationRequest;
 use Modules\ProjectManagement\app\Http\Resources\ProjectResource;
 
 final class ProjectController
@@ -65,6 +67,20 @@ final class ProjectController
         );
 
         return apiResponse()->success()->message('Project updated successfully')->send();
+    }
+
+    public function updateLlmConfiguration(
+        UpdateProjectLlmConfigurationRequest $request,
+        UpdateProjectLlmConfigurationAction $action,
+    ): JsonResponse {
+        /** @var array{system_prompt: ?string, temperature: float|int, max_output_tokens: int, response_schema: ?array<string, mixed>} $configuration */
+        $configuration = $request->validated();
+
+        return apiResponse()
+            ->success()
+            ->message('LLM configuration updated successfully')
+            ->data(ProjectResource::make($action->execute($request->project(), $configuration)))
+            ->send();
     }
 
     public function validateProjectFormOnly(Request $request): JsonResponse

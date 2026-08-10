@@ -10,22 +10,25 @@ use Modules\AiServiceManagement\app\Gateway\Dtos\AskResponseDto;
 trait ParsesAiTextResponse
 {
     /**
-     * Build the response DTO from the raw text returned by a provider.
-     * If the text contains a fenced ```json block, its decoded payload is
-     * used as the structured data; otherwise the raw text is returned as-is.
+     * @param  array{prompt_tokens?: int, completion_tokens?: int, total_tokens?: int}  $usage
      */
-    protected function toResponseDto(string $text): AskResponseDto
+    protected function toResponseDto(string $text, array $usage = []): AskResponseDto
     {
         $data = $this->extractJson($text);
 
         return new AskResponseDto(
             data: $data ?? ['message' => $text],
             rawResponse: $text,
+            usage: [
+                'prompt_tokens' => max(0, (int) ($usage['prompt_tokens'] ?? 0)),
+                'completion_tokens' => max(0, (int) ($usage['completion_tokens'] ?? 0)),
+                'total_tokens' => max(0, (int) ($usage['total_tokens'] ?? 0)),
+            ],
         );
     }
 
     /**
-     * @return array<string,mixed>|null
+     * @return array<mixed>|null
      */
     protected function extractJson(string $text): ?array
     {

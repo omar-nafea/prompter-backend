@@ -47,7 +47,9 @@ final class OneByOneCall implements AiCallTypeStrategy
         } else {
             $rules[] = 'nullable';
         }
-        if ($input->data_type !== DataType::Enum) {
+        if ($input->data_type === DataType::Json) {
+            $rules[] = 'array';
+        } elseif ($input->data_type !== DataType::Enum) {
             $rules[] = Str::lower($input->data_type->name);
         } else {
             $rules[] = 'array';

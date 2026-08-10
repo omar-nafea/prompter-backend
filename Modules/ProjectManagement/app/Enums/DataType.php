@@ -37,4 +37,8 @@ enum DataType: int
     #[Example('option1,option2,option3')]
     #[Label('Categorical')]
     case Enum = 5;
+
+    #[Example('{"key":"value"}')]
+    #[Label('JSON')]
+    case Json = 6;
 }

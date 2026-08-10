@@ -5,12 +5,15 @@ declare(strict_types=1);
 namespace Modules\AiServiceManagement\app\Gateway\Providers;
 
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Modules\AiServiceManagement\app\Enums\AiModelProvider;
 use Modules\AiServiceManagement\app\Gateway\Concerns\ParsesAiTextResponse;
 use Modules\AiServiceManagement\app\Gateway\Contracts\AiProviderConnector;
+use Modules\AiServiceManagement\app\Gateway\Dtos\AiCompletionRequest;
 use Modules\AiServiceManagement\app\Gateway\Dtos\AskResponseDto;
 use Modules\AiServiceManagement\app\Models\AiModel;
+use Throwable;
 
 final class OpenAiConnector implements AiProviderConnector
 {
@@ -20,10 +23,21 @@ final class OpenAiConnector implements AiProviderConnector
 
     private const OPENROUTER_ENDPOINT = 'https://openrouter.ai/api/v1/chat/completions';
 
-    public function complete(AiModel $model, string $prompt): AskResponseDto
+    public function complete(AiModel $model, AiCompletionRequest $request): AskResponseDto
     {
         $response = Http::withToken($model->api_key)
-            ->post($this->endpoint($model), $this->payload($model, $prompt));
+            ->acceptJson()
+            ->connectTimeout(5)
+            ->timeout(60)
+            ->retry(
+                2,
+                250,
+                static fn (Throwable $exception): bool => $exception instanceof ConnectionException
+                    || ($exception instanceof RequestException
+                        && ($exception->response->status() === 429 || $exception->response->serverError())),
+                throw: false,
+            )
+            ->post($this->endpoint($model), $this->payload($model, $request));
 
         $response->throw();
 
@@ -32,7 +46,7 @@ final class OpenAiConnector implements AiProviderConnector
 
         $content = $this->content($body);
 
-        return $this->toResponseDto($content);
+        return $this->toResponseDto($content, is_array($body['usage'] ?? null) ? $body['usage'] : []);
     }
 
     public function test(AiModel $model): array
@@ -40,7 +54,10 @@ final class OpenAiConnector implements AiProviderConnector
         try {
             $response = Http::withToken($model->api_key)
                 ->timeout(30)
-                ->post($this->endpoint($model), $this->payload($model, 'Reply with the single word: ok', 16));
+                ->post($this->endpoint($model), $this->payload($model, new AiCompletionRequest(
+                    prompt: 'Reply with the single word: ok',
+                    maxOutputTokens: 16,
+                )));
 
             if ($response->failed()) {
                 return [
@@ -84,16 +101,38 @@ final class OpenAiConnector implements AiProviderConnector
     /**
      * @return array<string,mixed>
      */
-    private function payload(AiModel $model, string $prompt, ?int $maxTokens = null): array
+    private function payload(AiModel $model, AiCompletionRequest $request): array
     {
+        $messages = [];
+        if (filled($request->systemPrompt)) {
+            $messages[] = ['role' => 'system', 'content' => $request->systemPrompt];
+        }
+        $messages[] = ['role' => 'user', 'content' => $request->prompt];
+
         $payload = [
             'model' => $model->name,
-            'messages' => [
-                ['role' => 'user', 'content' => $prompt],
-            ],
+            'temperature' => $request->temperature,
+            'messages' => $messages,
         ];
-        if ($maxTokens !== null) {
-            $payload['max_tokens'] = $maxTokens;
+
+        $tokenParameter = $model->provider === AiModelProvider::OpenAi
+            ? 'max_completion_tokens'
+            : 'max_tokens';
+        $payload[$tokenParameter] = $request->maxOutputTokens;
+
+        if ($request->responseSchema !== null) {
+            $payload['response_format'] = [
+                'type' => 'json_schema',
+                'json_schema' => [
+                    'name' => $request->responseSchemaName,
+                    'strict' => true,
+                    'schema' => $request->responseSchema,
+                ],
+            ];
+        }
+
+        if ($model->provider === AiModelProvider::OpenRouter) {
+            $payload['provider'] = ['require_parameters' => true];
         }
 
         return $payload;

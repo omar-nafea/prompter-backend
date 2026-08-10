@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Modules\AiServiceManagement\app\Actions\AiService;
 
-use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
+use JsonException;
 use Modules\ProjectManagement\app\Enums\ProjectQuestionType;
 use Modules\ProjectManagement\app\Models\Project;
 use Modules\ProjectManagement\app\Models\ProjectInput;
@@ -17,25 +17,10 @@ final class BuildAiAskPromptAction
     /**
      * @param  array<string,mixed>  $inputsData
      *
-     * @throws Exception
+     * @throws JsonException
      */
     public function execute(Project $project, array $inputsData): string
     {
-        //        dd($project->expected_outcome);
-
-        //        $project->background = '### Tawfeer Market Context:
-        //Tawfeer Market is an online grocery startup in Egypt that offers a convenient and affordable way to shop for groceries online and get them delivered to your door in less than 2 hours. Tawfeer has its own fulfillment centers and stores, which gives it more control over its supply chain and value delivery. Tawfeer also has a powerful in-house marketing department that reaches its target market with cost-efficiency and low customer acquisition cost.
-        //
-        //### Available coupons
-        //[First50] discount of 50EGP for a minimum order of 750 EGP valid for the first order only
-        //[FreeD] Discount of 20EGP for a minimum order of 500 EGP valid for all customers
-        //Never propose a coupon that is not listed here
-        //
-        //### Products currently at discount
-        //White tissue kitchen towel 3+1 Roll 77.95 RGP instead of 91.50 EGP
-        //Capucci 1 pc 7.00 EGP instead of 10.00 EGP';
-        //        $project->expected_outcome = 'Given the following customer data and context for Tawfeer Market, generate a personalized marketing message strategy';
-        //        dd($project->expected_outcome);
         $string = Str::of($this->getPromptTemplate())
             ->replace(
                 search: '[BACKGROUND]',
@@ -90,30 +75,7 @@ final class BuildAiAskPromptAction
             )
             ->toString();
 
-        //        dd($string);
-
         return $string;
-        //        response()->json(compact('string'))->throwResponse();
-        //        dd($string);
-        //        $str = sprintf(
-        //            $string,
-        //            $project->background,
-        //            $project->expected_outcome,
-        //            'json', // todo add format to project table
-        //            $this->prepareOutputsWithDescription($project->outputs),
-        //            $this->prepareInputsWithDescription($project->inputs),
-        //            'json', // todo add format to project table
-        //            $this->prepareInputsWithValues($inputsData),
-        //            'english', // todo add language to project table
-        //            $this->prepareOutputsWithDescription($project->outputs),
-        //            1000 // todo add output maximum to project table
-        //        );
-        //replace placeholders
-        //remove line breaks and double ""
-
-        //validate the response is valid format and have valid outputs
-
-        //        return $prompt;
     }
 
     /**
@@ -171,31 +133,45 @@ final class BuildAiAskPromptAction
     /**
      * @param  array<string, mixed>  $inputsData
      *
-     * @throws Exception
+     * @throws JsonException
      */
-    protected function prepareInputsWithValues(array $inputsData, bool $withWrapper = false, string $separator = ' '): string
+    protected function prepareInputsWithValues(array $inputsData): string
     {
-        return (string) Str::minify(
-            value: collect($inputsData)->reduce(
-                callback: static function (string $accumulator, mixed $value, mixed $key) use ($separator, $withWrapper) {
-                    if ( ! (is_bool($value) || is_string($value) || is_int($value))) {
-                        throw new Exception('value must be string, int or bool :' . gettype($value) . $value);
-                    }
-                    $pattern = '-%s:%s' . $separator;
-                    $accumulator .= $withWrapper ?
-                        sprintf($pattern, $key, is_bool($value) ? ($value ? 'yes' : 'no') : $value) :
-                        sprintf(str_replace(search: ['[', ']'], replace: ['', ''], subject: $pattern), $key, $value);
+        foreach ($inputsData as $key => $value) {
+            if (is_string($value)) {
+                $decoded = json_decode($value, true);
+                if (is_array($decoded)) {
+                    $inputsData[$key] = $decoded;
+                }
+            }
+        }
 
-                    return $accumulator;
-                },
-                initial: '',
-            )
+        return json_encode(
+            $inputsData,
+            JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE,
         );
     }
 
     protected function getPromptTemplate(): string
     {
-        return '[EXPECTED OUTCOMES] in [FORMAT] format. The output should specify the [LIST OF OUTPUTS WITH DESCRIPTION OF EACH IF AVAILABLE]accordingly. The output should be [FORMAT] only and nothing else in the message . Consider the [LIST OF INPUTS WITH DESCRIPTION OF EACH IF AVAILABLE] to tailor the response accordingly.[BACKGROUND]. The output should be [FORMAT] only and nothing else in the message. [INPUTS WITH VALUES]. Application display Language: [LANGUAGE].Generate a [FORMAT] output that includes the following: [OUTPUTS WITH DESCRIPTION]. The output should be (Maximum [OUTPUT MAXIMUM LENGTH])';
+        return <<<'PROMPT'
+Task:
+[EXPECTED OUTCOMES]
+
+Context and policy:
+[BACKGROUND]
+
+Input contract:
+[LIST OF INPUTS WITH DESCRIPTION OF EACH IF AVAILABLE]
+
+Input data:
+[INPUTS WITH VALUES]
+
+Output contract:
+[OUTPUTS WITH DESCRIPTION]
+
+Return only valid [FORMAT] in [LANGUAGE], with no markdown fences or commentary. Keep the response within [OUTPUT MAXIMUM LENGTH] characters.
+PROMPT;
     }
 
     protected function getQuestionAnswer(Project $project, ProjectQuestionType $questionType): ?string

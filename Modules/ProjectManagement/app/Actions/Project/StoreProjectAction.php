@@ -59,6 +59,9 @@ final class StoreProjectAction
         $params['project']->outputLanguages()->attach($dto->outputLanguages);
         $params['project']->details()->create([
             'ai_temperature' => $dto->projectDetailsDto->aiTemperature ?? 0.9,
+            'system_prompt' => $dto->projectDetailsDto->aiSystemPrompt,
+            'max_output_tokens' => $dto->projectDetailsDto->aiMaxOutputTokens ?? 1024,
+            'response_schema' => $dto->projectDetailsDto->aiResponseSchema,
         ]);
         $this->persistProjectAiModelAction->execute($params['project'], $dto->projectAiModelDto);
 

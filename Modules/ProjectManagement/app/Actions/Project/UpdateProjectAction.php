@@ -44,9 +44,19 @@ final class UpdateProjectAction
         $dto = $params['dto'];
         $dto->project->update($dto->projectDto->toArray());
         $dto->project->outputLanguages()->sync($dto->outputLanguages);
-        $dto->project->details()->updateOrCreate([], [
+        $details = [
             'ai_temperature' => $dto->projectDetailsDto->aiTemperature ?? 0.9,
-        ]);
+        ];
+        if ($dto->projectDetailsDto->aiSystemPrompt !== null) {
+            $details['system_prompt'] = $dto->projectDetailsDto->aiSystemPrompt;
+        }
+        if ($dto->projectDetailsDto->aiResponseSchema !== null) {
+            $details['response_schema'] = $dto->projectDetailsDto->aiResponseSchema;
+        }
+        if ($dto->projectDetailsDto->aiMaxOutputTokens !== null) {
+            $details['max_output_tokens'] = $dto->projectDetailsDto->aiMaxOutputTokens;
+        }
+        $dto->project->details()->updateOrCreate([], $details);
         $this->persistProjectAiModelAction->execute($dto->project, $dto->projectAiModelDto);
 
         return $next($params);

@@ -15,6 +15,8 @@ Route::prefix('projects')->name('projects.')->as('projects.')->group(static func
     Route::get('/', [ProjectController::class, 'index'])->name('index');
     Route::get('{project}', [ProjectController::class, 'show'])->name('show');
     Route::put('{project}', [ProjectController::class, 'update'])->name('update');
+    Route::put('{project}/llm-configuration', [ProjectController::class, 'updateLlmConfiguration'])
+        ->name('llm-configuration.update');
     Route::delete('{project}', [ProjectController::class, 'destroy'])->name('destroy');
     Route::post('{project}/duplicate', [ProjectController::class, 'duplicate'])->name('duplicate');
     Route::get('{project}/code-snippets', [ProjectController::class, 'codeSnippets'])->name('code-snippets');

@@ -33,4 +33,11 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'prompter' => [
+        'url' => env('PROMPTER_URL'),
+        'flight_public_key' => env('PROMPTER_FLIGHT_PUBLIC_KEY'),
+        'flight_api_key' => env('PROMPTER_FLIGHT_API_KEY'),
+        'timeout' => (int) env('PROMPTER_TIMEOUT', 60),
+    ],
+
 ];

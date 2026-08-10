@@ -193,9 +193,23 @@ final class ProjectRequest extends BaseApiRequest
             ],
             'ai_temperature' => [
                 'required',
-                'decimal:1',
-                'min:0.1',
-                'max:0.9',
+                'numeric',
+                'between:0,2',
+            ],
+            'ai_system_prompt' => [
+                'nullable',
+                'string',
+                'max:20000',
+            ],
+            'ai_max_output_tokens' => [
+                'sometimes',
+                'integer',
+                'min:1',
+                'max:32768',
+            ],
+            'ai_response_schema' => [
+                'nullable',
+                'array',
             ],
             'ai_model_name' => [
                 'required',
@@ -276,7 +290,7 @@ final class ProjectRequest extends BaseApiRequest
                 'nullable',
                 'string',
                 'min:' . config('global.min_string_length'),
-                'max:' . config('global.max_string_length'),
+                'max:' . config('global.max_text_length'),
             ],
             'project_inputs.*.values' => [
                 'sometimes',
@@ -331,7 +345,7 @@ final class ProjectRequest extends BaseApiRequest
                 'nullable',
                 'string',
                 'min:' . config('global.min_string_length'),
-                'max:' . config('global.max_string_length'),
+                'max:' . config('global.max_text_length'),
             ],
             'project_outputs.*.values' => [
                 'sometimes',

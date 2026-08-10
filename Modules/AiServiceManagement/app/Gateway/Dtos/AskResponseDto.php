@@ -10,18 +10,24 @@ use JsonException;
 final class AskResponseDto extends BaseDto
 {
     /**
-     * @param  array<string, mixed>  $data
+     * @param  array<mixed>  $data
      */
     public function __construct(
         public ?array $data = null,
         public ?string $rawResponse = null,
+        /** @var array{prompt_tokens: int, completion_tokens: int, total_tokens: int} */
+        public array $usage = [
+            'prompt_tokens' => 0,
+            'completion_tokens' => 0,
+            'total_tokens' => 0,
+        ],
     ) {
         $this->data ??= [];
     }
 
     /**
      * @param array{
-     *      data: array<string, mixed>,
+     *      data: array<mixed>,
      *     raw_response: array<string, mixed>,
      * } $response
      *
@@ -36,7 +42,7 @@ final class AskResponseDto extends BaseDto
     }
 
     /**
-     * @return array<string, mixed>
+     * @return array<mixed>
      */
     public function data(): array
     {

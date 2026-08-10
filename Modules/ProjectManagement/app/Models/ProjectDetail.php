@@ -21,7 +21,17 @@ final class ProjectDetail extends BaseModel
     protected $fillable = [
         'has_exceeded_max_tokens',
         'ai_temperature',
+        'system_prompt',
+        'max_output_tokens',
+        'response_schema',
         'project_id',
+    ];
+
+    /** @var array<string, string> */
+    protected $casts = [
+        'ai_temperature' => 'float',
+        'max_output_tokens' => 'integer',
+        'response_schema' => 'array',
     ];
     /*
      |--------------------------------------------------------------------------|

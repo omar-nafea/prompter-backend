@@ -11,6 +11,7 @@ use Modules\AiServiceManagement\app\Events\AiCallRequestPrepared;
 use Modules\AiServiceManagement\app\Events\AiCallRequestSent;
 use Modules\AiServiceManagement\app\Events\AiCallRequestStarted;
 use Modules\AiServiceManagement\app\Gateway\AiProviderResolver;
+use Modules\AiServiceManagement\app\Gateway\Dtos\AiCompletionRequest;
 use Modules\AiServiceManagement\app\Gateway\Dtos\AskResponseDto;
 use Modules\AiServiceManagement\app\Models\AiModel;
 
@@ -18,6 +19,7 @@ final class AskAiServiceAction
 {
     public function __construct(
         protected BuildAiAskPromptAction $buildAiAskPromptAction,
+        protected ResolveAiResponseSchemaAction $resolveAiResponseSchemaAction,
         protected AiProviderResolver $resolver,
     ) {}
 
@@ -45,9 +47,15 @@ final class AskAiServiceAction
                 )
             );
 
+            $responseData = $response->data();
+            if (array_is_list($responseData)) {
+                throw new Exception('The AI response must be a JSON object, not a top-level array.');
+            }
+
             return [
                 'request_uuid' => $dto->requestUuid,
-                ...$response->data(),
+                ...$responseData,
+                '_meta' => ['usage' => $response->usage],
             ];
         } catch (Exception $exception) {
             event(
@@ -67,17 +75,26 @@ final class AskAiServiceAction
     {
         $prompt = $this->buildAiAskPromptAction->execute(project: $dto->project, inputsData: $dto->data);
         $connector = $this->resolver->for($model->provider);
+        $details = $dto->project->loadMissing('details')->details;
 
         event(
             new AiCallRequestPrepared(
                 requestUuid: (string) $dto->requestUuid,
-                //                prompt: $prompt,
                 aiConnector: $model->name,
                 integrationService: $model->provider->label(),
             )
         );
 
-        return $connector->complete($model, $prompt);
-        //todo validate request response according to ai service related to project and valid project outputs
+        return $connector->complete($model, new AiCompletionRequest(
+            prompt: $prompt,
+            systemPrompt: $details?->system_prompt,
+            temperature: $details?->ai_temperature ?? 0.0,
+            maxOutputTokens: $details?->max_output_tokens ?? 1024,
+            responseSchema: $this->resolveAiResponseSchemaAction->execute(
+                $details?->response_schema,
+                $dto->data,
+            ),
+            responseSchemaName: 'project_' . $dto->project->id . '_response',
+        ));
     }
 }
