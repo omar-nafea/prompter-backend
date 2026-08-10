@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Query\Builder;
 use Modules\AiServiceManagement\app\Models\AiCallType;
+use Modules\AiServiceManagement\app\Models\AiModel;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
 use Modules\Auth\app\Models\User;
 use Modules\ProjectManagement\app\Enums\ProjectOutputFormat;
@@ -48,6 +49,7 @@ use MohamedGaber\UniqueModelKeyGenerator\Traits\HasUniqueModelKey;
  * @property-read Collection<int, ProjectInput> $inputs
  * @property-read Collection<int, OutputLanguage> $outputLanguages
  * @property-read Collection<int, ProjectObjectiveAnswer> $answers
+ * @property-read ?AiModel $aiModel
  */
 final class Project extends BaseModel implements ShouldResetCache
 {
@@ -220,5 +222,13 @@ final class Project extends BaseModel implements ShouldResetCache
     public function details(): HasOne
     {
         return $this->hasOne(ProjectDetail::class);
+    }
+
+    /**
+     * @return HasOne<AiModel>
+     */
+    public function aiModel(): HasOne
+    {
+        return $this->hasOne(AiModel::class);
     }
 }

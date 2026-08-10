@@ -20,6 +20,7 @@ final class FetchSingleProjectAction
                 'aiResponseType',
                 'outputLanguages',
                 'details',
+                'aiModel',
             ])
             ->where('key', $projectKey)
             ->firstOrFail();

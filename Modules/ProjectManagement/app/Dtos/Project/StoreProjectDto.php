@@ -21,6 +21,7 @@ final class StoreProjectDto extends BaseDto
     public function __construct(
         public ProjectDto $projectDto,
         public ProjectDetailsDto $projectDetailsDto,
+        public ProjectAiModelDto $projectAiModelDto,
         #[DataCollectionOf(ObjectiveQuestionDto::class)]
         public DataCollection $objectiveQuestions,
         #[DataCollectionOf(ProjectInputDto::class)]
@@ -33,10 +34,19 @@ final class StoreProjectDto extends BaseDto
 
     public static function fromProjectRequest(ProjectRequest $request): self
     {
+        $validated = $request->validated();
+
         return self::from(
-            $request->validated() + [
-                'projectDto' => ProjectDto::from($request->validated()),
-                'projectDetailsDto' => ProjectDetailsDto::from($request->validated()),
+            $validated + [
+                'projectDto' => ProjectDto::from($validated),
+                'projectDetailsDto' => ProjectDetailsDto::from($validated),
+                'projectAiModelDto' => ProjectAiModelDto::from([
+                    'name' => $validated['ai_model_name'],
+                    'alias' => $validated['ai_model_alias'],
+                    'provider' => $validated['ai_model_provider'],
+                    'api_key' => $validated['ai_model_api_key'] ?? null,
+                    'connector_url' => $validated['ai_model_connector_url'] ?? null,
+                ]),
                 'creator' => $request->user(),
             ]
         );

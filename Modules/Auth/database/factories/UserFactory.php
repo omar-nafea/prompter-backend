@@ -8,6 +8,7 @@ use App\ValueObjects\Email;
 use App\ValueObjects\Phone;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
+use Modules\Auth\app\Enums\UserRole;
 use Modules\Auth\app\Enums\UserStatus;
 use Modules\Auth\app\Exceptions\EmailException;
 use Modules\Auth\app\Models\User;
@@ -42,6 +43,7 @@ final class UserFactory extends Factory
             'password' => self::$password ??= Hash::make('123456'),
             'phone' => Phone::from(fake()->phoneNumber()),
             'status' => UserStatus::Active,
+            'role' => UserRole::Service,
         ];
     }
 
@@ -52,6 +54,20 @@ final class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    public function superAdmin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => UserRole::SuperAdmin,
+        ]);
+    }
+
+    public function tester(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => UserRole::Tester,
         ]);
     }
 }

@@ -15,7 +15,8 @@ use Modules\ProjectManagement\app\Models\Project;
 final class StoreProjectAction
 {
     public function __construct(
-        protected GenerateProjectApiKeyAction $generateProjectApiKeyAction
+        protected GenerateProjectApiKeyAction $generateProjectApiKeyAction,
+        protected PersistProjectAiModelAction $persistProjectAiModelAction,
     ) {}
 
     public function execute(StoreProjectDto $dto): Project
@@ -29,7 +30,16 @@ final class StoreProjectAction
                     $this->storeObjectiveQuestions(...),
                     $this->storeProjectOutputs(...),
                 ])->then(/** @param array{dto: StoreProjectDto, project: Project} $params */
-                    destination: static fn (array $params): Project => $params['project']
+                    destination: static fn (array $params): Project => $params['project']->load([
+                        'aiModel',
+                        'details',
+                        'aiCallType',
+                        'aiResponseType',
+                        'outputLanguages',
+                        'inputs.enumValues',
+                        'outputs.enumValues',
+                        'answers.objectiveQuestion',
+                    ])
                 ),
         );
     }
@@ -50,6 +60,7 @@ final class StoreProjectAction
         $params['project']->details()->create([
             'ai_temperature' => $dto->projectDetailsDto->aiTemperature ?? 0.9,
         ]);
+        $this->persistProjectAiModelAction->execute($params['project'], $dto->projectAiModelDto);
 
         return $next($params);
     }

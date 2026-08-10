@@ -26,7 +26,8 @@ final class AskAiServiceAction
      */
     public function execute(AskAiServiceDto $dto): array
     {
-        $model = AiModel::query()->firstOrFail();
+        $model = $dto->project->aiModel
+            ?? $dto->project->aiModel()->firstOrFail();
         event(
             new AiCallRequestStarted(
                 requestUuid: (string) $dto->requestUuid,

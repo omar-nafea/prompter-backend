@@ -7,12 +7,10 @@ use Modules\Auth\app\Http\Controllers\ControlPanel\ForgotPasswordController;
 use Modules\Auth\app\Http\Controllers\ControlPanel\LoginController;
 use Modules\Auth\app\Http\Controllers\ControlPanel\LogoutController;
 use Modules\Auth\app\Http\Controllers\ControlPanel\RefreshTokenController;
-use Modules\Auth\app\Http\Controllers\ControlPanel\RegisterController;
 use Modules\Auth\app\Http\Controllers\ControlPanel\ResetPasswordController;
 use Modules\Auth\app\Http\Controllers\ControlPanel\VerifyEmailController;
 
 Route::post('login', LoginController::class)->name('auth.login')->middleware('throttle:5,1');
-Route::post('register', RegisterController::class)->name('auth.register')->middleware('throttle:1,1');
 Route::post('forgot-password', ForgotPasswordController::class)->name('forgot-password')->middleware('throttle:1,1');
 Route::post('reset-password', ResetPasswordController::class)->name('reset-password')->middleware('throttle:1,1');
 Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, 'verify'])

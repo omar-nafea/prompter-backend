@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
+use Modules\Auth\app\Enums\UserRole;
+use Modules\Auth\app\Models\User;
 
 final class AuthServiceProvider extends ServiceProvider
 {
@@ -21,5 +23,16 @@ final class AuthServiceProvider extends ServiceProvider
     /**
      * Register any authentication / authorization services.
      */
-    public function boot(): void {}
+    public function boot(): void
+    {
+        Gate::define('manage-users', static fn (User $user): bool => $user->role->isSuperAdmin());
+        Gate::define(
+            'manage-projects',
+            static fn (User $user): bool => $user->role->canManageProjects()
+        );
+        Gate::define(
+            'manage-ai-settings',
+            static fn (User $user): bool => $user->role !== UserRole::Tester
+        );
+    }
 }

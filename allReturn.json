@@ -1,0 +1,293 @@
+{
+  "search_metadata": {
+    "id": "6a799fedae678c04b55065f6",
+    "status": "Success",
+    "json_endpoint": "https://serpapi.com/searches/jonHmc2JUFd6Wn9I5I0eRA/6a799fedae678c04b55065f6.json",
+    "created_at": "2026-08-10 09:54:53 UTC",
+    "processed_at": "2026-08-10 09:54:53 UTC",
+    "google_flights_url": "https://www.google.com/travel/flights?hl=en&gl=eg&curr=EGP&tfs=CBwQAho_EgoyMDI2LTA4LTExIh8KA0NBSRIKMjAyNi0wOC0xMRoDRFhCKgJFSzIDOTI2agcIARIDQ0FJcgcIARIDRFhCGh4SCjIwMjYtMDgtMThqBwgBEgNEWEJyBwgBEgNDQUlAAUgBcAGYAQE&tfu=EgQIARAB",
+    "raw_html_file": "https://serpapi.com/searches/jonHmc2JUFd6Wn9I5I0eRA/6a799fedae678c04b55065f6.html",
+    "prettify_html_file": "https://serpapi.com/searches/jonHmc2JUFd6Wn9I5I0eRA/6a799fedae678c04b55065f6.prettify",
+    "total_time_taken": 2.86
+  },
+  "search_parameters": {
+    "engine": "google_flights",
+    "hl": "en",
+    "gl": "eg",
+    "type": "1",
+    "departure_id": "CAI",
+    "arrival_id": "DXB",
+    "outbound_date": "2026-08-11",
+    "return_date": "2026-08-18",
+    "travel_class": 1,
+    "adults": 1,
+    "departure_token": "WyJDalJJYmtoUGVYUkdUM0J1UlZWQlZVaG9aMUZDUnkwdExTMHRMUzB0TFhsc1ptNHhNa0ZCUVVGQlIzQTFibTh3UjFZd1UydEJFZ1ZGU3preU5ob01DSkRsbHdJUUFob0RSVWRRT0J4dzljd0YiLFtbIkNBSSIsIjIwMjYtMDgtMTEiLCJEWEIiLG51bGwsIkVLIiwiOTI2Il1dXQ==",
+    "currency": "EGP",
+    "show_hidden": true,
+    "deep_search": true
+  },
+  "best_flights": [
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "Dubai International Airport",
+            "id": "DXB",
+            "time": "2026-08-18 12:00"
+          },
+          "arrival_airport": {
+            "name": "Cairo International Airport",
+            "id": "CAI",
+            "time": "2026-08-18 14:50"
+          },
+          "duration": 230,
+          "airplane": "Boeing 777",
+          "airline": "Emirates",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/EK.png",
+          "travel_class": "Economy",
+          "flight_number": "EK 921",
+          "legroom": "32 in",
+          "extensions": [
+            "Above average legroom (32 in)",
+            "Wi-Fi for a fee",
+            "In-seat power & USB outlets",
+            "On-demand video",
+            "Carbon emissions estimate: 181 kg"
+          ]
+        }
+      ],
+      "total_duration": 230,
+      "carbon_emissions": {
+        "this_flight": 182000,
+        "typical_for_this_route": 224000,
+        "difference_percent": -19
+      },
+      "price": 45841,
+      "type": "Round trip",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/EK.png",
+      "booking_token": "WyJDalJJZGtaTVJHVlJhbEpNWDJkQlRIVlBSbWRDUnkwdExTMHRMUzB0TFhCbWJHd3lNVUZCUVVGQlIzQTFiaTA0VEZOeU1VMUJFZ1ZGU3preU1Sb01DSkRsbHdJUUFob0RSVWRRT0J4dzljd0YiLFtbIkNBSSIsIjIwMjYtMDgtMTEiLCJEWEIiLG51bGwsIkVLIiwiOTI2Il1dLFtbIkRYQiIsIjIwMjYtMDgtMTgiLCJDQUkiLG51bGwsIkVLIiwiOTIxIl1dXQ=="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "Dubai International Airport",
+            "id": "DXB",
+            "time": "2026-08-18 15:15"
+          },
+          "arrival_airport": {
+            "name": "Cairo International Airport",
+            "id": "CAI",
+            "time": "2026-08-18 18:05"
+          },
+          "duration": 230,
+          "airplane": "Airbus A380",
+          "airline": "Emirates",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/EK.png",
+          "travel_class": "Economy",
+          "flight_number": "EK 923",
+          "legroom": "32 in",
+          "extensions": [
+            "Above average legroom (32 in)",
+            "Wi-Fi for a fee",
+            "In-seat power & USB outlets",
+            "On-demand video",
+            "Carbon emissions estimate: 189 kg"
+          ]
+        }
+      ],
+      "total_duration": 230,
+      "carbon_emissions": {
+        "this_flight": 190000,
+        "typical_for_this_route": 224000,
+        "difference_percent": -15
+      },
+      "price": 45841,
+      "type": "Round trip",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/EK.png",
+      "booking_token": "WyJDalJJZGtaTVJHVlJhbEpNWDJkQlRIVlBSbWRDUnkwdExTMHRMUzB0TFhCbWJHd3lNVUZCUVVGQlIzQTFiaTA0VEZOeU1VMUJFZ1ZGU3preU14b01DSkRsbHdJUUFob0RSVWRRT0J4dzljd0YiLFtbIkNBSSIsIjIwMjYtMDgtMTEiLCJEWEIiLG51bGwsIkVLIiwiOTI2Il1dLFtbIkRYQiIsIjIwMjYtMDgtMTgiLCJDQUkiLG51bGwsIkVLIiwiOTIzIl1dXQ=="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "Dubai International Airport",
+            "id": "DXB",
+            "time": "2026-08-18 22:00"
+          },
+          "arrival_airport": {
+            "name": "Cairo International Airport",
+            "id": "CAI",
+            "time": "2026-08-19 00:50"
+          },
+          "duration": 230,
+          "airplane": "Airbus A380",
+          "airline": "Emirates",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/EK.png",
+          "travel_class": "Economy",
+          "flight_number": "EK 925",
+          "legroom": "32 in",
+          "extensions": [
+            "Above average legroom (32 in)",
+            "Wi-Fi for a fee",
+            "In-seat power & USB outlets",
+            "On-demand video",
+            "Carbon emissions estimate: 189 kg"
+          ]
+        }
+      ],
+      "total_duration": 230,
+      "carbon_emissions": {
+        "this_flight": 190000,
+        "typical_for_this_route": 224000,
+        "difference_percent": -15
+      },
+      "price": 45841,
+      "type": "Round trip",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/EK.png",
+      "booking_token": "WyJDalJJZGtaTVJHVlJhbEpNWDJkQlRIVlBSbWRDUnkwdExTMHRMUzB0TFhCbWJHd3lNVUZCUVVGQlIzQTFiaTA0VEZOeU1VMUJFZ1ZGU3preU5Sb01DSkRsbHdJUUFob0RSVWRRT0J4dzljd0YiLFtbIkNBSSIsIjIwMjYtMDgtMTEiLCJEWEIiLG51bGwsIkVLIiwiOTI2Il1dLFtbIkRYQiIsIjIwMjYtMDgtMTgiLCJDQUkiLG51bGwsIkVLIiwiOTI1Il1dXQ=="
+    }
+  ],
+  "other_flights": [
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "Dubai International Airport",
+            "id": "DXB",
+            "time": "2026-08-18 04:00"
+          },
+          "arrival_airport": {
+            "name": "Cairo International Airport",
+            "id": "CAI",
+            "time": "2026-08-18 06:50"
+          },
+          "duration": 230,
+          "airplane": "Boeing 777",
+          "airline": "Emirates",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/EK.png",
+          "travel_class": "Economy",
+          "flight_number": "EK 929",
+          "legroom": "32 in",
+          "extensions": [
+            "Above average legroom (32 in)",
+            "Wi-Fi for a fee",
+            "In-seat power & USB outlets",
+            "On-demand video",
+            "Carbon emissions estimate: 184 kg"
+          ],
+          "overnight": true
+        }
+      ],
+      "total_duration": 230,
+      "carbon_emissions": {
+        "this_flight": 184000,
+        "typical_for_this_route": 224000,
+        "difference_percent": -18
+      },
+      "price": 45841,
+      "type": "Round trip",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/EK.png",
+      "booking_token": "WyJDalJJZGtaTVJHVlJhbEpNWDJkQlRIVlBSbWRDUnkwdExTMHRMUzB0TFhCbWJHd3lNVUZCUVVGQlIzQTFiaTA0VEZOeU1VMUJFZ1ZGU3preU9Sb01DSkRsbHdJUUFob0RSVWRRT0J4dzljd0YiLFtbIkNBSSIsIjIwMjYtMDgtMTEiLCJEWEIiLG51bGwsIkVLIiwiOTI2Il1dLFtbIkRYQiIsIjIwMjYtMDgtMTgiLCJDQUkiLG51bGwsIkVLIiwiOTI5Il1dXQ=="
+    },
+    {
+      "flights": [
+        {
+          "departure_airport": {
+            "name": "Dubai International Airport",
+            "id": "DXB",
+            "time": "2026-08-18 08:15"
+          },
+          "arrival_airport": {
+            "name": "Cairo International Airport",
+            "id": "CAI",
+            "time": "2026-08-18 11:05"
+          },
+          "duration": 230,
+          "airplane": "Airbus A380",
+          "airline": "Emirates",
+          "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/EK.png",
+          "travel_class": "Economy",
+          "flight_number": "EK 927",
+          "legroom": "32 in",
+          "extensions": [
+            "Above average legroom (32 in)",
+            "Wi-Fi for a fee",
+            "In-seat power & USB outlets",
+            "On-demand video",
+            "Carbon emissions estimate: 189 kg"
+          ],
+          "often_delayed_by_over_30_min": true
+        }
+      ],
+      "total_duration": 230,
+      "carbon_emissions": {
+        "this_flight": 190000,
+        "typical_for_this_route": 224000,
+        "difference_percent": -15
+      },
+      "price": 45841,
+      "type": "Round trip",
+      "airline_logo": "https://www.gstatic.com/flights/airline_logos/70px/EK.png",
+      "booking_token": "WyJDalJJZGtaTVJHVlJhbEpNWDJkQlRIVlBSbWRDUnkwdExTMHRMUzB0TFhCbWJHd3lNVUZCUVVGQlIzQTFiaTA0VEZOeU1VMUJFZ1ZGU3preU54b01DSkRsbHdJUUFob0RSVWRRT0J4dzljd0YiLFtbIkNBSSIsIjIwMjYtMDgtMTEiLCJEWEIiLG51bGwsIkVLIiwiOTI2Il1dLFtbIkRYQiIsIjIwMjYtMDgtMTgiLCJDQUkiLG51bGwsIkVLIiwiOTI3Il1dXQ=="
+    }
+  ],
+  "airports": [
+    {
+      "departure": [
+        {
+          "airport": {
+            "id": "CAI",
+            "name": "Cairo International Airport"
+          },
+          "city": "Cairo",
+          "country": "Egypt",
+          "country_code": "EG",
+          "image": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcT7ULfG_02k52ZUkT4SMv7eA5_XFLGUgtQP_gC4pBuZtEmSzwHjjK5wnTa4EydhWQZpABieItDPpIw1bA",
+          "thumbnail": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSnrxz7k5kf6djuK1GMLNohWzFgdjfs-nlAN8vxOFLaRegspA7dbLL7ECQ-QfprCeItnbklqMs7TjbNW9zOrDToFoBJRvX-nBu5N40XIbM"
+        }
+      ],
+      "arrival": [
+        {
+          "airport": {
+            "id": "DXB",
+            "name": "Dubai International Airport"
+          },
+          "city": "Dubai",
+          "country": "United Arab Emirates",
+          "country_code": "AE",
+          "image": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRegWMQBRhDOeg2gvll8nGXsG1-OPqD2V0EvCN1Ni2Poe9hGY8CBps9mRaAyrAz8Jvsvl292aI62fq43A",
+          "thumbnail": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQDaD8FERvoI4iorjkWbED9zAq7S3m9hD1t5vGNU5Jznr1Kl1em9SIs9c9VkujJF5_EDvC5mKyqcQ9B8PApW9tiwfzhK_pC2qvRBND2Plo"
+        }
+      ]
+    },
+    {
+      "departure": [
+        {
+          "airport": {
+            "id": "DXB",
+            "name": "Dubai International Airport"
+          },
+          "city": "Dubai",
+          "country": "United Arab Emirates",
+          "country_code": "AE",
+          "image": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRegWMQBRhDOeg2gvll8nGXsG1-OPqD2V0EvCN1Ni2Poe9hGY8CBps9mRaAyrAz8Jvsvl292aI62fq43A",
+          "thumbnail": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQDaD8FERvoI4iorjkWbED9zAq7S3m9hD1t5vGNU5Jznr1Kl1em9SIs9c9VkujJF5_EDvC5mKyqcQ9B8PApW9tiwfzhK_pC2qvRBND2Plo"
+        }
+      ],
+      "arrival": [
+        {
+          "airport": {
+            "id": "CAI",
+            "name": "Cairo International Airport"
+          },
+          "city": "Cairo",
+          "country": "Egypt",
+          "country_code": "EG",
+          "image": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcT7ULfG_02k52ZUkT4SMv7eA5_XFLGUgtQP_gC4pBuZtEmSzwHjjK5wnTa4EydhWQZpABieItDPpIw1bA",
+          "thumbnail": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSnrxz7k5kf6djuK1GMLNohWzFgdjfs-nlAN8vxOFLaRegspA7dbLL7ECQ-QfprCeItnbklqMs7TjbNW9zOrDToFoBJRvX-nBu5N40XIbM"
+        }
+      ]
+    }
+  ]
+}

@@ -39,7 +39,7 @@ final class AskAiServiceRequest extends BaseApiRequest
         /** @var Project $project */
         $project = Project::query()
             ->where('key', $publicKey)
-            ->with('answers')
+            ->with(['answers', 'aiModel'])
             ->firstOrFail();
         if ($apiKey !== $project->api_key) {
             throw ProjectException::invalidPublicOrApiKey();

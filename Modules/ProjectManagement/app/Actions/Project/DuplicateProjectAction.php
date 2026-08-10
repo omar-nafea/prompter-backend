@@ -32,7 +32,7 @@ final class DuplicateProjectAction
     public function execute(DuplicateProjectDto $dto): Project
     {
         $project = $dto->authUser->projects()->where('key', $dto->projectKey)->firstOrFail();
-        $project->load('inputs.enumValues', 'outputs.enumValues', 'outputLanguages', 'answers');
+        $project->load('inputs.enumValues', 'outputs.enumValues', 'outputLanguages', 'answers', 'aiModel', 'details');
 
         return DB::transaction(fn () => $this->handle($dto, $project));
     }
@@ -43,6 +43,8 @@ final class DuplicateProjectAction
         $duplicatedProject->outputLanguages()->attach(
             $project->outputLanguages->pluck('id')->toArray()
         );
+        $this->duplicateAiModel($project, $duplicatedProject);
+        $this->duplicateDetails($project, $duplicatedProject);
         $this->duplicateInputs($project, $duplicatedProject);
         $this->duplicateOutputs($project, $duplicatedProject);
         $this->duplicateAnswers($project, $duplicatedProject);
@@ -63,6 +65,8 @@ final class DuplicateProjectAction
                     'outputs',
                     'output_languages',
                     'answers',
+                    'ai_model',
+                    'details',
                 ]
             ),
             [
@@ -70,6 +74,41 @@ final class DuplicateProjectAction
                 'api_key' => $this->generateProjectApiKeyAction->execute(),
             ]
         ));
+    }
+
+    private function duplicateAiModel(Project $project, Project $duplicatedProject): void
+    {
+        if ($project->aiModel === null) {
+            return;
+        }
+
+        $duplicatedProject->aiModel()->create([
+            'name' => $project->aiModel->name,
+            'alias' => $project->aiModel->alias,
+            'provider' => $project->aiModel->provider,
+            'api_key' => $project->aiModel->api_key,
+            'connector_url' => $project->aiModel->connector_url,
+        ]);
+    }
+
+    private function duplicateDetails(Project $project, Project $duplicatedProject): void
+    {
+        if ($project->details === null) {
+            return;
+        }
+
+        $duplicatedProject->details()->create(
+            Arr::except($project->details->getAttributes(), [
+                'id',
+                'project_id',
+                'created_at',
+                'updated_at',
+                'deleted_at',
+                'created_by',
+                'updated_by',
+                'deleted_by',
+            ])
+        );
     }
 
     public function duplicateInputs(Project $project, Project $duplicatedProject): void

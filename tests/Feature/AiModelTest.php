@@ -2,88 +2,114 @@
 
 declare(strict_types=1);
 
+use Database\Seeders\AiCallTypeSeeder;
+use Database\Seeders\AiResponseTypeSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\Sanctum;
+use Modules\AiServiceManagement\app\Enums\AiModelProvider;
+use Modules\AiServiceManagement\app\Models\AiCallType;
+use Modules\AiServiceManagement\app\Models\AiModel;
+use Modules\AiServiceManagement\app\Models\AiResponseType;
 use Modules\Auth\app\Models\User;
+use Modules\ProjectManagement\app\Enums\ProjectOutputFormat;
+use Modules\ProjectManagement\app\Models\Project;
 
 uses(RefreshDatabase::class);
 
-test('an AI model is saved only after a successful connection test', function (): void {
+beforeEach(function (): void {
+    $this->seed([AiCallTypeSeeder::class, AiResponseTypeSeeder::class]);
+});
+
+function createProjectWithModel(User $user, array $modelAttributes = []): Project
+{
+    /** @var Project $project */
+    $project = $user->projects()->create([
+        'name' => 'Project ' . uniqid(),
+        'expected_outcome' => 'Expected outcome text for tests.',
+        'ai_call_type_id' => AiCallType::query()->value('id'),
+        'ai_response_type_id' => AiResponseType::query()->value('id'),
+        'max_output_length' => 200,
+        'output_format' => ProjectOutputFormat::Json,
+        'api_key' => 'project-api-key-' . uniqid(),
+    ]);
+
+    $project->aiModel()->create([
+        'name' => $modelAttributes['name'] ?? 'gpt-4o-mini',
+        'alias' => $modelAttributes['alias'] ?? 'Main model',
+        'provider' => $modelAttributes['provider'] ?? AiModelProvider::OpenAi,
+        'api_key' => $modelAttributes['api_key'] ?? 'secret-key',
+        'connector_url' => $modelAttributes['connector_url'] ?? null,
+    ]);
+
+    return $project->fresh(['aiModel']);
+}
+
+test('ai model providers endpoint is available', function (): void {
     Sanctum::actingAs(User::factory()->create());
 
-    $payload = [
-        'name' => 'gpt-4o-mini',
-        'alias' => 'Main model',
-        'provider' => 1,
-        'api_key' => 'secret-key',
-    ];
-
-    Http::fakeSequence('api.openai.com/*')
-        ->push(['error' => ['message' => 'Invalid key']], 401)
-        ->push(['choices' => [['message' => ['content' => 'ok']]]]);
-
-    $this->putJson('/api/ai-model', $payload)
-        ->assertUnprocessable()
-        ->assertJsonValidationErrors('connection');
-    $this->assertDatabaseCount('ai_models', 0);
-
-    $this->putJson('/api/ai-model', $payload)
+    $this->getJson('/api/ai-model-providers')
         ->assertOk()
-        ->assertJsonPath('data.name', 'gpt-4o-mini')
-        ->assertJsonMissing(['api_key' => 'secret-key']);
-
-    $this->assertDatabaseCount('ai_models', 1);
-    expect(DB::table('ai_models')->value('api_key'))->not->toBe('secret-key');
+        ->assertJsonStructure(['data' => ['providers']]);
 });
 
-test('an OpenAI-compatible model uses and stores its connector URL', function (): void {
+test('global ai model endpoints are removed', function (): void {
     Sanctum::actingAs(User::factory()->create());
+
+    $this->getJson('/api/ai-model')->assertNotFound();
+    $this->putJson('/api/ai-model', [])->assertNotFound();
+});
+
+test('each project keeps its own ai model configuration', function (): void {
+    $user = User::factory()->create();
+    $projectA = createProjectWithModel($user, [
+        'name' => 'model-a',
+        'alias' => 'Model A',
+        'api_key' => 'key-a',
+    ]);
+    $projectB = createProjectWithModel($user, [
+        'name' => 'model-b',
+        'alias' => 'Model B',
+        'provider' => AiModelProvider::OpenRouter,
+        'api_key' => 'key-b',
+    ]);
+
+    expect($projectA->aiModel?->name)->toBe('model-a')
+        ->and($projectB->aiModel?->name)->toBe('model-b')
+        ->and($projectA->aiModel?->id)->not->toBe($projectB->aiModel?->id)
+        ->and(DB::table('ai_models')->where('project_id', $projectA->id)->value('api_key'))
+        ->not->toBe('key-a')
+        ->and(AiModel::count())->toBe(2);
+
     Http::preventStrayRequests();
     Http::fake([
-        'https://api.z.ai/api/paas/v4/chat/completions' => Http::response([
+        'https://api.openai.com/v1/chat/completions' => Http::response([
             'choices' => [['message' => ['content' => 'ok']]],
         ]),
     ]);
 
-    $this->putJson('/api/ai-model', [
-        'name' => 'glm-5.2',
-        'alias' => 'GLM 5.2',
-        'provider' => 4,
-        'api_key' => 'z-ai-secret-key',
-        'connector_url' => 'https://api.z.ai/api/paas/v4/chat/completions',
-    ])->assertOk()
-        ->assertJsonPath('data.connector_url', 'https://api.z.ai/api/paas/v4/chat/completions');
+    $resolved = $projectA->aiModel()->firstOrFail();
+    $connection = app(\Modules\AiServiceManagement\app\Gateway\AiProviderResolver::class)
+        ->for($resolved->provider)
+        ->test($resolved);
 
-    $this->assertDatabaseHas('ai_models', [
-        'name' => 'glm-5.2',
-        'provider' => 4,
-        'connector_url' => 'https://api.z.ai/api/paas/v4/chat/completions',
-    ]);
+    expect($connection['success'])->toBeTrue();
+    Http::assertSent(fn ($request) => $request['model'] === 'model-a');
 });
 
-test('an OpenRouter model uses its built-in connector URL', function (): void {
-    Sanctum::actingAs(User::factory()->create());
-    Http::preventStrayRequests();
-    Http::fake([
-        'https://openrouter.ai/api/v1/chat/completions' => Http::response([
-            'choices' => [['message' => ['content' => 'ok']]],
-        ]),
-    ]);
+test('testers cannot create projects', function (): void {
+    Sanctum::actingAs(User::factory()->tester()->create());
 
-    $this->putJson('/api/ai-model', [
-        'name' => 'openai/gpt-4o-mini',
-        'alias' => 'OpenRouter model',
-        'provider' => 5,
-        'api_key' => 'openrouter-secret-key',
-    ])->assertOk()
-        ->assertJsonPath('data.provider.name', 'OpenRouter')
-        ->assertJsonPath('data.connector_url', null);
+    $this->postJson('/api/projects', [
+        'name' => 'Nope',
+        'expected_outcome' => 'Nope outcome',
+    ])->assertForbidden();
+});
 
-    $this->assertDatabaseHas('ai_models', [
-        'name' => 'openai/gpt-4o-mini',
-        'provider' => 5,
-        'connector_url' => null,
-    ]);
+test('role gates distinguish super admin service and tester', function (): void {
+    expect(User::factory()->create()->can('manage-projects'))->toBeTrue()
+        ->and(User::factory()->tester()->create()->can('manage-projects'))->toBeFalse()
+        ->and(User::factory()->superAdmin()->create()->can('manage-users'))->toBeTrue()
+        ->and(User::factory()->create()->can('manage-users'))->toBeFalse();
 });

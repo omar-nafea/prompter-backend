@@ -23,7 +23,7 @@ final class RegisterDto extends BaseDto
         public Email $email,
         public string $password,
         #[WithCastable(Phone::class)]
-        public ?Phone $phone
+        public ?Phone $phone = null,
     ) {}
 
     public static function fromRegisterRequest(RegisterRequest $request): self

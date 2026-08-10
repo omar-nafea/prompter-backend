@@ -15,6 +15,10 @@ use Modules\ProjectManagement\app\Models\Project;
 
 final class UpdateProjectAction
 {
+    public function __construct(
+        protected PersistProjectAiModelAction $persistProjectAiModelAction,
+    ) {}
+
     public function execute(UpdateProjectDto $dto): Project
     {
         /** @var Project */
@@ -43,6 +47,7 @@ final class UpdateProjectAction
         $dto->project->details()->updateOrCreate([], [
             'ai_temperature' => $dto->projectDetailsDto->aiTemperature ?? 0.9,
         ]);
+        $this->persistProjectAiModelAction->execute($dto->project, $dto->projectAiModelDto);
 
         return $next($params);
     }

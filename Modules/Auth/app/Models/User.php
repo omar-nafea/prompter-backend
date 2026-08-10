@@ -15,6 +15,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Notifications\Notifiable;
 use Modules\Auth\app\Casts\EmailCast;
 use Modules\Auth\app\Casts\PhoneCast;
+use Modules\Auth\app\Enums\UserRole;
 use Modules\Auth\app\Enums\UserStatus;
 use Modules\Auth\database\factories\UserFactory;
 use Modules\ProjectManagement\app\Models\Project;
@@ -27,6 +28,7 @@ use MohamedGaber\SanctumRefreshToken\Traits\HasApiTokens;
  * @property-read Email $email
  * @property-read ?Phone $phone
  * @property-read UserStatus $status
+ * @property-read UserRole $role
  * @property-read Collection<int, Project> $projects
  */
 final class User extends BaseAuthenticatable
@@ -47,6 +49,7 @@ final class User extends BaseAuthenticatable
         'password',
         'email_verified_at',
         'status',
+        'role',
         'phone',
     ];
 
@@ -56,11 +59,13 @@ final class User extends BaseAuthenticatable
         'email' => EmailCast::class,
         'phone' => PhoneCast::class,
         'status' => UserStatus::class,
+        'role' => UserRole::class,
     ];
 
     /** @var array<string, mixed> */
     protected $attributes = [
         'status' => UserStatus::Active,
+        'role' => UserRole::Service,
     ];
 
     /** @var array<int,string> */

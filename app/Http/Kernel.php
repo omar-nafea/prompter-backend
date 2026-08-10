@@ -7,6 +7,7 @@ namespace App\Http;
 use App\Http\Middleware\ForceJsonMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Modules\Auth\app\Http\Middleware\EnsureEmailIsVerified;
+use Modules\Auth\app\Http\Middleware\EnsureUserHasRole;
 
 final class Kernel extends HttpKernel
 {
@@ -69,5 +70,6 @@ final class Kernel extends HttpKernel
         'signed' => Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => EnsureEmailIsVerified::class,
+        'role' => EnsureUserHasRole::class,
     ];
 }

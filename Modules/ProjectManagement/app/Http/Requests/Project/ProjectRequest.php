@@ -9,6 +9,7 @@ use App\Rules\ValidateInputOutputEnumValues;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Validator;
+use Modules\AiServiceManagement\app\Enums\AiModelProvider;
 use Modules\AiServiceManagement\app\Models\AiCallType;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
 use Modules\Auth\app\Models\User;
@@ -44,7 +45,7 @@ final class ProjectRequest extends BaseApiRequest
 
     public function authorize(): bool
     {
-        return true;
+        return $this->user()?->can('manage-projects') ?? false;
     }
 
     #[Override]
@@ -56,6 +57,7 @@ final class ProjectRequest extends BaseApiRequest
             $user = $this->user();
             $this->project = Project::query()
                 ->allowedForUser($user)
+                ->with('aiModel')
                 ->where('key', $this->route('project'))
                 ->firstOrFail();
         }
@@ -194,6 +196,35 @@ final class ProjectRequest extends BaseApiRequest
                 'decimal:1',
                 'min:0.1',
                 'max:0.9',
+            ],
+            'ai_model_name' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'ai_model_alias' => [
+                'required',
+                'string',
+                'max:255',
+            ],
+            'ai_model_provider' => [
+                'required',
+                Rule::enum(AiModelProvider::class),
+            ],
+            'ai_model_api_key' => [
+                Rule::requiredIf( ! $this->forEdit || $this->project?->aiModel === null),
+                'nullable',
+                'string',
+                'max:1000',
+            ],
+            'ai_model_connector_url' => [
+                Rule::requiredIf(
+                    fn (): bool => $this->integer('ai_model_provider') === AiModelProvider::OpenAiCompatible->value
+                ),
+                'nullable',
+                'string',
+                'url:https',
+                'max:2048',
             ],
         ];
     }

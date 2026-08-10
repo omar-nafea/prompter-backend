@@ -8,6 +8,7 @@ use App\Http\Resources\DateTimeResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\AiServiceManagement\app\Http\Resources\AiCallTypeResource;
+use Modules\AiServiceManagement\app\Http\Resources\AiModelResource;
 use Modules\AiServiceManagement\app\Http\Resources\AiResponseTypeResource;
 use Modules\ProjectManagement\app\Models\Project;
 use Override;
@@ -42,6 +43,7 @@ final class ProjectResource extends JsonResource
             $this->mergeWhen($this->resource->relationLoaded('details'), fn () => [
                 'ai_temperature' => $this->resource->details?->ai_temperature,
             ]),
+            'ai_model' => AiModelResource::make($this->whenLoaded('aiModel')),
             'created_at' => DateTimeResource::make($this->resource->created_at),
             'updated_at' => DateTimeResource::make($this->resource->updated_at),
             'output_languages' => OutputLanguageResource::collection($this->whenLoaded('outputLanguages')),

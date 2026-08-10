@@ -6,10 +6,13 @@ namespace Modules\AiServiceManagement\app\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\AiServiceManagement\app\Enums\AiModelProvider;
+use Modules\ProjectManagement\app\Models\Project;
 
 /**
  * @property-read int $id
+ * @property-read int $project_id
  * @property-read string $name
  * @property-read string $alias
  * @property-read AiModelProvider $provider
@@ -19,6 +22,7 @@ use Modules\AiServiceManagement\app\Enums\AiModelProvider;
 final class AiModel extends Model
 {
     protected $fillable = [
+        'project_id',
         'name',
         'alias',
         'provider',
@@ -50,5 +54,13 @@ final class AiModel extends Model
 
             return $key === '' ? '' : '••••' . mb_substr($key, -4);
         });
+    }
+
+    /**
+     * @return BelongsTo<Project, self>
+     */
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(Project::class);
     }
 }

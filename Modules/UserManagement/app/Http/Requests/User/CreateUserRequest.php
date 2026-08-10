@@ -2,13 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Modules\Auth\app\Http\Requests;
+namespace Modules\UserManagement\app\Http\Requests\User;
 
 use App\Http\Requests\BaseApiRequest;
 use Illuminate\Validation\Rule;
+use Modules\Auth\app\Enums\UserRole;
 
-final class RegisterRequest extends BaseApiRequest
+final class CreateUserRequest extends BaseApiRequest
 {
+    public function authorize(): bool
+    {
+        return $this->user()?->can('manage-users') ?? false;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
     public function rules(): array
     {
         return [
@@ -35,6 +44,10 @@ final class RegisterRequest extends BaseApiRequest
                 'phone_format',
                 Rule::unique('users')->withoutTrashed(),
                 'max:' . config('global.max_string_length'),
+            ],
+            'role' => [
+                'required',
+                Rule::enum(UserRole::class),
             ],
         ];
     }
