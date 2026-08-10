@@ -12,6 +12,7 @@ use Modules\ProjectManagement\app\Actions\Project\DuplicateProjectAction;
 use Modules\ProjectManagement\app\Actions\Project\FetchProjectCodeSnippetsAction;
 use Modules\ProjectManagement\app\Actions\Project\FetchProjectListAction;
 use Modules\ProjectManagement\app\Actions\Project\FetchSingleProjectAction;
+use Modules\ProjectManagement\app\Actions\Project\PatchProjectAction;
 use Modules\ProjectManagement\app\Actions\Project\StoreProjectAction;
 use Modules\ProjectManagement\app\Actions\Project\UpdateProjectAction;
 use Modules\ProjectManagement\app\Actions\Project\UpdateProjectLlmConfigurationAction;
@@ -19,6 +20,7 @@ use Modules\ProjectManagement\app\Dtos\Project\DuplicateProjectDto;
 use Modules\ProjectManagement\app\Dtos\Project\StoreProjectDto;
 use Modules\ProjectManagement\app\Dtos\Project\UpdateProjectDto;
 use Modules\ProjectManagement\app\Http\Requests\Project\DuplicateProjectRequest;
+use Modules\ProjectManagement\app\Http\Requests\Project\PatchProjectRequest;
 use Modules\ProjectManagement\app\Http\Requests\Project\ProjectRequest;
 use Modules\ProjectManagement\app\Http\Requests\Project\UpdateProjectLlmConfigurationRequest;
 use Modules\ProjectManagement\app\Http\Resources\ProjectResource;
@@ -67,6 +69,20 @@ final class ProjectController
         );
 
         return apiResponse()->success()->message('Project updated successfully')->send();
+    }
+
+    public function patch(
+        PatchProjectRequest $request,
+        PatchProjectAction $action,
+    ): JsonResponse {
+        /** @var array<string, mixed> $projectPatch */
+        $projectPatch = $request->validated();
+
+        return apiResponse()
+            ->success()
+            ->message('Project updated successfully')
+            ->data(ProjectResource::make($action->execute($request->project(), $projectPatch)))
+            ->send();
     }
 
     public function updateLlmConfiguration(
