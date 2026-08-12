@@ -134,6 +134,10 @@ final class Project extends BaseModel implements ShouldResetCache
      */
     public function scopeAllowedForUser(Builder|EloquentBuilder $query, User $user): void
     {
+        if ($user->role->isSuperAdmin()) {
+            return;
+        }
+
         $query->where(
             fn (Builder|EloquentBuilder $query) => $query
                 ->where('user_id', $user->id)

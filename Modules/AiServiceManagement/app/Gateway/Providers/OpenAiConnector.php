@@ -131,10 +131,6 @@ final class OpenAiConnector implements AiProviderConnector
             ];
         }
 
-        if ($model->provider === AiModelProvider::OpenRouter && $request->responseSchema !== null) {
-            $payload['provider'] = ['require_parameters' => true];
-        }
-
         return $payload;
     }
 }

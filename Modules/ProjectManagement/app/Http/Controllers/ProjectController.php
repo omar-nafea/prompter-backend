@@ -12,6 +12,7 @@ use Modules\ProjectManagement\app\Actions\Project\DuplicateProjectAction;
 use Modules\ProjectManagement\app\Actions\Project\FetchProjectCodeSnippetsAction;
 use Modules\ProjectManagement\app\Actions\Project\FetchProjectListAction;
 use Modules\ProjectManagement\app\Actions\Project\FetchSingleProjectAction;
+use Modules\ProjectManagement\app\Actions\Project\GenerateProjectTestInputsAction;
 use Modules\ProjectManagement\app\Actions\Project\PatchProjectAction;
 use Modules\ProjectManagement\app\Actions\Project\StoreProjectAction;
 use Modules\ProjectManagement\app\Actions\Project\UpdateProjectAction;
@@ -141,6 +142,17 @@ final class ProjectController
                     $project
                 )
             )
+            ->send();
+    }
+
+    public function generateTestInputs(string $project, GenerateProjectTestInputsAction $action): JsonResponse
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        return apiResponse()
+            ->success()
+            ->data($action->execute($project, $user))
             ->send();
     }
 

@@ -22,7 +22,11 @@ return new class() extends Migration
             $table->string('name');
             $table->text('expected_outcome');
             $table->foreignIdFor(User::class)->constrained()->restrictOnDelete();
-            $table->foreignIdFor(AiService::class)->constrained()->restrictOnDelete();
+            if (Schema::getConnection()->getDriverName() === 'sqlite') {
+                $table->unsignedBigInteger('ai_service_id');
+            } else {
+                $table->foreignIdFor(AiService::class)->constrained()->restrictOnDelete();
+            }
             $table->foreignIdFor(AiCallType::class)->constrained()->restrictOnDelete();
             $table->foreignIdFor(AiResponseType::class)->constrained()->restrictOnDelete();
             $table->unsignedTinyInteger('status')->default(1); //todo add default value

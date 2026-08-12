@@ -16,13 +16,15 @@ return new class() extends Migration
             $table->json('response_schema')->nullable()->after('max_output_tokens');
         });
 
-        Schema::table('project_inputs', function (Blueprint $table): void {
-            $table->text('description')->nullable()->change();
-        });
+        if (Schema::getConnection()->getDriverName() !== 'sqlite') {
+            Schema::table('project_inputs', function (Blueprint $table): void {
+                $table->text('description')->nullable()->change();
+            });
 
-        Schema::table('project_outputs', function (Blueprint $table): void {
-            $table->text('description')->nullable()->change();
-        });
+            Schema::table('project_outputs', function (Blueprint $table): void {
+                $table->text('description')->nullable()->change();
+            });
+        }
     }
 
     public function down(): void
@@ -31,12 +33,14 @@ return new class() extends Migration
             $table->dropColumn(['system_prompt', 'max_output_tokens', 'response_schema']);
         });
 
-        Schema::table('project_inputs', function (Blueprint $table): void {
-            $table->string('description')->nullable()->change();
-        });
+        if (Schema::getConnection()->getDriverName() !== 'sqlite') {
+            Schema::table('project_inputs', function (Blueprint $table): void {
+                $table->string('description')->nullable()->change();
+            });
 
-        Schema::table('project_outputs', function (Blueprint $table): void {
-            $table->string('description')->nullable()->change();
-        });
+            Schema::table('project_outputs', function (Blueprint $table): void {
+                $table->string('description')->nullable()->change();
+            });
+        }
     }
 };

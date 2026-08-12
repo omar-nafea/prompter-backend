@@ -13,6 +13,10 @@ return new class() extends Migration
      */
     public function up(): void
     {
+        if (Schema::getConnection()->getDriverName() === 'sqlite') {
+            return;
+        }
+
         Schema::table('project_outputs', function (Blueprint $table): void {
             $table->unsignedInteger('max_length')->change();
 
@@ -24,6 +28,10 @@ return new class() extends Migration
      */
     public function down(): void
     {
+        if (Schema::getConnection()->getDriverName() === 'sqlite') {
+            return;
+        }
+
         Schema::table('project_outputs', function (Blueprint $table): void {});
     }
 };

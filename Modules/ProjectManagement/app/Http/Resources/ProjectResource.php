@@ -10,6 +10,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\AiServiceManagement\app\Http\Resources\AiCallTypeResource;
 use Modules\AiServiceManagement\app\Http\Resources\AiModelResource;
 use Modules\AiServiceManagement\app\Http\Resources\AiResponseTypeResource;
+use Modules\Auth\app\Http\Resources\UserResource;
 use Modules\ProjectManagement\app\Models\Project;
 use Override;
 
@@ -40,6 +41,10 @@ final class ProjectResource extends JsonResource
                 'value' => $this->resource->status,
             ],
             'is_owner' => $this->resource->is_owner,
+            $this->mergeWhen(
+                auth()->user()?->role->isSuperAdmin() && $this->resource->relationLoaded('owner'),
+                ['creator' => UserResource::make($this->resource->owner)]
+            ),
             $this->mergeWhen($this->resource->relationLoaded('details'), fn () => [
                 'ai_temperature' => $this->resource->details?->ai_temperature,
                 'ai_system_prompt' => $this->resource->details?->system_prompt,

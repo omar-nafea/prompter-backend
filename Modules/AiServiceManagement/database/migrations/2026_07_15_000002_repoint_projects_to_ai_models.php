@@ -10,6 +10,14 @@ return new class() extends Migration
 {
     public function up(): void
     {
+        if (Schema::getConnection()->getDriverName() === 'sqlite') {
+            Schema::table('projects', function (Blueprint $table): void {
+                $table->dropColumn('ai_service_id');
+            });
+
+            return;
+        }
+
         Schema::table('projects', function (Blueprint $table): void {
             if (Schema::hasColumn('projects', 'ai_service_id')) {
                 $table->dropForeign(['ai_service_id']);

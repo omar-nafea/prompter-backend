@@ -13,6 +13,10 @@ return new class() extends Migration
      */
     public function up(): void
     {
+        if (Schema::getConnection()->getDriverName() === 'sqlite') {
+            return;
+        }
+
         Schema::table('users', function (Blueprint $table): void {
             $table->string('name')->nullable()->change();
             $table->string('password')->nullable()->change();
@@ -24,6 +28,10 @@ return new class() extends Migration
      */
     public function down(): void
     {
+        if (Schema::getConnection()->getDriverName() === 'sqlite') {
+            return;
+        }
+
         Schema::table('users', function (Blueprint $table): void {
             $table->string('name')->change();
             $table->string('password')->change();
