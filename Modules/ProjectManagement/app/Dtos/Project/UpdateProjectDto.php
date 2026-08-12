@@ -23,7 +23,7 @@ final class UpdateProjectDto extends BaseDto
         public Project $project,
         public ProjectDto $projectDto,
         public ProjectDetailsDto $projectDetailsDto,
-        public ProjectAiModelDto $projectAiModelDto,
+        public ?ProjectAiModelDto $projectAiModelDto,
         #[DataCollectionOf(ObjectiveQuestionDto::class)]
         public DataCollection $objectiveQuestions,
         #[DataCollectionOf(ProjectInputDto::class)]
@@ -43,13 +43,15 @@ final class UpdateProjectDto extends BaseDto
                 'project' => $request->getProject(),
                 'projectDto' => ProjectDto::from($validated),
                 'projectDetailsDto' => ProjectDetailsDto::from($validated),
-                'projectAiModelDto' => ProjectAiModelDto::from([
-                    'name' => $validated['ai_model_name'],
-                    'alias' => $validated['ai_model_alias'],
-                    'provider' => $validated['ai_model_provider'],
-                    'api_key' => $validated['ai_model_api_key'] ?? null,
-                    'connector_url' => $validated['ai_model_connector_url'] ?? null,
-                ]),
+                'projectAiModelDto' => filled($validated['ai_model_name'] ?? null)
+                    ? ProjectAiModelDto::from([
+                        'name' => $validated['ai_model_name'],
+                        'alias' => $validated['ai_model_alias'],
+                        'provider' => $validated['ai_model_provider'],
+                        'api_key' => $validated['ai_model_api_key'] ?? null,
+                        'connector_url' => $validated['ai_model_connector_url'] ?? null,
+                    ])
+                    : null,
                 'authUser' => $request->user(),
             ]
         );

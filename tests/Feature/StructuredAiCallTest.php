@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\Sanctum;
 use Modules\AiServiceManagement\app\Enums\AiModelProvider;
 use Modules\AiServiceManagement\app\Models\AiCallType;
+use Modules\AiServiceManagement\app\Models\AiModel;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
 use Modules\Auth\app\Models\User;
 use Modules\ProjectManagement\app\Enums\DataType;
@@ -123,7 +124,11 @@ test('structured inputs and dynamic response schema are sent to OpenRouter', fun
     ])
         ->assertOk()
         ->assertJsonPath('data.ranked.0.id', 'flight-1')
-        ->assertJsonPath('data._meta.usage.total_tokens', 120);
+        ->assertJsonPath('data._meta.usage.total_tokens', 120)
+        ->assertJsonPath('data._meta.model.name', 'google/gemini-3.5-flash-lite')
+        ->assertJsonPath('data._meta.model.provider', 'OpenRouter')
+        ->assertJsonPath('data._meta.project_revision', $project->updated_at?->toISOString())
+        ->assertJsonPath('data._meta.prompt_revision', $project->details?->updated_at?->toISOString());
 
     Http::assertSent(function (Request $request): bool {
         $payload = $request->data();
@@ -137,6 +142,38 @@ test('structured inputs and dynamic response schema are sent to OpenRouter', fun
             && data_get($payload, 'response_format.json_schema.schema.properties.ranked.minItems') === 1
             && data_get($payload, 'response_format.json_schema.schema.properties.ranked.maxItems') === 1;
     });
+});
+
+test('projects without a model use the application default', function (): void {
+    $project = structuredAiProject(User::factory()->create());
+    $project->aiModel()->delete();
+    AiModel::query()->create([
+        'name' => 'default-model',
+        'alias' => 'Application default',
+        'provider' => AiModelProvider::OpenRouter,
+        'api_key' => 'default-secret',
+    ]);
+
+    Http::fake([
+        'https://openrouter.ai/api/v1/chat/completions' => Http::response([
+            'choices' => [['message' => ['content' => json_encode(['ranked' => [['id' => 'flight-1']]])]]],
+        ]),
+    ]);
+
+    $this->postJson('/api/call-ai-service', [
+        'ranking_request' => json_encode([
+            'limit' => 1,
+            'candidates' => [['id' => 'flight-1', 'price_amount' => 100]],
+            'allowed_ids' => ['flight-1'],
+        ], JSON_THROW_ON_ERROR),
+    ], [
+        'X-Public-Key' => $project->key,
+        'X-Api-Key' => 'project-secret',
+    ])
+        ->assertOk()
+        ->assertJsonPath('data._meta.model.name', 'default-model');
+
+    Http::assertSent(fn (Request $request): bool => $request['model'] === 'default-model');
 });
 
 test('project llm configuration can be updated independently', function (): void {

@@ -13,7 +13,7 @@ final class AiModelRequest extends BaseApiRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return $this->user()?->can('manage-ai-settings') ?? false;
     }
 
     /**
@@ -25,7 +25,12 @@ final class AiModelRequest extends BaseApiRequest
             'name' => ['required', 'string', 'max:255'],
             'alias' => ['required', 'string', 'max:255'],
             'provider' => ['required', Rule::enum(AiModelProvider::class)],
-            'api_key' => [Rule::requiredIf(AiModel::query()->doesntExist()), 'nullable', 'string', 'max:1000'],
+            'api_key' => [
+                Rule::requiredIf(AiModel::query()->whereNull('project_id')->doesntExist()),
+                'nullable',
+                'string',
+                'max:1000',
+            ],
             'connector_url' => [
                 Rule::requiredIf(fn (): bool => $this->integer('provider') === AiModelProvider::OpenAiCompatible->value),
                 'nullable',

@@ -29,7 +29,8 @@ final class AskAiServiceAction
     public function execute(AskAiServiceDto $dto): array
     {
         $model = $dto->project->aiModel
-            ?? $dto->project->aiModel()->firstOrFail();
+            ?? AiModel::query()->whereNull('project_id')->firstOrFail();
+        $details = $dto->project->loadMissing('details')->details;
         event(
             new AiCallRequestStarted(
                 requestUuid: (string) $dto->requestUuid,
@@ -55,7 +56,16 @@ final class AskAiServiceAction
             return [
                 'request_uuid' => $dto->requestUuid,
                 ...$responseData,
-                '_meta' => ['usage' => $response->usage],
+                '_meta' => [
+                    'usage' => $response->usage,
+                    'project_revision' => $dto->project->updated_at?->toISOString(),
+                    'prompt_revision' => $details?->updated_at?->toISOString(),
+                    'model' => [
+                        'name' => $model->name,
+                        'provider' => $model->provider->label(),
+                        'revision' => $model->updated_at?->toISOString(),
+                    ],
+                ],
             ];
         } catch (Exception $exception) {
             event(

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\Sanctum;
 use Modules\AiServiceManagement\app\Enums\AiModelProvider;
+use Modules\AiServiceManagement\app\Gateway\AiProviderResolver;
 use Modules\AiServiceManagement\app\Models\AiCallType;
 use Modules\AiServiceManagement\app\Models\AiModel;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
@@ -54,11 +55,32 @@ test('ai model providers endpoint is available', function (): void {
         ->assertJsonStructure(['data' => ['providers']]);
 });
 
-test('global ai model endpoints are removed', function (): void {
+test('application model tab stores the default model', function (): void {
     Sanctum::actingAs(User::factory()->create());
 
-    $this->getJson('/api/ai-model')->assertNotFound();
-    $this->putJson('/api/ai-model', [])->assertNotFound();
+    Http::fake([
+        'https://api.openai.com/v1/chat/completions' => Http::response([
+            'choices' => [['message' => ['content' => 'ok']]],
+        ]),
+    ]);
+
+    $this->putJson('/api/ai-model', [
+        'name' => 'gpt-4o-mini',
+        'alias' => 'Application default',
+        'provider' => AiModelProvider::OpenAi->value,
+        'api_key' => 'default-key',
+    ])
+        ->assertOk()
+        ->assertJsonPath('data.name', 'gpt-4o-mini')
+        ->assertJsonPath('data.alias', 'Application default')
+        ->assertJsonPath('data.has_api_key', true);
+
+    $this->getJson('/api/ai-model')
+        ->assertOk()
+        ->assertJsonPath('data.model.name', 'gpt-4o-mini')
+        ->assertJsonPath('data.providers.0.name', 'OpenAI');
+
+    expect(AiModel::query()->whereNull('project_id')->count())->toBe(1);
 });
 
 test('each project keeps its own ai model configuration', function (): void {
@@ -90,7 +112,7 @@ test('each project keeps its own ai model configuration', function (): void {
     ]);
 
     $resolved = $projectA->aiModel()->firstOrFail();
-    $connection = app(\Modules\AiServiceManagement\app\Gateway\AiProviderResolver::class)
+    $connection = app(AiProviderResolver::class)
         ->for($resolved->provider)
         ->test($resolved);
 

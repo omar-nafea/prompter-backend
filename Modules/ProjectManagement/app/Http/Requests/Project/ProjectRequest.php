@@ -176,6 +176,12 @@ final class ProjectRequest extends BaseApiRequest
      */
     public function step2Rules(): array
     {
+        $hasAiModelConfiguration = filled($this->input('ai_model_name'))
+            || filled($this->input('ai_model_alias'))
+            || filled($this->input('ai_model_provider'))
+            || filled($this->input('ai_model_api_key'))
+            || filled($this->input('ai_model_connector_url'));
+
         return [
             'ai_call_type_id' => [
                 'required',
@@ -212,21 +218,23 @@ final class ProjectRequest extends BaseApiRequest
                 'array',
             ],
             'ai_model_name' => [
-                'required',
+                Rule::requiredIf($hasAiModelConfiguration),
+                'nullable',
                 'string',
                 'max:255',
             ],
             'ai_model_alias' => [
-                'required',
+                Rule::requiredIf($hasAiModelConfiguration),
+                'nullable',
                 'string',
                 'max:255',
             ],
             'ai_model_provider' => [
-                'required',
+                Rule::requiredIf($hasAiModelConfiguration),
+                'nullable',
                 Rule::enum(AiModelProvider::class),
             ],
             'ai_model_api_key' => [
-                Rule::requiredIf( ! $this->forEdit || $this->project?->aiModel === null),
                 'nullable',
                 'string',
                 'max:1000',
