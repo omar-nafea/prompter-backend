@@ -7,12 +7,14 @@ namespace Modules\AiServiceManagement\app\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Modules\AiServiceManagement\app\Enums\AiModelProvider;
 use Modules\ProjectManagement\app\Models\Project;
 
 /**
  * @property-read int $id
  * @property-read int $project_id
+ * @property-read Carbon|null $updated_at
  * @property-read string $name
  * @property-read string $alias
  * @property-read AiModelProvider $provider

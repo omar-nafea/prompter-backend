@@ -7,8 +7,12 @@ namespace Modules\ProjectManagement\app\Models;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Carbon;
 use Modules\Auth\app\Models\User;
 
+/**
+ * @property-read Carbon|null $updated_at
+ */
 final class ProjectDetail extends BaseModel
 {
     use HasFactory;

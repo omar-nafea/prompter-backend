@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Carbon;
 use Modules\AiServiceManagement\app\Models\AiCallType;
 use Modules\AiServiceManagement\app\Models\AiModel;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
@@ -43,8 +44,8 @@ use MohamedGaber\UniqueModelKeyGenerator\Traits\HasUniqueModelKey;
  * @property-read int $updated_by
  * @property-read int $deleted_by
  * @property-read int $deleted_at
- * @property-read int $created_at
- * @property-read int $updated_at
+ * @property-read Carbon|null $created_at
+ * @property-read Carbon|null $updated_at
  * @property-read Collection<int, ProjectOutput> $outputs
  * @property-read Collection<int, ProjectInput> $inputs
  * @property-read Collection<int, OutputLanguage> $outputLanguages

@@ -129,6 +129,12 @@ test('testers cannot create projects', function (): void {
     ])->assertForbidden();
 });
 
+test('testers cannot manage the application model', function (): void {
+    Sanctum::actingAs(User::factory()->tester()->create());
+
+    $this->getJson('/api/ai-model')->assertForbidden();
+});
+
 test('role gates distinguish super admin service and tester', function (): void {
     expect(User::factory()->create()->can('manage-projects'))->toBeTrue()
         ->and(User::factory()->tester()->create()->can('manage-projects'))->toBeFalse()

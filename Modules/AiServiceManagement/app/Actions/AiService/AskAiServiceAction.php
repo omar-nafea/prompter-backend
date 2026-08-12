@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\AiServiceManagement\app\Actions\AiService;
 
 use Exception;
+use Illuminate\Support\Carbon;
 use Modules\AiServiceManagement\app\Dtos\AskAiServiceDto;
 use Modules\AiServiceManagement\app\Events\AiCallRequestFailed;
 use Modules\AiServiceManagement\app\Events\AiCallRequestPrepared;
@@ -31,6 +32,12 @@ final class AskAiServiceAction
         $model = $dto->project->aiModel
             ?? AiModel::query()->whereNull('project_id')->firstOrFail();
         $details = $dto->project->loadMissing('details')->details;
+        /** @var Carbon|null $projectRevision */
+        $projectRevision = $dto->project->getAttribute('updated_at');
+        /** @var Carbon|null $promptRevision */
+        $promptRevision = $details?->getAttribute('updated_at');
+        /** @var Carbon|null $modelRevision */
+        $modelRevision = $model->getAttribute('updated_at');
         event(
             new AiCallRequestStarted(
                 requestUuid: (string) $dto->requestUuid,
@@ -58,12 +65,12 @@ final class AskAiServiceAction
                 ...$responseData,
                 '_meta' => [
                     'usage' => $response->usage,
-                    'project_revision' => $dto->project->updated_at?->toISOString(),
-                    'prompt_revision' => $details?->updated_at?->toISOString(),
+                    'project_revision' => $projectRevision?->toISOString(),
+                    'prompt_revision' => $promptRevision?->toISOString(),
                     'model' => [
                         'name' => $model->name,
                         'provider' => $model->provider->label(),
-                        'revision' => $model->updated_at?->toISOString(),
+                        'revision' => $modelRevision?->toISOString(),
                     ],
                 ],
             ];
