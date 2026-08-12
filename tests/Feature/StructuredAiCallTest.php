@@ -10,6 +10,7 @@ use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
 use Laravel\Sanctum\Sanctum;
 use Modules\AiServiceManagement\app\Enums\AiModelProvider;
+use Modules\AiServiceManagement\app\Gateway\AiProviderResolver;
 use Modules\AiServiceManagement\app\Models\AiCallType;
 use Modules\AiServiceManagement\app\Models\AiModel;
 use Modules\AiServiceManagement\app\Models\AiResponseType;
@@ -142,6 +143,28 @@ test('structured inputs and dynamic response schema are sent to OpenRouter', fun
             && data_get($payload, 'response_format.json_schema.schema.properties.ranked.minItems') === 1
             && data_get($payload, 'response_format.json_schema.schema.properties.ranked.maxItems') === 1;
     });
+});
+
+test('OpenRouter connection tests do not require structured-output support', function (): void {
+    $model = AiModel::query()->create([
+        'name' => 'openai/gpt-4o-mini',
+        'alias' => 'OpenRouter test model',
+        'provider' => AiModelProvider::OpenRouter,
+        'api_key' => 'openrouter-secret',
+    ]);
+
+    Http::fake([
+        'https://openrouter.ai/api/v1/chat/completions' => Http::response([
+            'choices' => [['message' => ['content' => 'ok']]],
+        ]),
+    ]);
+
+    $connection = app(AiProviderResolver::class)
+        ->for($model->provider)
+        ->test($model);
+
+    expect($connection['success'])->toBeTrue();
+    Http::assertSent(fn (Request $request): bool => ! array_key_exists('provider', $request->data()));
 });
 
 test('projects without a model use the application default', function (): void {

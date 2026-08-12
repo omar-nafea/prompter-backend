@@ -58,6 +58,10 @@ test('ai model providers endpoint is available', function (): void {
 test('application model tab stores the default model', function (): void {
     Sanctum::actingAs(User::factory()->create());
 
+    $this->getJson('/api/ai-model')
+        ->assertOk()
+        ->assertJsonPath('data.model', null);
+
     Http::fake([
         'https://api.openai.com/v1/chat/completions' => Http::response([
             'choices' => [['message' => ['content' => 'ok']]],

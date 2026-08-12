@@ -16,10 +16,10 @@ final class AiModelController
 {
     public function show(): JsonResponse
     {
+        $model = AiModel::query()->whereNull('project_id')->first();
+
         return apiResponse()->success()->data([
-            'model' => AiModelResource::make(
-                AiModel::query()->whereNull('project_id')->first()
-            ),
+            'model' => $model ? AiModelResource::make($model) : null,
             'providers' => AiModelProvider::selectOptions(),
         ])->send();
     }
