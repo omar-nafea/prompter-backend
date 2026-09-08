@@ -93,6 +93,22 @@ final class UpdateProjectAction
             }
         }
 
+        $submittedIds = [];
+        /** @var ProjectInputDto $projectInput */
+        foreach ($dto->projectInputs as $projectInput) {
+            if ($projectInput->id !== null) {
+                $submittedIds[] = $projectInput->id;
+            }
+        }
+        $staleInputsQuery = $dto->project->inputs();
+        if ($submittedIds !== []) {
+            $staleInputsQuery->whereNotIn('id', $submittedIds);
+        }
+        foreach ($staleInputsQuery->get() as $staleInput) {
+            $staleInput->enumValues()->delete();
+            $staleInput->delete();
+        }
+
         return $next($params);
     }
 
@@ -137,6 +153,22 @@ final class UpdateProjectAction
                         collect($projectOutput->values)->map(static fn ($enumValue) => ['value' => $enumValue])
                     );
             }
+        }
+
+        $submittedIds = [];
+        /** @var ProjectOutputDto $projectOutput */
+        foreach ($dto->projectOutputs as $projectOutput) {
+            if ($projectOutput->id !== null) {
+                $submittedIds[] = $projectOutput->id;
+            }
+        }
+        $staleOutputsQuery = $dto->project->outputs();
+        if ($submittedIds !== []) {
+            $staleOutputsQuery->whereNotIn('id', $submittedIds);
+        }
+        foreach ($staleOutputsQuery->get() as $staleOutput) {
+            $staleOutput->enumValues()->delete();
+            $staleOutput->delete();
         }
 
         return $next($params);
