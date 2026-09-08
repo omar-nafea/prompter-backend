@@ -1,8 +1,8 @@
 {
-    "Exceptions": true,
     "Auth": true,
-    "CRUDGenerator": true,
-    "ProjectManagement": true,
     "AiServiceManagement": true,
+    "CRUDGenerator": true,
+    "Exceptions": true,
+    "ProjectManagement": true,
     "UserManagement": true
 }

@@ -12,7 +12,7 @@ trait ParsesAiTextResponse
     /**
      * @param  array{prompt_tokens?: int, completion_tokens?: int, total_tokens?: int}  $usage
      */
-    protected function toResponseDto(string $text, array $usage = []): AskResponseDto
+    protected function toResponseDto(string $text, array $usage = [], ?string $providerModel = null): AskResponseDto
     {
         $data = $this->extractJson($text);
 
@@ -24,6 +24,7 @@ trait ParsesAiTextResponse
                 'completion_tokens' => max(0, (int) ($usage['completion_tokens'] ?? 0)),
                 'total_tokens' => max(0, (int) ($usage['total_tokens'] ?? 0)),
             ],
+            providerModel: $providerModel,
         );
     }
 
@@ -37,7 +38,7 @@ trait ParsesAiTextResponse
         } elseif (preg_match('/```\s*(.+?)\s*```/s', $text, $matches)) {
             $candidate = $matches[1];
         } else {
-            $candidate = trim($text);
+            $candidate = mb_trim($text);
         }
 
         try {

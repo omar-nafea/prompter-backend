@@ -21,15 +21,23 @@ final class BuildAiAskPromptAction
      */
     public function execute(Project $project, array $inputsData): string
     {
+        $backgroundAnswer = Str::minify(
+            $this->getQuestionAnswer(
+                project: $project,
+                questionType: ProjectQuestionType::Background
+            )
+        );
+        $contextPolicy = filled($backgroundAnswer) ? "Context and policy:\n{$backgroundAnswer}\n\n" : '';
+        $metadataSection = $this->prepareMetadata($project->metadata);
+
         $string = Str::of($this->getPromptTemplate())
             ->replace(
-                search: '[BACKGROUND]',
-                replace: Str::minify(
-                    $this->getQuestionAnswer(
-                        project: $project,
-                        questionType: ProjectQuestionType::Background
-                    )
-                )
+                search: '[CONTEXT_POLICY]',
+                replace: $contextPolicy
+            )
+            ->replace(
+                search: '[METADATA_SECTION]',
+                replace: $metadataSection
             )
             ->replace(
                 search: '[EXPECTED OUTCOMES]',
@@ -152,16 +160,30 @@ final class BuildAiAskPromptAction
         );
     }
 
+    protected function prepareMetadata(?array $metadata): string
+    {
+        if (empty($metadata)) {
+            return '';
+        }
+
+        $lines = [];
+        foreach ($metadata as $key => $val) {
+            $formattedVal = is_array($val)
+                ? json_encode($val, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
+                : (string) $val;
+            $lines[] = "[{$key}]: {$formattedVal}";
+        }
+
+        return "Project Context / Metadata:\n" . implode("\n", $lines) . "\n\n";
+    }
+
     protected function getPromptTemplate(): string
     {
         return <<<'PROMPT'
 Task:
 [EXPECTED OUTCOMES]
 
-Context and policy:
-[BACKGROUND]
-
-Input contract:
+[CONTEXT_POLICY][METADATA_SECTION]Input contract:
 [LIST OF INPUTS WITH DESCRIPTION OF EACH IF AVAILABLE]
 
 Input data:

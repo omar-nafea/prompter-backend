@@ -42,7 +42,13 @@ final class UpdateProjectAction
     {
         /* @var UpdateProjectDto $dto */
         $dto = $params['dto'];
-        $dto->project->update($dto->projectDto->toArray());
+        $projectData = $dto->projectDto->toArray();
+        if ( ! $dto->hasMetadata) {
+            unset($projectData['metadata']);
+        } else {
+            $projectData['metadata'] = $dto->metadata;
+        }
+        $dto->project->update($projectData);
         $dto->project->outputLanguages()->sync($dto->outputLanguages);
         $details = [
             'ai_temperature' => $dto->projectDetailsDto->aiTemperature ?? 0.9,

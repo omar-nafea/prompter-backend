@@ -46,6 +46,7 @@ final class ProjectManagementServiceProvider extends ServiceProvider
         $this->commands([
             FillAiTemperatureForProjectDetailsCommand::class,
             FillHasExceededMaxTokensForProjectDetailsCommand::class,
+            \Modules\ProjectManagement\app\Console\Commands\SyncSlrProjectsCommand::class,
         ]);
     }
 

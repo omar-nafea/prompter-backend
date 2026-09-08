@@ -45,8 +45,13 @@ final class OpenAiConnector implements AiProviderConnector
         $body = $response->json();
 
         $content = $this->content($body);
+        $providerModel = is_string($body['model'] ?? null) ? $body['model'] : null;
 
-        return $this->toResponseDto($content, is_array($body['usage'] ?? null) ? $body['usage'] : []);
+        return $this->toResponseDto(
+            $content,
+            is_array($body['usage'] ?? null) ? $body['usage'] : [],
+            $providerModel,
+        );
     }
 
     public function test(AiModel $model): array
@@ -74,7 +79,7 @@ final class OpenAiConnector implements AiProviderConnector
             return [
                 'success' => true,
                 'message' => 'Connection successful',
-                'response' => trim($content),
+                'response' => mb_trim($content),
             ];
         } catch (ConnectionException) {
             return ['success' => false, 'message' => 'Could not connect to ' . $model->provider->label() . '.'];
@@ -129,6 +134,10 @@ final class OpenAiConnector implements AiProviderConnector
                     'schema' => $request->responseSchema,
                 ],
             ];
+        }
+
+        if ($model->provider === AiModelProvider::OpenRouter && $request->responseSchema !== null) {
+            $payload['provider'] = ['require_parameters' => true];
         }
 
         return $payload;

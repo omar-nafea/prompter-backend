@@ -51,6 +51,7 @@ use MohamedGaber\UniqueModelKeyGenerator\Traits\HasUniqueModelKey;
  * @property-read Collection<int, OutputLanguage> $outputLanguages
  * @property-read Collection<int, ProjectObjectiveAnswer> $answers
  * @property-read ?AiModel $aiModel
+ * @property-read array<string, mixed>|null $metadata
  */
 final class Project extends BaseModel implements ShouldResetCache
 {
@@ -80,7 +81,9 @@ final class Project extends BaseModel implements ShouldResetCache
         'user_id',
         'api_key',
         'output_format',
+        'metadata',
         'max_output_length',
+        'project_group_id',
         'created_by',
         'updated_by',
         'deleted_by',
@@ -89,6 +92,7 @@ final class Project extends BaseModel implements ShouldResetCache
     protected $casts = [
         'api_key' => 'encrypted',
         'output_format' => ProjectOutputFormat::class,
+        'metadata' => 'array',
     ];
     /*
      |--------------------------------------------------------------------------|
@@ -235,5 +239,13 @@ final class Project extends BaseModel implements ShouldResetCache
     public function aiModel(): HasOne
     {
         return $this->hasOne(AiModel::class);
+    }
+
+    /**
+     * @return BelongsTo<ProjectGroup, self>
+     */
+    public function projectGroup(): BelongsTo
+    {
+        return $this->belongsTo(ProjectGroup::class, 'project_group_id');
     }
 }

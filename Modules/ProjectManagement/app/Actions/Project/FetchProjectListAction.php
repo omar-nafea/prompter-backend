@@ -22,6 +22,7 @@ final class FetchProjectListAction
                 'aiCallType',
                 'aiResponseType',
                 'details',
+                'aiModel',
                 'owner',
             ])->latest()
             ->paginate(request()->integer('per_page'));

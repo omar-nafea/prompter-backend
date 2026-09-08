@@ -16,5 +16,6 @@ final class ProjectDto extends BaseDto
         public int $aiResponseTypeId,
         public int $maxOutputLength,
         public ProjectOutputFormat $outputFormat,
+        public ?array $metadata = null,
     ) {}
 }

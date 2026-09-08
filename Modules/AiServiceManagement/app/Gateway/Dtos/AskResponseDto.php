@@ -21,6 +21,7 @@ final class AskResponseDto extends BaseDto
             'completion_tokens' => 0,
             'total_tokens' => 0,
         ],
+        public ?string $providerModel = null,
     ) {
         $this->data ??= [];
     }

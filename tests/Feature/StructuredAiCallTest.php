@@ -105,6 +105,7 @@ test('structured inputs and dynamic response schema are sent to OpenRouter', fun
                     ], JSON_THROW_ON_ERROR),
                 ],
             ]],
+            'model' => 'google/gemini-3.5-flash-lite:exact',
             'usage' => [
                 'prompt_tokens' => 100,
                 'completion_tokens' => 20,
@@ -125,8 +126,10 @@ test('structured inputs and dynamic response schema are sent to OpenRouter', fun
     ])
         ->assertOk()
         ->assertJsonPath('data.ranked.0.id', 'flight-1')
+        ->assertJsonPath('data.model_name', 'google/gemini-3.5-flash-lite')
         ->assertJsonPath('data._meta.usage.total_tokens', 120)
         ->assertJsonPath('data._meta.model.name', 'google/gemini-3.5-flash-lite')
+        ->assertJsonPath('data._meta.model.provider_model', 'google/gemini-3.5-flash-lite:exact')
         ->assertJsonPath('data._meta.model.provider', 'OpenRouter')
         ->assertJsonPath('data._meta.project_revision', $project->updated_at?->toISOString())
         ->assertJsonPath('data._meta.prompt_revision', $project->details?->updated_at?->toISOString());

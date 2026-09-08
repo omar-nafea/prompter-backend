@@ -63,6 +63,8 @@ final class AskAiServiceAction
             return [
                 'request_uuid' => $dto->requestUuid,
                 ...$responseData,
+                'model' => $model->name,
+                'model_name' => $model->name,
                 '_meta' => [
                     'usage' => $response->usage,
                     'project_revision' => $projectRevision?->toISOString(),
@@ -70,6 +72,7 @@ final class AskAiServiceAction
                     'model' => [
                         'name' => $model->name,
                         'provider' => $model->provider->label(),
+                        'provider_model' => $response->providerModel,
                         'revision' => $modelRevision?->toISOString(),
                     ],
                 ],
@@ -92,7 +95,14 @@ final class AskAiServiceAction
     {
         $prompt = $this->buildAiAskPromptAction->execute(project: $dto->project, inputsData: $dto->data);
         $connector = $this->resolver->for($model->provider);
-        $details = $dto->project->loadMissing('details')->details;
+        $dto->project->loadMissing(['details', 'projectGroup']);
+        $details = $dto->project->details;
+
+        $groupInstructions = $dto->project->projectGroup?->instructions;
+        $projectSystemPrompt = $details?->system_prompt;
+        $systemPrompt = collect([$groupInstructions, $projectSystemPrompt])
+            ->filter(static fn (?string $s): bool => filled($s))
+            ->join("\n\n");
 
         event(
             new AiCallRequestPrepared(
@@ -104,7 +114,7 @@ final class AskAiServiceAction
 
         return $connector->complete($model, new AiCompletionRequest(
             prompt: $prompt,
-            systemPrompt: $details?->system_prompt,
+            systemPrompt: $systemPrompt !== '' ? $systemPrompt : null,
             temperature: $details?->ai_temperature ?? 0.0,
             maxOutputTokens: $details?->max_output_tokens ?? 1024,
             responseSchema: $this->resolveAiResponseSchemaAction->execute(

@@ -29,6 +29,7 @@ final class PatchProjectRequest extends BaseApiRequest
         'objective_questions',
         'project_inputs',
         'project_outputs',
+        'metadata',
     ];
 
     private Project $project;
@@ -70,6 +71,7 @@ final class PatchProjectRequest extends BaseApiRequest
             ],
             'max_output_length' => ['sometimes', 'integer', 'max:' . config('global.max_integer')],
             'output_format' => ['sometimes', Rule::enum(ProjectOutputFormat::class)],
+            'metadata' => ['sometimes', 'nullable', 'array'],
             'output_languages' => ['sometimes', 'array', 'filled', 'distinct'],
             'output_languages.*' => [
                 'required',

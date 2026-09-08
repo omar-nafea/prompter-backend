@@ -41,6 +41,7 @@ final class ProjectResource extends JsonResource
                 'value' => $this->resource->status,
             ],
             'is_owner' => $this->resource->is_owner,
+            'metadata' => $this->resource->metadata,
             $this->mergeWhen(
                 auth()->user()?->role->isSuperAdmin() && $this->resource->relationLoaded('owner'),
                 ['creator' => UserResource::make($this->resource->owner)]
@@ -60,6 +61,7 @@ final class ProjectResource extends JsonResource
             'inputs' => ProjectInputResource::collection($this->whenLoaded('inputs')),
             'outputs' => ProjectInputResource::collection($this->whenLoaded('outputs')),
             'answers' => ProjectObjectiveAnswerResource::collection($this->whenLoaded('answers')),
+            'project_group' => ProjectGroupResource::make($this->whenLoaded('projectGroup')),
         ];
     }
 }

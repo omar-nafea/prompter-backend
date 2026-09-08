@@ -32,6 +32,8 @@ final class UpdateProjectDto extends BaseDto
         public DataCollection $projectOutputs,
         public array $outputLanguages,
         public User $authUser,
+        public bool $hasMetadata = false,
+        public ?array $metadata = null,
     ) {}
 
     public static function fromProjectRequest(ProjectRequest $request): self
@@ -40,6 +42,7 @@ final class UpdateProjectDto extends BaseDto
 
         return self::from(
             $validated + [
+                'objective_questions' => $validated['objective_questions'] ?? [],
                 'project' => $request->getProject(),
                 'projectDto' => ProjectDto::from($validated),
                 'projectDetailsDto' => ProjectDetailsDto::from($validated),
@@ -53,6 +56,8 @@ final class UpdateProjectDto extends BaseDto
                     ])
                     : null,
                 'authUser' => $request->user(),
+                'hasMetadata' => array_key_exists('metadata', $validated),
+                'metadata' => $validated['metadata'] ?? null,
             ]
         );
     }

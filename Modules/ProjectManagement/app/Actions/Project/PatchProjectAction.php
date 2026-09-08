@@ -38,6 +38,7 @@ final class PatchProjectAction
             'expected_outcome',
             'max_output_length',
             'output_format',
+            'metadata',
         ]));
 
         if (array_key_exists('output_languages', $patch)) {

@@ -98,9 +98,8 @@ final class ProjectRequest extends BaseApiRequest
                 'max:' . config('global.max_string_length'),
             ],
             'objective_questions' => [
-                'required',
+                'sometimes',
                 'array',
-                'size:' . ProjectObjectiveQuestion::where('status', 1)->count(),
             ],
             'objective_questions.*' => [
                 'required',
@@ -167,7 +166,11 @@ final class ProjectRequest extends BaseApiRequest
                     ->where('status', OutputLanguageStatus::Enabled)
                     ->withoutTrashed(),
             ],
-
+            'metadata' => [
+                'sometimes',
+                'nullable',
+                'array',
+            ],
         ];
     }
 

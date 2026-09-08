@@ -38,6 +38,7 @@ final class StoreProjectDto extends BaseDto
 
         return self::from(
             $validated + [
+                'objective_questions' => $validated['objective_questions'] ?? [],
                 'projectDto' => ProjectDto::from($validated),
                 'projectDetailsDto' => ProjectDetailsDto::from($validated),
                 'projectAiModelDto' => filled($validated['ai_model_name'] ?? null)

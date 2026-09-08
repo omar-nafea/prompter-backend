@@ -70,7 +70,7 @@ final class AnthropicConnector implements AiProviderConnector
             return [
                 'success' => true,
                 'message' => 'Connection successful',
-                'response' => trim((string) $content),
+                'response' => mb_trim((string) $content),
             ];
         } catch (ConnectionException) {
             return ['success' => false, 'message' => 'Could not connect to Anthropic.'];

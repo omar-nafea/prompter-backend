@@ -49,6 +49,16 @@ final class PersistProjectAiModelAction
             }
         }
 
+        // Never persist a model configuration without a usable credential:
+        // an empty key takes precedence over the application default and
+        // fails on the first AI request.
+        $effectiveKey = $dto->apiKey ?? $existing?->api_key;
+        if ( ! filled($effectiveKey)) {
+            throw ValidationException::withMessages([
+                'ai_model_api_key' => 'An API key is required to configure the AI model.',
+            ]);
+        }
+
         $attributes = [
             'name' => $dto->name,
             'alias' => $dto->alias,
@@ -56,7 +66,7 @@ final class PersistProjectAiModelAction
             'connector_url' => $connectorUrl,
         ];
         if ($existing === null || filled($dto->apiKey)) {
-            $attributes['api_key'] = $dto->apiKey ?? '';
+            $attributes['api_key'] = (string) $effectiveKey;
         }
 
         /** @var AiModel $model */
