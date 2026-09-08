@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Modules\AiServiceManagement\app\Gateway\Providers;
 
-use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Modules\AiServiceManagement\app\Gateway\Concerns\ParsesAiTextResponse;
 use Modules\AiServiceManagement\app\Gateway\Contracts\AiProviderConnector;
 use Modules\AiServiceManagement\app\Gateway\Dtos\AiCompletionRequest;
 use Modules\AiServiceManagement\app\Gateway\Dtos\AskResponseDto;
 use Modules\AiServiceManagement\app\Models\AiModel;
+use Throwable;
 
 final class GeminiConnector implements AiProviderConnector
 {
@@ -65,9 +65,9 @@ final class GeminiConnector implements AiProviderConnector
             return [
                 'success' => true,
                 'message' => 'Connection successful',
-                'response' => mb_trim((string) $content),
+                'response' => trim((string) $content),
             ];
-        } catch (ConnectionException) {
+        } catch (Throwable) {
             return ['success' => false, 'message' => 'Could not connect to Gemini.'];
         }
     }

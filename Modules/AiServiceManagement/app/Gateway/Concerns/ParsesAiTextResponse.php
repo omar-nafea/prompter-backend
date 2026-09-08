@@ -38,7 +38,7 @@ trait ParsesAiTextResponse
         } elseif (preg_match('/```\s*(.+?)\s*```/s', $text, $matches)) {
             $candidate = $matches[1];
         } else {
-            $candidate = mb_trim($text);
+            $candidate = trim($text);
         }
 
         try {

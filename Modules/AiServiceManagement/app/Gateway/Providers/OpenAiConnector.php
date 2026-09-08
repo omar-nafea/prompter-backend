@@ -79,9 +79,9 @@ final class OpenAiConnector implements AiProviderConnector
             return [
                 'success' => true,
                 'message' => 'Connection successful',
-                'response' => mb_trim($content),
+                'response' => trim($content),
             ];
-        } catch (ConnectionException) {
+        } catch (Throwable) {
             return ['success' => false, 'message' => 'Could not connect to ' . $model->provider->label() . '.'];
         }
     }
